@@ -77,4 +77,8 @@ public class MainEntry {
         System.out.println("Welcome to the fictitious Group-R-Us Inc.!");
         System.out.println("Author: Muhammad Naveed, Junjie Hu");
     }
+
+    public Proc getProc() {
+        return proc;
+    }
 }
