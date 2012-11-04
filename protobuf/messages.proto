@@ -1,0 +1,5 @@
+package Communication;
+
+message test {
+    required string id = 1;
+}
