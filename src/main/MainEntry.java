@@ -1,13 +1,19 @@
 package main;
 
+import membership.Proc;
+import misc.MiscTool;
 import org.apache.log4j.PropertyConfigurator;
 
+import javax.swing.text.Utilities;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public class MainEntry {
 
     private static Scanner in  = new Scanner(System.in);
     private static CommandMap commandMap = CommandMap.getInstance();
+    private static Proc proc;
 
     public static void main(String[] args) {
 
@@ -43,10 +49,19 @@ public class MainEntry {
                 //TODO: wrong command
             } else if(funcName.equals("quit")) {
                 break;
+            } else {
+                MiscTool.callStaticMethod(MainEntry.class, funcName);
             }
         }
 
         System.out.println("Program quits");
+    }
+
+    static final Integer DEFAULT_TEST_PORT = 15000;
+
+    private static void start() {
+        proc = new Proc(DEFAULT_TEST_PORT);
+        proc.init();
     }
 
     private static String inputCommand() {

@@ -8,6 +8,8 @@ public class CommandMap {
     private static CommandMap instance = new CommandMap();
     private Map<String, String> stringToFuncName;
 
+    private static final String CMD_START = "start";
+    private static final String FUNC_START = "start";
 
     private static final String CMD_HELP = "help";
     private static final String FUNC_HELP = "printHelp";
@@ -27,7 +29,7 @@ public class CommandMap {
         instance = new CommandMap();
         stringToFuncName = new HashMap<String, String>();
 
-
+        stringToFuncName.put(CMD_START, FUNC_START);
         stringToFuncName.put(CMD_HELP, FUNC_HELP);
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
 
