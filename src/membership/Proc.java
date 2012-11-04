@@ -4,15 +4,19 @@ package membership;
 import communication.TCPServer;
 import org.apache.log4j.Logger;
 
+import java.util.UUID;
+
 public class Proc {
     private Integer tcpPort;
     private TCPServer tcpServer;
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
+    private String id;
 
     public Proc(Integer port) {
         this.tcpPort = port;
         this.timeStamp = 0;
+        this.id = UUID.randomUUID().toString();
     }
 
     public void init() {
