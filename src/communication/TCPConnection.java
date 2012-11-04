@@ -10,15 +10,15 @@ import java.net.Socket;
 import static communication.Messages.JoinMessage;
 import static communication.Messages.Message;
 
-public class Connection {
-    private Logger logger = Logger.getLogger(Connection.class);
+public class TCPConnection {
+    private Logger logger = Logger.getLogger(TCPConnection.class);
     private Socket socket;
 
-    public Connection() {
+    public TCPConnection() {
 
     }
 
-    public Connection setSocket(Socket socket) {
+    public TCPConnection setSocket(Socket socket) {
         this.socket = socket;
         return this;
     }
