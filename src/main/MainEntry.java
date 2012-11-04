@@ -64,6 +64,10 @@ public class MainEntry {
         proc.init();
     }
 
+    private static void joinGroup() {
+
+    }
+
     private static String inputCommand() {
         System.out.print(">");
         return in.nextLine();
