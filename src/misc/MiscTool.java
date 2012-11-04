@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 public class MiscTool {
 
-    private static Logger logger = Logger.getLogger(MiscTool.class);
+    public static final Integer BUFFER_SIZE = 4096;
 
+    private static Logger logger = Logger.getLogger(MiscTool.class);
 
     public static void callStaticMethod(Class className, String methodName) {
         Method method = null;
