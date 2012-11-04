@@ -6,11 +6,16 @@ message ProcessIdentifier{
     required int32 port = 3;
 }
 
+message FileIdentifier{
+    required ProcessIdentifier
+}
+
 enum MessageType{
     Heartbeat = 0;
     Join = 1;
     Fail = 2;
-    Sync = 3;
+    SyncProcesses = 3;
+    SyncFiles = 4;
 }
 
 message JoinMessage{
@@ -26,9 +31,14 @@ message FailMessage{
     required ProcessIdentifier failureDetectorMachine = 2;
 }
 
-message SyncMessage{
+message SyncProcessesMessage{
     repeated ProcessIdentifier members = 1;
     required ProcessIdentifier syncingMachine = 2;
+}
+
+message SyncFilesListMessage{
+    repeated p
+
 }
 
 message Message{
