@@ -32,7 +32,7 @@ message SyncMessage{
 }
 
 message Message{
-    requried MessageType = 1;
+    required MessageType = 1;
     optional JoinMessage = 2;
     optional LeaveMessage = 3;
     optional FailMessage = 4;
