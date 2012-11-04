@@ -22,6 +22,10 @@ public class Gossip {
         this.noOfTargets = noOfTargets;
     }
 
+    void selectRandomTarget(){
+        memberList.list;
+    }
+
 
 
 }
