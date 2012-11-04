@@ -1,7 +1,7 @@
 package membership;
 
 
-import main.TCPServer;
+import communication.TCPServer;
 import org.apache.log4j.Logger;
 
 public class Proc {

@@ -14,6 +14,7 @@ public class MainEntry {
     private static Scanner in  = new Scanner(System.in);
     private static CommandMap commandMap = CommandMap.getInstance();
     private static Proc proc;
+    private static Integer localPort;
 
     public static void main(String[] args) {
 
@@ -57,10 +58,9 @@ public class MainEntry {
         System.out.println("Program quits");
     }
 
-    static final Integer DEFAULT_TEST_PORT = 15000;
-
     private static void start() {
-        proc = new Proc(DEFAULT_TEST_PORT);
+        localPort = MiscTool.inputPortNumber(in);
+        proc = new Proc(localPort);
         proc.init();
     }
 
