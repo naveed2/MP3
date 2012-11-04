@@ -7,7 +7,8 @@ message ProcessIdentifier{
 }
 
 message FileIdentifier{
-    required ProcessIdentifier
+    required ProcessIdentifier fileStoringProcess = 1;
+    required string filepath = 2;
 }
 
 enum MessageType{
@@ -37,16 +38,16 @@ message SyncProcessesMessage{
 }
 
 message SyncFilesListMessage{
-    repeated p
-
+    repeated FileIdentifier files = 1;
 }
 
 message Message{
-    required MessageType = 1;
-    optional JoinMessage = 2;
-    optional LeaveMessage = 3;
-    optional FailMessage = 4;
-    optional SyncMessage = 5;
+    required MessageType type = 1;
+    optional JoinMessage joinMessage = 2;
+    optional LeaveMessage leaveMessage = 3;
+    optional FailMessage failMessage = 4;
+    optional SyncProcessesMessage syncProcessesMessage = 5;
+    optional SyncFilesListMessage syncFilesMessage = 6;
 }
 
 
