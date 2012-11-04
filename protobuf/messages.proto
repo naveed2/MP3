@@ -1,5 +1,44 @@
 package Communication;
 
-message test {
+message ProcessIdentifier{
     required string id = 1;
+    required string IP = 2;
+    required string port = 3;
 }
+
+enum MessageType{
+    Heartbeat = 0;
+    Join = 1;
+    Fail = 2;
+    Sync = 3;
+}
+
+message JoinMessage{
+    required ProcessIdentifier joinedMachine = 1;
+}
+
+message LeaveMessage{
+    required ProcessIdentifier leftMachine = 1;
+}
+
+message FailMessage{
+    required ProcessIdentifier failedMachine = 1;
+    required ProcessIdentifier failureDetectorMachine = 2;
+}
+
+message SyncMessage{
+    repeated ProcessIdentifier members = 1;
+    required ProcessIdentifier syncingMachine = 2;
+}
+
+message Message{
+    requried MessageType = 1;
+    optional JoinMessage = 2;
+    optional LeaveMessage = 3;
+    optional FailMessage = 4;
+    optional SyncMessage = 5;
+}
+
+
+
+
