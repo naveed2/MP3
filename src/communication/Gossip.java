@@ -57,6 +57,7 @@ public class Gossip {
 
     private void startInfecting(){
         while(!shouldStop.get()){
+            //TODO: add waiting time
             for(Integer i = 0; i < this.numOfTargets; i++){
                 ProcessIdentifier infectedProcess = selectRandomTarget();
                 sendMessage(infectedProcess);
