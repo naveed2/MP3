@@ -10,30 +10,64 @@ package communication;
 
 import com.sun.tools.javac.comp.MemberEnter;
 import membership.MemberList;
+import communication.Messages.ProcessIdentifier;
 import org.apache.log4j.pattern.IntegerPatternConverter;
 
 import java.awt.*;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Gossip {
 
     private Integer noOfTargets;
-    MemberList memberList = null;
+    private MemberList memberList;
+    private AtomicBoolean shouldStop;
 
 
 
+    public Gossip(){
+        this.shouldStop.set(false);
+    }
 
-    void setNoOfTargets(Integer noOfTargets){
+    public void setNoOfTargets(Integer noOfTargets){
         this.noOfTargets = noOfTargets;
     }
 
-    void getMemberList(MemberList memberList){
+    public void setMemberList(MemberList memberList){
         this.memberList = memberList;
+    }
+
+    public MemberList getMemberList(){
+        return this.memberList;
+    }
+
+    public ProcessIdentifier selectRandomTarget(){
+        Random rand = new Random();
+        Integer randomTarget = rand.nextInt(this.memberList.length());
+        return this.memberList.getMember(randomTarget);
+    }
+
+    public void start(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startInfecting();
+            }
+        }).start();
 
     }
 
-     selectRandomTarget(Integer noOfTargets){
+    private void startInfecting(){
+        while(!shouldStop.get()){
+            for(Integer i = 0; i < this.noOfTargets; i++){
+                ProcessIdentifier infectedProcess = selectRandomTarget();
+                sendMessage(infectedProcess);
+            }
+        }
+    }
 
-
+    void sendMessage(ProcessIdentifier process){
 
     }
 
