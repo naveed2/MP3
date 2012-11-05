@@ -8,12 +8,16 @@ package communication;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.sun.tools.javac.comp.MemberEnter;
 import membership.MemberList;
+import org.apache.log4j.pattern.IntegerPatternConverter;
+
+import java.awt.*;
+
 public class Gossip {
 
     private Integer noOfTargets;
-
-    private MemberList memberList;
+    MemberList memberList = null;
 
 
 
@@ -22,8 +26,15 @@ public class Gossip {
         this.noOfTargets = noOfTargets;
     }
 
-    void selectRandomTarget(){
-        memberList.list;
+    void getMemberList(MemberList memberList){
+        this.memberList = memberList;
+
+    }
+
+     selectRandomTarget(Integer noOfTargets){
+
+
+
     }
 
 

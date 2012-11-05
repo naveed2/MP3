@@ -16,8 +16,12 @@ public class MemberList {
         this.list.add(processIdentifier);
     }
 
-    MemberList getMemberList(){
-        return this.list;
+    public MemberList get(){
+        return this;
     }
-    
+
+    public MemberList length(){
+        return this.length();
+    }
+
 }
