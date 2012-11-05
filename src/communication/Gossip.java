@@ -8,18 +8,15 @@ package communication;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.sun.tools.javac.comp.MemberEnter;
 import membership.MemberList;
 import communication.Messages.ProcessIdentifier;
-import org.apache.log4j.pattern.IntegerPatternConverter;
 
-import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Gossip {
 
-    private Integer noOfTargets;
+    private Integer numOfTargets;
     private MemberList memberList;
     private AtomicBoolean shouldStop;
 
@@ -29,8 +26,8 @@ public class Gossip {
         this.shouldStop.set(false);
     }
 
-    public void setNoOfTargets(Integer noOfTargets){
-        this.noOfTargets = noOfTargets;
+    public void setNumOfTargets(Integer numOfTargets){
+        this.numOfTargets = numOfTargets;
     }
 
     public void setMemberList(MemberList memberList){
@@ -60,7 +57,7 @@ public class Gossip {
 
     private void startInfecting(){
         while(!shouldStop.get()){
-            for(Integer i = 0; i < this.noOfTargets; i++){
+            for(Integer i = 0; i < this.numOfTargets; i++){
                 ProcessIdentifier infectedProcess = selectRandomTarget();
                 sendMessage(infectedProcess);
             }
