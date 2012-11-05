@@ -68,7 +68,7 @@ public class Gossip {
     }
 
     void sendMessage(ProcessIdentifier process){
-
+        new UDPClient().sendMessage(process);
     }
 
 
