@@ -42,17 +42,18 @@ public class TCPServer {
         while(!shouldStop.get()) {
             try {
                 socket = serverSocket.accept();
-                Connection conn = new Connection();
+                TCPConnection conn = new TCPConnection();
                 conn.setSocket(socket);
+                handleConnection(conn);
             } catch (IOException e) {
                 logger.error("server socket exception", e);
             }
         }
     }
 
-    private void handleConnection(Connection connection) {
+    private void handleConnection(TCPConnection TCPConnection) {
         while(!shouldStop.get()) {
-            connection.startReceiving();
+            TCPConnection.startReceiving();
         }
     }
 }
