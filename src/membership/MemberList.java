@@ -20,7 +20,11 @@ public class MemberList {
         return this;
     }
 
-    public MemberList length(){
+    public ProcessIdentifier getMember(Integer i){
+        return this.list.get(i);
+    }
+
+    public Integer length(){
         return this.length();
     }
 
