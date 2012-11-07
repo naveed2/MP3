@@ -4,6 +4,7 @@ message ProcessIdentifier{
     required string id = 1;
     required string IP = 2;
     required int32 port = 3;
+    optional int32 timestamp = 4;
 }
 
 message FileIdentifier{
