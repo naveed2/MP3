@@ -19,11 +19,13 @@ public class Gossip {
     private Integer numOfTargets;
     private MemberList memberList;
     private AtomicBoolean shouldStop;
+    private long HeartbeatDelayInms;
 
 
 
     public Gossip(){
         this.shouldStop.set(false);
+        HeartbeatDelayInms = 1;
     }
 
     public void setNumOfTargets(Integer numOfTargets){
@@ -49,6 +51,11 @@ public class Gossip {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(HeartbeatDelayInms);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 startInfecting();
             }
         }).start();
@@ -56,6 +63,7 @@ public class Gossip {
     }
 
     private void startInfecting(){
+
         while(!shouldStop.get()){
             //TODO: add waiting time
             for(Integer i = 0; i < this.numOfTargets; i++){
