@@ -49,7 +49,7 @@ public class Gossip {
     public void start(){
 
         new Thread(new Runnable() {
-            
+
             public void run() {
                 try {
                     Thread.sleep(HeartbeatDelayInms);

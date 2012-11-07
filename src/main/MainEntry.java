@@ -2,6 +2,7 @@ package main;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import communication.Messages;
+import communication.MessagesFactory;
 import communication.TCPClient;
 import membership.Proc;
 import misc.MiscTool;
@@ -80,10 +81,7 @@ public class MainEntry {
         TCPClient tcpClient = new TCPClient(address);
         if(tcpClient.connect()) {
 
-            Message m = Message.newBuilder().
-                    setJoinMessage(JoinMessage.newBuilder().
-                            setJoinedMachine(proc.getIdentifier()).build()).
-                    setType(MessageType.Join).build();
+            Message m = MessagesFactory.generateJoinMessage(proc.getId(), address);
 
             tcpClient.sendData(m);
         }

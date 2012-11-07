@@ -55,4 +55,8 @@ public class Proc {
     public ProcessIdentifier getIdentifier() {
         return identifier;
     }
+
+    public String getId() {
+        return id;
+    }
 }
