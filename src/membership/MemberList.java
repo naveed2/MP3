@@ -8,11 +8,15 @@ public class MemberList {
 
     private LinkedList<ProcessIdentifier> list;
 
-    void removeProcess(ProcessIdentifier processIdentifier){
+    public MemberList() {
+        list = new LinkedList<ProcessIdentifier>();
+    }
+
+    void remove(ProcessIdentifier processIdentifier){
         this.list.remove(processIdentifier);
     }
 
-    void addProcess(ProcessIdentifier processIdentifier){
+    void add(ProcessIdentifier processIdentifier){
         this.list.add(processIdentifier);
     }
 
@@ -20,12 +24,12 @@ public class MemberList {
         return this;
     }
 
-    public ProcessIdentifier getMember(Integer i){
+    public ProcessIdentifier get(Integer i){
         return this.list.get(i);
     }
 
-    public Integer length(){
-        return this.length();
+    public Integer size(){
+        return list.size();
     }
 
 }

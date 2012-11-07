@@ -1,7 +1,6 @@
 package membership;
 
 
-import communication.Messages;
 import communication.TCPServer;
 import org.apache.log4j.Logger;
 
@@ -18,11 +17,13 @@ public class Proc {
     private Integer timeStamp;
     private String id;
     private ProcessIdentifier identifier;
+    private MemberList memberList;
 
     public Proc(Integer tcpPort) {
         this.timeStamp = 0;
         this.id = UUID.randomUUID().toString();
         this.tcpPort = tcpPort;
+        memberList = new MemberList();
     }
 
     private void initIdentifier() {
@@ -41,6 +42,7 @@ public class Proc {
 
     public void init() {
         initIdentifier();
+        memberList.add(identifier);
 
         tcpServer = new TCPServer(tcpPort);
         if(tcpServer.start()) {

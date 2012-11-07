@@ -42,8 +42,8 @@ public class Gossip {
 
     public ProcessIdentifier selectRandomTarget(){
         Random rand = new Random();
-        Integer randomTarget = rand.nextInt(this.memberList.length());
-        return this.memberList.getMember(randomTarget);
+        Integer randomTarget = rand.nextInt(this.memberList.size());
+        return this.memberList.get(randomTarget);
     }
 
     public void start(){
