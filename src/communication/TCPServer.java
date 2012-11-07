@@ -51,9 +51,13 @@ public class TCPServer {
         }
     }
 
-    private void handleConnection(TCPConnection TCPConnection) {
-        while(!shouldStop.get()) {
-            TCPConnection.startReceiving();
-        }
+    private void handleConnection(final TCPConnection TCPConnection) {
+        new Thread( new Runnable() {
+            public void run() {
+                while(!shouldStop.get()) {
+                    TCPConnection.startReceiving();
+                }
+            }
+        }).start();
     }
 }

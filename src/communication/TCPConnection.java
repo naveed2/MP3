@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
 import static communication.Messages.JoinMessage;
 import static communication.Messages.Message;
@@ -23,8 +24,18 @@ public class TCPConnection {
 
     public TCPConnection setSocket(Socket socket) {
         this.socket = socket;
+        tryUpdateInputAndOutputStream();
         return this;
     }
+
+    public void tryUpdateInputAndOutputStream() {
+        try {
+            updateInputAndOutputStream();
+        } catch(IOException e) {
+            //
+        }
+    }
+
 
     public TCPConnection updateInputAndOutputStream() throws IOException {
         is = socket.getInputStream();
@@ -35,18 +46,20 @@ public class TCPConnection {
     public void startReceiving() {
         while(true) {
             try{
-                byte[] bytes = new byte[MiscTool.BUFFER_SIZE];
+                byte[] tmpBytes = new byte[MiscTool.BUFFER_SIZE];
                 int num;
                 is = socket.getInputStream();
-                num = is.read(bytes);
+                num = is.read(tmpBytes);
+                byte[] bytes = new byte[num];
+                System.arraycopy(tmpBytes, 0, bytes, 0, num);
                 Message message = Message.parseFrom(bytes);
+                logger.debug("Received Message: " + message.toString());
                 handle(message);
             } catch(IOException e) {
                 if(e.getMessage().equals("socket close")) {
                     break;
                 } else {
                     logger.error("Receiving message error", e);
-                    break;
                 }
             }
         }
@@ -69,6 +82,10 @@ public class TCPConnection {
             default:
                 break;
         }
+    }
+
+    public void close() throws IOException {
+        socket.close();
     }
 
 }

@@ -1,5 +1,7 @@
 package misc;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import communication.Messages;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +18,7 @@ public class MiscTool {
         Method method = null;
         try {
             method = className.getDeclaredMethod(methodName);
+            System.out.println(methodName + " " + method.getName());
             method.setAccessible(true);
             method.invoke(null);    //static method
             method.setAccessible(false);
@@ -46,7 +49,7 @@ public class MiscTool {
     public static String inputAddress(Scanner in) {
         String str;
         while(true) {
-            System.out.println("Input the address:");
+            System.out.print("Input the address:");
             str = in.nextLine();
             if(MiscTool.isIPAddress(str)) {
                 break;
@@ -83,4 +86,16 @@ public class MiscTool {
                     + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$" ;
         return ip.matches(regex);
     }
+
+    public static void main(String[] args) throws InvalidProtocolBufferException {
+        Messages.ProcessIdentifier identifier = Messages.ProcessIdentifier.newBuilder()
+                .setId("1").setIP("127.0.0.1").setPort(1234).build();
+        Messages.JoinMessage joinMessage = Messages.JoinMessage.newBuilder().setJoinedMachine(identifier).build();
+        Messages.Message m1 = Messages.Message.newBuilder().
+                setType(Messages.MessageType.Join).setJoinMessage(joinMessage).build();
+
+        Messages.Message m2 = Messages.Message.parseFrom(m1.toByteArray());
+        System.out.println(m2.toString());
+    }
+
 }

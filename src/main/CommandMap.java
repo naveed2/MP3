@@ -11,6 +11,9 @@ public class CommandMap {
     private static final String CMD_START = "start";
     private static final String FUNC_START = "start";
 
+    private static final String CMD_INIT = "init";
+    private static final String FUNC_INIT = "initProc";
+
     private static final String CMD_JOIN = "join";
     private static final String FUNC_JOIN = "joinGroup";
 
@@ -33,6 +36,7 @@ public class CommandMap {
         stringToFuncName = new HashMap<String, String>();
 
         stringToFuncName.put(CMD_START, FUNC_START);
+        stringToFuncName.put(CMD_INIT, FUNC_INIT);
         stringToFuncName.put(CMD_JOIN, FUNC_JOIN);
         stringToFuncName.put(CMD_HELP, FUNC_HELP);
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);

@@ -1,5 +1,8 @@
 package main;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import communication.Messages;
+import communication.TCPClient;
 import membership.Proc;
 import misc.MiscTool;
 import org.apache.log4j.PropertyConfigurator;
@@ -7,7 +10,12 @@ import org.apache.log4j.PropertyConfigurator;
 import javax.swing.text.Utilities;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import static communication.Messages.JoinMessage;
+import static communication.Messages.Message;
+import static communication.Messages.MessageType;
 
 public class MainEntry {
 
@@ -50,6 +58,8 @@ public class MainEntry {
                 //TODO: wrong command
             } else if(funcName.equals("quit")) {
                 break;
+            } else if(funcName.equals("printHelp")) {
+                CommandMap.printHelp();
             } else {
                 MiscTool.callStaticMethod(MainEntry.class, funcName);
             }
@@ -65,7 +75,18 @@ public class MainEntry {
     }
 
     private static void joinGroup() {
+        String address = MiscTool.inputAddress(in);
+        System.out.println("Start connecting to " + address);
+        TCPClient tcpClient = new TCPClient(address);
+        if(tcpClient.connect()) {
 
+            Message m = Message.newBuilder().
+                    setJoinMessage(JoinMessage.newBuilder().
+                            setJoinedMachine(proc.getIdentifier()).build()).
+                    setType(MessageType.Join).build();
+
+            tcpClient.sendData(m);
+        }
     }
 
     private static String inputCommand() {
