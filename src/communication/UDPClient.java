@@ -48,6 +48,11 @@ public class UDPClient {
     }
 
     public void sendMessage(ProcessIdentifier processIdentifier){
+        // TODO Write the function
+    }
 
+    public ProcessIdentifier receiveMessage(){
+        //TODO Write the function
+        return null;
     }
 }

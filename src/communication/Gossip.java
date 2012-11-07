@@ -12,12 +12,15 @@ public class Gossip {
     private MemberList memberList;
     private AtomicBoolean shouldStop;
     private long HeartbeatDelayInms;
+    private long TfailInms;
 
 
 
     public Gossip(){
         this.shouldStop.set(false);
         HeartbeatDelayInms = 200;
+        HeartbeatDelayInms = 1;
+        TfailInms = 1;
     }
 
     public void setNumOfTargets(Integer numOfTargets){
@@ -38,7 +41,21 @@ public class Gossip {
         return this.memberList.get(randomTarget);
     }
 
-    public void start(){
+    public void startRecieve(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2 * TfailInms);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                startListening();
+            }
+        }).start();
+    }
+
+    public void startSend(){
 
         new Thread(new Runnable() {
 
@@ -63,6 +80,11 @@ public class Gossip {
         }
     }
 
+    private void startListening(){
+        //TODO should listen for message continously
+
+    }
+
     void sendMessage(ProcessIdentifier process){
         UDPClient udpClient = new UDPClient(process);
         udpClient.sendMessage("111");   //TODO: this is just test code
@@ -71,6 +93,10 @@ public class Gossip {
     public void stop() {
         shouldStop.set(true);
         Thread.interrupted();
+    }
+
+    ProcessIdentifier receiveMessage(){
+        return new UDPClient().receiveMessage();
     }
 
 
