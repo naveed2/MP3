@@ -45,6 +45,8 @@ public class Proc {
         memberList.add(identifier);
 
         tcpServer = new TCPServer(tcpPort);
+        tcpServer.setProc(this);
+
         if(tcpServer.start()) {
             System.out.println("TCP Server starts successfully");
             logger.info("TCP Server starts successfully");
@@ -64,5 +66,9 @@ public class Proc {
 
     public MemberList getMemberList() {
         return memberList;
+    }
+
+    public void addProcToMemberList(ProcessIdentifier processIdentifier) {
+        memberList.add(processIdentifier);
     }
 }

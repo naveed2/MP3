@@ -1,5 +1,6 @@
 package communication;
 
+import membership.Proc;
 import misc.MiscTool;
 import org.apache.log4j.Logger;
 
@@ -11,6 +12,7 @@ public class TCPClient {
     private String remoteIP;
     private Integer remotePort;
     private TCPConnection tcpConnection;
+    private Proc proc;
 
     private static Logger logger = Logger.getLogger(TCPClient.class);
 
@@ -33,7 +35,7 @@ public class TCPClient {
         try {
             Socket socket = new Socket(remoteIP, remotePort);
             tcpConnection = new TCPConnection();
-            tcpConnection.setSocket(socket);
+            tcpConnection.setSocket(socket).setProc(proc);
         } catch (IOException e) {
             logger.error("socket construction error", e);
             return false;
@@ -59,5 +61,12 @@ public class TCPClient {
 
     public void sendData(Messages.Message m) {
         sendData(m.toByteArray());
+    }
+
+    public void setProc(Proc proc) {
+        if(proc == null) {
+            throw new NullPointerException("null argument!");
+        }
+        this.proc = proc;
     }
 }

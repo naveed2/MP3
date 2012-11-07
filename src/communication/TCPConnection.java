@@ -1,5 +1,6 @@
 package communication;
 
+import membership.Proc;
 import misc.MiscTool;
 import org.apache.log4j.Logger;
 
@@ -18,6 +19,7 @@ public class TCPConnection {
     private Socket socket;
     private InputStream is;
     private OutputStream os;
+    private Proc proc;
 
     public TCPConnection() {
 
@@ -26,6 +28,14 @@ public class TCPConnection {
     public TCPConnection setSocket(Socket socket) {
         this.socket = socket;
         tryUpdateInputAndOutputStream();
+        return this;
+    }
+
+    public TCPConnection setProc(Proc proc) {
+        if(proc == null) {
+            throw new NullPointerException("null argument");
+        }
+        this.proc = proc;
         return this;
     }
 
@@ -79,7 +89,9 @@ public class TCPConnection {
         switch (m.getType()) {
             case Join:
                 JoinMessage joinMessage = m.getJoinMessage();
-                //todo: do something
+                ProcessIdentifier joinedMachine = joinMessage.getJoinedMachine();
+                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
+                proc.addProcToMemberList(remoteProcessIdentifier);
             default:
                 break;
         }
@@ -89,9 +101,16 @@ public class TCPConnection {
         socket.close();
     }
 
-    private ProcessIdentifier generateRemoteProcessIdentifier(String id, int port) {
+    /**
+     * Generate remote process identifier from joinedMachine. We cannot directly use ip address in joinedMachine
+     * and port in socket.
+     * @param joinedMachine
+     * @return
+     */
+    private ProcessIdentifier generateRemoteProcessIdentifier(ProcessIdentifier joinedMachine) {
         String ip = socket.getInetAddress().getHostAddress();
-        return ProcessIdentifier.newBuilder().setId(id).setIP(ip).setPort(port).build();
+        return ProcessIdentifier.newBuilder()
+                .setId(joinedMachine.getId()).setIP(ip).setPort(joinedMachine.getPort()).build();
     }
 
 }

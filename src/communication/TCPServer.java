@@ -1,6 +1,7 @@
 package communication;
 
 
+import membership.Proc;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ public class TCPServer {
     private Socket socket;
     private Logger logger = Logger.getLogger(TCPServer.class);
     private AtomicBoolean shouldStop;
+    private Proc proc;
 
     public TCPServer(Integer port) {
         this.port = port;
@@ -43,7 +45,7 @@ public class TCPServer {
             try {
                 socket = serverSocket.accept();
                 TCPConnection conn = new TCPConnection();
-                conn.setSocket(socket);
+                conn.setSocket(socket).setProc(proc);
                 handleConnection(conn);
             } catch (IOException e) {
                 logger.error("server socket exception", e);
@@ -59,5 +61,9 @@ public class TCPServer {
                 }
             }
         }).start();
+    }
+
+    public void setProc(Proc proc) {
+        this.proc = proc;
     }
 }

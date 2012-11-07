@@ -79,10 +79,9 @@ public class MainEntry {
         String address = MiscTool.inputAddress(in);
         System.out.println("Start connecting to " + address);
         TCPClient tcpClient = new TCPClient(address);
+        tcpClient.setProc(proc);
         if(tcpClient.connect()) {
-
             Message m = MessagesFactory.generateJoinMessage(proc.getId(), address);
-
             tcpClient.sendData(m);
         }
     }
