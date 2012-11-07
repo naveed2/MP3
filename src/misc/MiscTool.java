@@ -32,11 +32,12 @@ public class MiscTool {
     }
 
     public static Integer inputPortNumber(Scanner in) {
-        System.out.print("Input the port: ");
-        String str = in.nextLine();
+        String str;
         int ret;
         while(true) {
             try {
+                System.out.print("Input the port: ");
+                str = in.nextLine();
                 ret = Integer.parseInt(str);
                 break;
             } catch (NumberFormatException ex) {
