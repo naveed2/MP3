@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import static communication.Messages.JoinMessage;
 import static communication.Messages.Message;
+import static communication.Messages.ProcessIdentifier;
 
 public class TCPConnection {
     private Logger logger = Logger.getLogger(TCPConnection.class);
@@ -86,6 +87,11 @@ public class TCPConnection {
 
     public void close() throws IOException {
         socket.close();
+    }
+
+    private ProcessIdentifier generateRemoteProcessIdentifier(String id, int port) {
+        String ip = socket.getInetAddress().getHostAddress();
+        return ProcessIdentifier.newBuilder().setId(id).setIP(ip).setPort(port).build();
     }
 
 }

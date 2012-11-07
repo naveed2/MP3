@@ -87,6 +87,12 @@ public class MainEntry {
         }
     }
 
+    private static void showMemberList() {
+        for(Messages.ProcessIdentifier identifier : proc.getMemberList()) {
+            System.out.println(identifier.getId() + '\t');
+        }
+    }
+
     private static String inputCommand() {
         System.out.print(">");
         return in.nextLine();

@@ -1,10 +1,12 @@
 package membership;
 
+import communication.Messages;
 import communication.Messages.ProcessIdentifier;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class MemberList {
+public class MemberList implements Iterable<ProcessIdentifier>{
 
     private LinkedList<ProcessIdentifier> list;
 
@@ -32,4 +34,7 @@ public class MemberList {
         return list.size();
     }
 
+    public Iterator<ProcessIdentifier> iterator() {
+        return list.iterator();
+    }
 }

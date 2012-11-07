@@ -61,4 +61,8 @@ public class Proc {
     public String getId() {
         return id;
     }
+
+    public MemberList getMemberList() {
+        return memberList;
+    }
 }
