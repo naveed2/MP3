@@ -53,7 +53,7 @@ public class Proc {
         initIdentifier();
         memberList.add(identifier);
 
-        //TODO: before init new serve, old server should be closed. 
+        //TODO: before init new serve, old server should be closed.
         initTCPServer();
         initUDPServer();
     }
