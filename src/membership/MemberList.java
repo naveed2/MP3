@@ -9,17 +9,21 @@ import java.util.LinkedList;
 public class MemberList implements Iterable<ProcessIdentifier>{
 
     private LinkedList<ProcessIdentifier> list;
+    private LinkedList<ProcState> stateList;
 
     public MemberList() {
         list = new LinkedList<ProcessIdentifier>();
     }
 
     void remove(ProcessIdentifier processIdentifier){
-        this.list.remove(processIdentifier);
+        int pos = find(processIdentifier);
+        list.remove(pos);
+        stateList.remove(pos);
     }
 
     void add(ProcessIdentifier processIdentifier){
-        this.list.add(processIdentifier);
+        list.add(processIdentifier);
+        stateList.add(ProcState.available);
     }
 
     public LinkedList<ProcessIdentifier> get(){
@@ -35,7 +39,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
             try {
                 throw new Exception("Out of bound element access.");
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
 
         if(i < size() - 1)
@@ -51,5 +55,16 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
     public Iterator<ProcessIdentifier> iterator() {
         return list.iterator();
+    }
+
+    public Integer find(ProcessIdentifier identifier) {
+        int pos = 0;
+        for(ProcessIdentifier proc : list) {
+            if(proc.getId().equals(identifier.getId())) {
+                return pos;
+            }
+            ++pos;
+        }
+        return -1;
     }
 }
