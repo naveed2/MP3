@@ -1,6 +1,7 @@
 package membership;
 
 
+import communication.Gossip;
 import communication.ProcessIdentifierFactory;
 import communication.TCPServer;
 import communication.UDPServer;
@@ -17,6 +18,8 @@ public class Proc {
     private Integer udpPort;
     private TCPServer tcpServer;
     private UDPServer udpServer;
+    private Gossip gossip;
+
     private Boolean isTCPServerStarted;
     private Boolean isUDPServerStarted;
     private Logger logger = Logger.getLogger(Proc.class);
@@ -54,8 +57,19 @@ public class Proc {
         memberList.add(identifier);
 
         //TODO: before init new serve, old server should be closed.
+        //init server
         initTCPServer();
         initUDPServer();
+
+        //init gossip
+        initGossip();
+    }
+
+    private void initGossip() {
+        gossip = new Gossip();
+        gossip.setProc(this);
+
+        gossip.start();
     }
 
     public void initTCPServer() {

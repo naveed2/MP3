@@ -20,9 +20,9 @@ public class UDPClient {
     public void sendMessage(byte[] bytes) {
         InetAddress address;
         try {
-            address = InetAddress.getByAddress(processIdentifier.getIP().getBytes());
+            address = InetAddress.getByName(processIdentifier.getIP());
         } catch (UnknownHostException e) {
-            logger.error("unknown host" + e);
+            logger.error("unknown host " + e);
             return;
         }
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address, udpPort);
@@ -31,7 +31,7 @@ public class UDPClient {
         try {
             socket = new DatagramSocket();
         } catch (SocketException e) {
-            logger.error("couldn't bind udp port" + e);
+            logger.error("couldn't bind udp port " + e);
             return;
         }
 
@@ -39,7 +39,7 @@ public class UDPClient {
             socket.send(packet);
             socket.close();
         } catch (IOException e) {
-            logger.error("fail to send udp packet" + e);
+            logger.error("fail to send udp packet " + e);
         }
     }
 
