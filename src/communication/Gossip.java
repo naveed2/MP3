@@ -32,6 +32,7 @@ public class Gossip {
         return this.memberList;
     }
 
+    //TODO: this function is wrong, processes once have been picked in one round shouldn't be re-picked in same round
     public ProcessIdentifier selectRandomTarget(){
         Random rand = new Random();
         Integer randomTarget = rand.nextInt(this.memberList.size());
