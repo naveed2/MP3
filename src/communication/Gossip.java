@@ -18,7 +18,6 @@ public class Gossip {
     public Gossip(){
         this.shouldStop.set(false);
         HeartbeatDelayInms = 200;
-        HeartbeatDelayInms = 1;
     }
 
     public void setNumOfTargets(Integer numOfTargets){
