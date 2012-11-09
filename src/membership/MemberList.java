@@ -26,12 +26,16 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         stateList.add(ProcState.available);
     }
 
-    public LinkedList<ProcessIdentifier> get(){
+    public LinkedList<ProcessIdentifier> getList(){
         return this.list;
     }
 
     public ProcessIdentifier getProcessIdentifier(Integer i){
         return this.list.get(i);
+    }
+
+    public ProcState getState(Integer pos) {
+        return stateList.get(pos);
     }
 
     public ProcessIdentifier getNextProcessIdentifier(Integer i){

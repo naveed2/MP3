@@ -1,10 +1,7 @@
 package membership;
 
 import communication.Messages.ProcessIdentifier;
-import membership.Proc;
 import main.MainEntry;
-
-import java.util.Collections;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,11 +27,11 @@ public class Election {
 
     public ProcessIdentifier getNextProcess(){
         MemberList currentMemberList = getMemberList();
-        return currentMemberList.getNextProcessIdentifier(currentMemberList.get().indexOf(currentProcess));
+        return currentMemberList.getNextProcessIdentifier(currentMemberList.getList().indexOf(currentProcess));
     }
 
     public ProcessIdentifier selectLeader(){
-        return new MainEntry().getProc().getMemberList().get().getFirst();
+        return new MainEntry().getProc().getMemberList().getList().getFirst();
     }
 
 
