@@ -1,13 +1,5 @@
 package communication;
 
-/**
- * Created with IntelliJ IDEA.
- * User: naveed
- * Date: 11/4/12
- * Time: 1:22 PM
- * To change this template use File | Settings | File Templates.
- */
-
 import membership.MemberList;
 import communication.Messages.ProcessIdentifier;
 
@@ -25,7 +17,7 @@ public class Gossip {
 
     public Gossip(){
         this.shouldStop.set(false);
-        HeartbeatDelayInms = 1;
+        HeartbeatDelayInms = 200;
     }
 
     public void setNumOfTargets(Integer numOfTargets){
@@ -51,30 +43,33 @@ public class Gossip {
         new Thread(new Runnable() {
 
             public void run() {
-                try {
-                    Thread.sleep(HeartbeatDelayInms);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                while(!shouldStop.get()) {
+                    try {
+                        Thread.sleep(HeartbeatDelayInms);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    startInfecting();
                 }
-                startInfecting();
             }
         }).start();
 
     }
 
     private void startInfecting(){
-
-        while(!shouldStop.get()){
-            //TODO: add waiting time
-            for(Integer i = 0; i < this.numOfTargets; i++){
-                ProcessIdentifier infectedProcess = selectRandomTarget();
-                sendMessage(infectedProcess);
-            }
+        for(Integer i = 0; i < this.numOfTargets; i++){
+            ProcessIdentifier infectedProcess = selectRandomTarget();
+            sendMessage(infectedProcess);
         }
     }
 
     void sendMessage(ProcessIdentifier process){
         new UDPClient().sendMessage(process);
+    }
+
+    public void stop() {
+        shouldStop.set(true);
+        Thread.interrupted();
     }
 
 
