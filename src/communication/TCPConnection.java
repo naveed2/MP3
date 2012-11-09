@@ -57,7 +57,6 @@ public class TCPConnection {
     public void startReceiving() {
         while(true) {
             try{
-                proc.increaseAndGetTimeStamp();
                 byte[] tmpBytes = new byte[MiscTool.BUFFER_SIZE];
                 int num;
                 is = socket.getInputStream();
@@ -87,6 +86,8 @@ public class TCPConnection {
     }
 
     private void handle(Message m) {
+        proc.increaseAndGetTimeStamp();
+
         switch (m.getType()) {
             case Join:
                 JoinMessage joinMessage = m.getJoinMessage();
@@ -110,8 +111,8 @@ public class TCPConnection {
      */
     private ProcessIdentifier generateRemoteProcessIdentifier(ProcessIdentifier joinedMachine) {
         String ip = socket.getInetAddress().getHostAddress();
-        return ProcessIdentifier.newBuilder()
-                .setId(joinedMachine.getId()).setIP(ip).setPort(joinedMachine.getPort()).build();
+        return ProcessIdentifierFactory.generateProcessIdentifier(
+                joinedMachine.getId(), ip, joinedMachine.getPort(), joinedMachine.getTimestamp());
     }
 
 }

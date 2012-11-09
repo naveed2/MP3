@@ -88,7 +88,13 @@ public class MainEntry {
 
     private static void showMemberList() {
         for(Messages.ProcessIdentifier identifier : proc.getMemberList()) {
-            System.out.println(identifier.getId() + '\t');
+            Integer timeStamp;
+            if(identifier.getId().equals(proc.getId())) {
+                timeStamp = proc.getTimeStamp();
+            } else {
+                timeStamp = identifier.getTimestamp();
+            }
+            System.out.println(identifier.getId() + '\t' + timeStamp);
         }
     }
 
