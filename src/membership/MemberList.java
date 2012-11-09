@@ -6,7 +6,7 @@ import communication.Messages.ProcessIdentifier;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class MemberList{
+public class MemberList implements Iterable<ProcessIdentifier>{
 
     private LinkedList<ProcessIdentifier> list;
 
@@ -22,30 +22,19 @@ public class MemberList{
         this.list.add(processIdentifier);
     }
 
-    public LinkedList<ProcessIdentifier> get(){
-        return this.list;
+    public MemberList get(){
+        return this;
     }
 
-    public ProcessIdentifier getProcessIdentifier(Integer i){
+    public ProcessIdentifier get(Integer i){
         return this.list.get(i);
-    }
-
-    public ProcessIdentifier getNextProcessIdentifier(Integer i){
-        if(i > (size()-1))
-            try {
-                throw new Exception("Trying to access out of bound element in list.");
-            } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-
-        if(i < (size()-1))
-            return this.list.get(i + 1);
-        else
-            return this.list.getFirst();
     }
 
     public Integer size(){
         return list.size();
     }
 
+    public Iterator<ProcessIdentifier> iterator() {
+        return list.iterator();
+    }
 }

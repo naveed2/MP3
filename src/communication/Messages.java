@@ -102,7 +102,6 @@ public final class Messages {
     int getPort();
     
     // optional int32 timestamp = 4;
-    // required int32 timestamp = 4;
     boolean hasTimestamp();
     int getTimestamp();
   }
@@ -208,9 +207,8 @@ public final class Messages {
     public int getPort() {
       return port_;
     }
-
+    
     // optional int32 timestamp = 4;
-    // required int32 timestamp = 4;
     public static final int TIMESTAMP_FIELD_NUMBER = 4;
     private int timestamp_;
     public boolean hasTimestamp() {
@@ -240,10 +238,6 @@ public final class Messages {
         return false;
       }
       if (!hasPort()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTimestamp()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -522,10 +516,6 @@ public final class Messages {
           
           return false;
         }
-        if (!hasTimestamp()) {
-          
-          return false;
-        }
         return true;
       }
       
@@ -671,11 +661,7 @@ public final class Messages {
         return this;
       }
       
-<<<<<<< HEAD
       // optional int32 timestamp = 4;
-=======
-      // required int32 timestamp = 4;
->>>>>>> Added timestamp to ProcessIdentifier
       private int timestamp_ ;
       public boolean hasTimestamp() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
@@ -5195,7 +5181,6 @@ public final class Messages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-<<<<<<< HEAD
       "\n\027protobuf/messages.proto\022\rcommunication" +
       "\"L\n\021ProcessIdentifier\022\n\n\002id\030\001 \002(\t\022\n\n\002IP\030" +
       "\002 \002(\t\022\014\n\004port\030\003 \002(\005\022\021\n\ttimestamp\030\004 \001(\005\"`" +
@@ -5224,36 +5209,6 @@ public final class Messages {
       ".communication.SyncFilesListMessage*R\n\013M" +
       "essageType\022\r\n\tHeartbeat\020\000\022\010\n\004Join\020\001\022\010\n\004F" +
       "ail\020\002\022\021\n\rSyncProcesses\020\003\022\r\n\tSyncFiles\020\004"
-=======
-      "\n\016messages.proto\022\rcommunication\"L\n\021Proce" +
-      "ssIdentifier\022\n\n\002id\030\001 \002(\t\022\n\n\002IP\030\002 \002(\t\022\014\n\004" +
-      "port\030\003 \002(\005\022\021\n\ttimestamp\030\004 \002(\005\"`\n\016FileIde" +
-      "ntifier\022<\n\022fileStoringProcess\030\001 \002(\0132 .co" +
-      "mmunication.ProcessIdentifier\022\020\n\010filepat" +
-      "h\030\002 \002(\t\"F\n\013JoinMessage\0227\n\rjoinedMachine\030" +
-      "\001 \002(\0132 .communication.ProcessIdentifier\"" +
-      "E\n\014LeaveMessage\0225\n\013leftMachine\030\001 \002(\0132 .c" +
-      "ommunication.ProcessIdentifier\"\210\001\n\013FailM" +
-      "essage\0227\n\rfailedMachine\030\001 \002(\0132 .communic",
-      "ation.ProcessIdentifier\022@\n\026failureDetect" +
-      "orMachine\030\002 \002(\0132 .communication.ProcessI" +
-      "dentifier\"\203\001\n\024SyncProcessesMessage\0221\n\007me" +
-      "mbers\030\001 \003(\0132 .communication.ProcessIdent" +
-      "ifier\0228\n\016syncingMachine\030\002 \002(\0132 .communic" +
-      "ation.ProcessIdentifier\"D\n\024SyncFilesList" +
-      "Message\022,\n\005files\030\001 \003(\0132\035.communication.F" +
-      "ileIdentifier\"\312\002\n\007Message\022(\n\004type\030\001 \002(\0162" +
-      "\032.communication.MessageType\022/\n\013joinMessa" +
-      "ge\030\002 \001(\0132\032.communication.JoinMessage\0221\n\014",
-      "leaveMessage\030\003 \001(\0132\033.communication.Leave" +
-      "Message\022/\n\013failMessage\030\004 \001(\0132\032.communica" +
-      "tion.FailMessage\022A\n\024syncProcessesMessage" +
-      "\030\005 \001(\0132#.communication.SyncProcessesMess" +
-      "age\022=\n\020syncFilesMessage\030\006 \001(\0132#.communic" +
-      "ation.SyncFilesListMessage*R\n\013MessageTyp" +
-      "e\022\r\n\tHeartbeat\020\000\022\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\r" +
-      "SyncProcesses\020\003\022\r\n\tSyncFiles\020\004"
->>>>>>> Added timestamp to ProcessIdentifier
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
