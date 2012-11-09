@@ -1,6 +1,7 @@
 package membership;
 
 
+import communication.ProcessIdentifierFactory;
 import communication.TCPServer;
 import org.apache.log4j.Logger;
 
@@ -30,7 +31,7 @@ public class Proc {
         try {
             InetAddress addr = InetAddress.getLocalHost();
             String address = addr.getHostAddress();
-            identifier = ProcessIdentifier.newBuilder().setId(id).setIP(address).setPort(tcpPort).build();
+            identifier = ProcessIdentifierFactory.generateProcessIdentifier(id, address, tcpPort, timeStamp);
             System.out.println(identifier.toString());
         } catch (UnknownHostException e) {
             logger.fatal("Unknown local host", e);
@@ -71,4 +72,17 @@ public class Proc {
     public void addProcToMemberList(ProcessIdentifier processIdentifier) {
         memberList.add(processIdentifier);
     }
+
+    public Integer getTimeStamp() {
+        synchronized (this) {
+            return timeStamp;
+        }
+    }
+
+    public Integer increaseAndGetTimeStamp() {
+        synchronized (this) {
+            return ++timeStamp;
+        }
+    }
+
 }

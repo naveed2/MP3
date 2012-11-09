@@ -16,15 +16,15 @@ public class MessagesFactory {
                 setType(Messages.MessageType.Join).setJoinMessage(joinMessage).build();
     }
 
-    public static Message generateJoinMessage(String id, String ip, Integer port) {
+    public static Message generateJoinMessage(String id, String ip, Integer port, Integer timeStamp) {
         ProcessIdentifier identifier = ProcessIdentifier.newBuilder()
-                                        .setId(id).setIP(ip).setPort(port).build();
+                                        .setId(id).setIP(ip).setPort(port).setTimestamp(timeStamp).build();
         return generateJoinMessage(identifier);
     }
 
-    public static Message generateJoinMessage(String id, String address) {
+    public static Message generateJoinMessage(String id, String address, Integer timeStamp) {
         String[] str = address.split(":");
-        return generateJoinMessage(id, str[0], Integer.parseInt(str[1]));
+        return generateJoinMessage(id, str[0], Integer.parseInt(str[1]), timeStamp);
     }
 
 

@@ -57,6 +57,7 @@ public class TCPConnection {
     public void startReceiving() {
         while(true) {
             try{
+                proc.increaseAndGetTimeStamp();
                 byte[] tmpBytes = new byte[MiscTool.BUFFER_SIZE];
                 int num;
                 is = socket.getInputStream();
