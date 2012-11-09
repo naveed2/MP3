@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Gossip {
 
     private static final Integer NUM_OF_TARGETS = 2;
-    private MemberList memberList;
     private AtomicBoolean shouldStop;
     private long delay;
     private Proc proc;
@@ -20,10 +19,6 @@ public class Gossip {
     public Gossip(){
         shouldStop = new AtomicBoolean(false);
         delay = 500;
-    }
-
-    public void setMemberList(MemberList memberList){
-        this.memberList = memberList;
     }
 
     private MemberList getMemberList(){
