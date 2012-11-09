@@ -16,7 +16,7 @@ public class Gossip {
 
 
     public Gossip(){
-        this.shouldStop.set(false);
+        shouldStop = new AtomicBoolean(false);
         HeartbeatDelayInms = 200;
     }
 
