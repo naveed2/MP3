@@ -64,7 +64,8 @@ public class Gossip {
     }
 
     void sendMessage(ProcessIdentifier process){
-        new UDPClient().sendMessage(process);
+        UDPClient udpClient = new UDPClient(process);
+        udpClient.sendMessage("111");   //TODO: this is just test code
     }
 
     public void stop() {
