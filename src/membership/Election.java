@@ -33,11 +33,12 @@ public class Election {
         return currentMemberList.getNextProcessIdentifier(currentMemberList.get().indexOf(currentProcess));
     }
 
-    public void selectLeader(){
-        return
+    public ProcessIdentifier selectLeader(){
+        return new MainEntry().getProc().getMemberList().get().getFirst();
     }
-    public void forward(){
 
+
+    public void forward(){
 
     }
 

@@ -22,12 +22,27 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         this.list.add(processIdentifier);
     }
 
-    public MemberList get(){
-        return this;
+    public LinkedList<ProcessIdentifier> get(){
+        return this.list;
     }
 
-    public ProcessIdentifier get(Integer i){
+    public ProcessIdentifier getProcessIdentifier(Integer i){
         return this.list.get(i);
+    }
+
+    public ProcessIdentifier getNextProcessIdentifier(Integer i){
+        if(i > size() - 1)
+            try {
+                throw new Exception("Out of bound element access.");
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+        if(i < size() - 1)
+            return  this.list.get(i+1);
+        else
+            return this.list.getFirst();
+
     }
 
     public Integer size(){
