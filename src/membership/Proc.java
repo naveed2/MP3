@@ -85,4 +85,8 @@ public class Proc {
         }
     }
 
+    public Integer getTcpPort() {
+        return tcpPort;
+    }
+
 }

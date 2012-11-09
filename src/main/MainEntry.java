@@ -89,12 +89,15 @@ public class MainEntry {
     private static void showMemberList() {
         for(Messages.ProcessIdentifier identifier : proc.getMemberList()) {
             Integer timeStamp;
+            String address;
             if(identifier.getId().equals(proc.getId())) {
                 timeStamp = proc.getTimeStamp();
+                address = "localhost:" + proc.getTcpPort();
             } else {
                 timeStamp = identifier.getTimestamp();
+                address = identifier.getIP() + ":" +identifier.getPort();
             }
-            System.out.println(identifier.getId() + '\t' + timeStamp);
+            System.out.println(identifier.getId() + '\t' + address + '\t' + timeStamp);
         }
     }
 
