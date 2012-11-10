@@ -79,14 +79,21 @@ public class MessagesFactory {
 
     public static Message generatePutFileMessage(String SDFSfilepath, File fileContents){
         PutFileMessage putFileMessage = PutFileMessage.newBuilder()
-                .setFilepath(SDFSfilepath)
-                .setFilecontents(fileContents.toString()).build();
+                .setFilepath(SDFSfilepath).build();
 
         return Message.newBuilder()
-                .setType(MessageType.putFile).setPutFileMessage(putFileMessage)
-
-
+                .setType(MessageType.putFile).setPutFileMessage(putFileMessage).build();
     }
+
+    public static Message generateDeletedFileMessage(String SDFSfilepath){
+        DeleteFileMessage deleteFileMessage = DeleteFileMessage.newBuilder()
+                .setFilepath(SDFSfilepath).build();
+
+        return Message.newBuilder()
+                .setType(MessageType.deleteFile).setDeleteFileMessage(deleteFileMessage).build();
+    }
+
+
 
 
 }
