@@ -95,6 +95,8 @@ public class TCPConnection {
 //                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
 //                proc.addProcToMemberList(remoteProcessIdentifier);
                 proc.addProcToMemberList(joinedMachine);
+                break;
+            
             default:
                 break;
         }
