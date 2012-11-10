@@ -11,7 +11,7 @@ public class FailureDetector {
 
     private Proc proc;
     private ProcessIdentifier sendTo, listenFrom;
-    private AtomicBoolean shouldStop;
+    private AtomicBoolean shouldStopSend, shouldStopListen;
     private Thread listenThread;
     private Integer suspension;
 
@@ -20,7 +20,8 @@ public class FailureDetector {
     private static final Integer MAXIMUM_SUSPENSION = 5;
 
     public FailureDetector() {
-        shouldStop = new AtomicBoolean(false);
+        shouldStopListen = new AtomicBoolean(false);
+        shouldStopSend = new AtomicBoolean(false);
         sendTo = listenFrom = null;
         suspension = 0;
     }
@@ -38,7 +39,7 @@ public class FailureDetector {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(!shouldStop.get()) {
+                while(!shouldStopSend.get()) {
                     try{
                         Thread.sleep(HEART_BEATING_SEND_DELAY);
                     } catch(InterruptedException e) {
@@ -54,7 +55,7 @@ public class FailureDetector {
         listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(!shouldStop.get()) {
+                while(!shouldStopListen.get()) {
                     try{
                         Thread.sleep(HEART_BEATING_LISTEN_DELAY);
                         if(listenFrom == null) {
@@ -63,8 +64,7 @@ public class FailureDetector {
                         ++suspension;
                         if(suspension >= MAXIMUM_SUSPENSION) {
                             proc.getMemberList().setAsToBeDeleted(listenFrom);
-                        } else {
-                            proc.getMemberList().setAsAvailable(listenFrom);
+                            stopListen();
                         }
                     } catch (InterruptedException e) {
                         suspension = 0;
@@ -90,11 +90,24 @@ public class FailureDetector {
     }
 
     public void stop() {
-        shouldStop.set(true);
+        stopSend();
+        stopListen();
+    }
+
+    public void stopSend() {
+        shouldStopSend.set(true);
+    }
+
+    public void stopListen() {
+        shouldStopListen.set(true);
     }
 
     public FailureDetector setSendToMachine(ProcessIdentifier sendToMachine) {
         sendTo = sendToMachine;
+        if(shouldStopListen.get()) {
+            shouldStopListen.set(false);
+            listenThread.start();
+        }
         return this;
     }
 

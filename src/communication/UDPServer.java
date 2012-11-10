@@ -1,5 +1,6 @@
 package communication;
 
+import membership.MemberList;
 import membership.Proc;
 import org.apache.log4j.Logger;
 
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -93,9 +93,50 @@ public class UDPServer {
     }
 
     public void handleSyncMessage(SyncProcessesMessage spm) {
-        List<ProcessIdentifier> list = spm.getMembersList();
-        for(ProcessIdentifier identifier : list) {
-            proc.getMemberList().updateProcessIdentifier(identifier);
+        synchronized (this) {
+            List<ProcessIdentifier> list = spm.getMembersList();
+            MemberList newMemberList = new MemberList();
+
+//            for(ProcessIdentifier identifier : list) {
+//                Integer pos = proc.getMemberList().find(identifier);
+//                if(pos != -1) {
+//                    ProcessIdentifier identifierInProc = proc.getMemberList().get(pos);
+//                    if(identifierInProc.getTimestamp() > identifier.getTimestamp()) {
+//                        newMemberList.add(identifierInProc, proc.getMemberList().getTime(pos));
+//                        continue;
+//                    }
+//                }
+//
+//                newMemberList.add(identifier);
+//            }
+//
+//            for(ProcessIdentifier identifier : proc.getMemberList()) {
+//                if(newMemberList.find(identifier)==-1) {
+//                    newMemberList.add(identifier);
+//                }
+//            }
+            for(ProcessIdentifier identifier : list) {
+                Integer pos = newMemberList.find(identifier);
+                if(pos == -1) {
+                    
+                }
+                newMemberList.add(identifier);
+            }
+
+            for(ProcessIdentifier identifier : proc.getMemberList()) {
+                Integer pos = newMemberList.find(identifier);
+                if(pos != -1) {
+                    if(identifier.getTimestamp() >= newMemberList.get(pos).getTimestamp()) {
+                        newMemberList.set(pos, identifier);
+                        newMemberList.set(pos, proc.getMemberList().getTime(pos));
+                        newMemberList.set(pos, proc.getMemberList().getState(pos));
+                    }
+                } else {
+                    newMemberList.add(identifier, proc.getMemberList().getTime(identifier));
+                }
+            }
+
+            proc.setMemberList(newMemberList);
         }
     }
 

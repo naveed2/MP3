@@ -36,15 +36,16 @@ public class MessagesFactory {
         syncMessageBuilder.setSyncingMachine(syncMachine);
 
         for(int i=0; i<memberList.size(); ++i) {
-            if(MiscTool.isTheSameIdentifier(memberList.getProcessIdentifier(i), syncMachine)) {
+            if(MiscTool.isTheSameIdentifier(memberList.get(i), syncMachine)) {
                 syncMessageBuilder.addMembers(ProcessIdentifier.newBuilder()
                         .setId(syncMachine.getId()).setIP(syncMachine.getIP())
                         .setPort(syncMachine.getPort()).setTimestamp(timeStamp));
                 continue;
             }
-            if(memberList.getState(i) == ProcState.available) {
-                syncMessageBuilder.addMembers(memberList.getProcessIdentifier(i));
-            }
+//            if(memberList.getState(i) == ProcState.available) {
+//                syncMessageBuilder.addMembers(memberList.get(i));
+//            }
+            syncMessageBuilder.addMembers(memberList.get(i));
         }
 
 

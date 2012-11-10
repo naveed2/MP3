@@ -7,7 +7,6 @@ public class ScanningThread {
     private Proc proc;
     private AtomicBoolean shouldStop;
     private static final Integer INTERVAL = 5000;
-    private static final Integer MAX_TIME_DIFFERENCE = 100;
 
     public ScanningThread() {
         shouldStop = new AtomicBoolean(false);
@@ -31,5 +30,9 @@ public class ScanningThread {
                 }
             }
         }).start();
+    }
+
+    public void stop() {
+        shouldStop.set(true);
     }
 }

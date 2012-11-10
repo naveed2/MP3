@@ -18,6 +18,7 @@ public class Proc {
     private UDPServer udpServer;
     private Gossip gossip;
     private FailureDetector failureDetector;
+    private ScanningThread scanningThread;
 
     private Boolean isTCPServerStarted;
     private Boolean isUDPServerStarted;
@@ -67,6 +68,7 @@ public class Proc {
 
         //init failure detector
         initFailureDetector();
+        initMemberListScanningThread();
 
         //init timeMachine
         TimeMachine.init();
@@ -84,6 +86,12 @@ public class Proc {
         failureDetector.setProc(this);
 
         failureDetector.start();
+    }
+
+    private void initMemberListScanningThread() {
+        scanningThread = new ScanningThread();
+        scanningThread.setProc(this);
+        scanningThread.startScan();
     }
 
     public void initTCPServer() {
@@ -146,6 +154,11 @@ public class Proc {
 
     public FailureDetector getFailureDetector() {
         return failureDetector;
+    }
+
+    public Proc setMemberList(MemberList memberList) {
+        this.memberList = memberList;
+        return this;
     }
 
 }

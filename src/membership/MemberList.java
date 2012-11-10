@@ -39,11 +39,17 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         }
     }
 
-    void add(ProcessIdentifier processIdentifier){
+    public void add(ProcessIdentifier processIdentifier){
+        synchronized (this) {
+            add(processIdentifier, TimeMachine.getTime());
+        }
+    }
+
+    public void add(ProcessIdentifier processIdentifier, Long time) {
         synchronized (this) {
             list.add(processIdentifier);
             stateList.add(ProcState.available);
-            timeList.add(TimeMachine.getTime());
+            timeList.add(time);
         }
     }
 
@@ -51,8 +57,26 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         return this.list;
     }
 
-    public ProcessIdentifier getProcessIdentifier(Integer i){
-        return this.list.get(i);
+    public ProcessIdentifier get(Integer pos){
+        return this.list.get(pos);
+    }
+
+    public void set(Integer pos, ProcessIdentifier identifier) {
+        synchronized (this) {
+            list.set(pos, identifier);
+        }
+    }
+
+    public void set(Integer pos, Long time) {
+        synchronized (this) {
+            timeList.set(pos ,time);
+        }
+    }
+
+    public void set(Integer pos, ProcState procState) {
+        synchronized (this) {
+            stateList.set(pos ,procState);
+        }
     }
 
     public ProcessIdentifier getFirst() {
@@ -68,6 +92,13 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     }
 
     public Long getTime(Integer pos) {
+        return timeList.get(pos);
+    }
+
+    public Long getTime(ProcessIdentifier identifier) {
+        Integer pos = find(identifier);
+        if(pos == -1)
+            return (long) -1;
         return timeList.get(pos);
     }
 
