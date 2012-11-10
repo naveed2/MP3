@@ -14,14 +14,20 @@ import static communication.Messages.*;
 public class Proc {
     private Integer tcpPort;
     private Integer udpPort;
+    private Integer fileServerPort;
+
     private TCPServer tcpServer;
     private UDPServer udpServer;
-    private Gossip gossip;
-    private FailureDetector failureDetector;
-    private ScanningThread scanningThread;
+    private TCPFileServer fileServer;
 
     private Boolean isTCPServerStarted;
     private Boolean isUDPServerStarted;
+    private Boolean isFileServerStarted;
+
+    private Gossip gossip;
+    private FailureDetector failureDetector;
+
+    private ScanningThread scanningThread;
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
     private Integer localTime;
@@ -35,9 +41,10 @@ public class Proc {
         this.id = UUID.randomUUID().toString();
         this.tcpPort = tcpPort;
         this.udpPort = tcpPort + 1; // UDPPort is always set to TCPPort+1
+        this.fileServerPort = tcpPort + 2;
         memberList = new MemberList();
 
-        this.isTCPServerStarted = this.isUDPServerStarted = false;
+        this.isTCPServerStarted = this.isUDPServerStarted = this.isFileServerStarted = false ;
     }
 
     private void initIdentifier() {
@@ -62,6 +69,7 @@ public class Proc {
         //init server
         initTCPServer();
         initUDPServer();
+        initFileServer();
 
         //init gossip
         initGossip();
@@ -117,6 +125,19 @@ public class Proc {
         } else {
             System.err.println("UDP Server starts failed, please check configuration");
             logger.fatal("UDP Server starts failed");
+        }
+    }
+
+    private void initFileServer() {
+        fileServer = new TCPFileServer(fileServerPort);
+        fileServer.setProc(this);
+
+        if(fileServer.start()) {
+            isFileServerStarted = true;
+            logger.info("TCP File Server starts successfully, listening to port " + fileServerPort);
+        } else {
+            System.err.println("TCP File Server starts failed, please check configuration");
+            logger.fatal("TCP Server starts failed");
         }
     }
 
