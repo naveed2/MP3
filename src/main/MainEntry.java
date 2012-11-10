@@ -85,6 +85,7 @@ public class MainEntry {
             Message m = MessagesFactory.generateJoinMessage(
                     proc.getId(), proc.getIdentifier().getIP(), localPort, proc.increaseAndGetTimeStamp());
             tcpClient.sendData(m);
+            tcpClient.close();
         }
     }
 
