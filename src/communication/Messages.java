@@ -4473,6 +4473,11 @@ public final class Messages {
     boolean hasSyncFilesMessage();
     communication.Messages.SyncFilesListMessage getSyncFilesMessage();
     communication.Messages.SyncFilesListMessageOrBuilder getSyncFilesMessageOrBuilder();
+    
+    // optional .communication.HeartBeatMessage heartBeatMessage = 7;
+    boolean hasHeartBeatMessage();
+    communication.Messages.HeartBeatMessage getHeartBeatMessage();
+    communication.Messages.HeartBeatMessageOrBuilder getHeartBeatMessageOrBuilder();
   }
   public static final class Message extends
       com.google.protobuf.GeneratedMessage
@@ -4578,6 +4583,19 @@ public final class Messages {
       return syncFilesMessage_;
     }
     
+    // optional .communication.HeartBeatMessage heartBeatMessage = 7;
+    public static final int HEARTBEATMESSAGE_FIELD_NUMBER = 7;
+    private communication.Messages.HeartBeatMessage heartBeatMessage_;
+    public boolean hasHeartBeatMessage() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    public communication.Messages.HeartBeatMessage getHeartBeatMessage() {
+      return heartBeatMessage_;
+    }
+    public communication.Messages.HeartBeatMessageOrBuilder getHeartBeatMessageOrBuilder() {
+      return heartBeatMessage_;
+    }
+    
     private void initFields() {
       type_ = communication.Messages.MessageType.Heartbeat;
       joinMessage_ = communication.Messages.JoinMessage.getDefaultInstance();
@@ -4585,6 +4603,7 @@ public final class Messages {
       failMessage_ = communication.Messages.FailMessage.getDefaultInstance();
       syncProcessesMessage_ = communication.Messages.SyncProcessesMessage.getDefaultInstance();
       syncFilesMessage_ = communication.Messages.SyncFilesListMessage.getDefaultInstance();
+      heartBeatMessage_ = communication.Messages.HeartBeatMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4625,6 +4644,12 @@ public final class Messages {
           return false;
         }
       }
+      if (hasHeartBeatMessage()) {
+        if (!getHeartBeatMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4649,6 +4674,9 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeMessage(6, syncFilesMessage_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(7, heartBeatMessage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4682,6 +4710,10 @@ public final class Messages {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, syncFilesMessage_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, heartBeatMessage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4804,6 +4836,7 @@ public final class Messages {
           getFailMessageFieldBuilder();
           getSyncProcessesMessageFieldBuilder();
           getSyncFilesMessageFieldBuilder();
+          getHeartBeatMessageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4844,6 +4877,12 @@ public final class Messages {
           syncFilesMessageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
+        if (heartBeatMessageBuilder_ == null) {
+          heartBeatMessage_ = communication.Messages.HeartBeatMessage.getDefaultInstance();
+        } else {
+          heartBeatMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
       
@@ -4926,6 +4965,14 @@ public final class Messages {
         } else {
           result.syncFilesMessage_ = syncFilesMessageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (heartBeatMessageBuilder_ == null) {
+          result.heartBeatMessage_ = heartBeatMessage_;
+        } else {
+          result.heartBeatMessage_ = heartBeatMessageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4959,6 +5006,9 @@ public final class Messages {
         }
         if (other.hasSyncFilesMessage()) {
           mergeSyncFilesMessage(other.getSyncFilesMessage());
+        }
+        if (other.hasHeartBeatMessage()) {
+          mergeHeartBeatMessage(other.getHeartBeatMessage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4995,6 +5045,12 @@ public final class Messages {
         }
         if (hasSyncFilesMessage()) {
           if (!getSyncFilesMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasHeartBeatMessage()) {
+          if (!getHeartBeatMessage().isInitialized()) {
             
             return false;
           }
@@ -5079,6 +5135,15 @@ public final class Messages {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setSyncFilesMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 58: {
+              communication.Messages.HeartBeatMessage.Builder subBuilder = communication.Messages.HeartBeatMessage.newBuilder();
+              if (hasHeartBeatMessage()) {
+                subBuilder.mergeFrom(getHeartBeatMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setHeartBeatMessage(subBuilder.buildPartial());
               break;
             }
           }
@@ -5561,6 +5626,96 @@ public final class Messages {
         return syncFilesMessageBuilder_;
       }
       
+      // optional .communication.HeartBeatMessage heartBeatMessage = 7;
+      private communication.Messages.HeartBeatMessage heartBeatMessage_ = communication.Messages.HeartBeatMessage.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.HeartBeatMessage, communication.Messages.HeartBeatMessage.Builder, communication.Messages.HeartBeatMessageOrBuilder> heartBeatMessageBuilder_;
+      public boolean hasHeartBeatMessage() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      public communication.Messages.HeartBeatMessage getHeartBeatMessage() {
+        if (heartBeatMessageBuilder_ == null) {
+          return heartBeatMessage_;
+        } else {
+          return heartBeatMessageBuilder_.getMessage();
+        }
+      }
+      public Builder setHeartBeatMessage(communication.Messages.HeartBeatMessage value) {
+        if (heartBeatMessageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          heartBeatMessage_ = value;
+          onChanged();
+        } else {
+          heartBeatMessageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      public Builder setHeartBeatMessage(
+          communication.Messages.HeartBeatMessage.Builder builderForValue) {
+        if (heartBeatMessageBuilder_ == null) {
+          heartBeatMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          heartBeatMessageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      public Builder mergeHeartBeatMessage(communication.Messages.HeartBeatMessage value) {
+        if (heartBeatMessageBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              heartBeatMessage_ != communication.Messages.HeartBeatMessage.getDefaultInstance()) {
+            heartBeatMessage_ =
+              communication.Messages.HeartBeatMessage.newBuilder(heartBeatMessage_).mergeFrom(value).buildPartial();
+          } else {
+            heartBeatMessage_ = value;
+          }
+          onChanged();
+        } else {
+          heartBeatMessageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      public Builder clearHeartBeatMessage() {
+        if (heartBeatMessageBuilder_ == null) {
+          heartBeatMessage_ = communication.Messages.HeartBeatMessage.getDefaultInstance();
+          onChanged();
+        } else {
+          heartBeatMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      public communication.Messages.HeartBeatMessage.Builder getHeartBeatMessageBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getHeartBeatMessageFieldBuilder().getBuilder();
+      }
+      public communication.Messages.HeartBeatMessageOrBuilder getHeartBeatMessageOrBuilder() {
+        if (heartBeatMessageBuilder_ != null) {
+          return heartBeatMessageBuilder_.getMessageOrBuilder();
+        } else {
+          return heartBeatMessage_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.HeartBeatMessage, communication.Messages.HeartBeatMessage.Builder, communication.Messages.HeartBeatMessageOrBuilder> 
+          getHeartBeatMessageFieldBuilder() {
+        if (heartBeatMessageBuilder_ == null) {
+          heartBeatMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              communication.Messages.HeartBeatMessage, communication.Messages.HeartBeatMessage.Builder, communication.Messages.HeartBeatMessageOrBuilder>(
+                  heartBeatMessage_,
+                  getParentForChildren(),
+                  isClean());
+          heartBeatMessage_ = null;
+        }
+        return heartBeatMessageBuilder_;
+      }
+      
       // @@protoc_insertion_point(builder_scope:communication.Message)
     }
     
@@ -5645,7 +5800,7 @@ public final class Messages {
       "dentifier\0228\n\016syncingMachine\030\002 \002(\0132 .comm" +
       "unication.ProcessIdentifier\"D\n\024SyncFiles" +
       "ListMessage\022,\n\005files\030\001 \003(\0132\035.communicati" +
-      "on.FileIdentifier\"\312\002\n\007Message\022(\n\004type\030\001 ",
+      "on.FileIdentifier\"\205\003\n\007Message\022(\n\004type\030\001 ",
       "\002(\0162\032.communication.MessageType\022/\n\013joinM" +
       "essage\030\002 \001(\0132\032.communication.JoinMessage" +
       "\0221\n\014leaveMessage\030\003 \001(\0132\033.communication.L" +
@@ -5653,9 +5808,11 @@ public final class Messages {
       "nication.FailMessage\022A\n\024syncProcessesMes" +
       "sage\030\005 \001(\0132#.communication.SyncProcesses" +
       "Message\022=\n\020syncFilesMessage\030\006 \001(\0132#.comm" +
-      "unication.SyncFilesListMessage*R\n\013Messag" +
-      "eType\022\r\n\tHeartbeat\020\000\022\010\n\004Join\020\001\022\010\n\004Fail\020\002" +
-      "\022\021\n\rSyncProcesses\020\003\022\r\n\tSyncFiles\020\004"
+      "unication.SyncFilesListMessage\0229\n\020heartB" +
+      "eatMessage\030\007 \001(\0132\037.communication.HeartBe" +
+      "atMessage*R\n\013MessageType\022\r\n\tHeartbeat\020\000\022",
+      "\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\rSyncProcesses\020\003\022\r" +
+      "\n\tSyncFiles\020\004"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5731,7 +5888,7 @@ public final class Messages {
           internal_static_communication_Message_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_communication_Message_descriptor,
-              new java.lang.String[] { "Type", "JoinMessage", "LeaveMessage", "FailMessage", "SyncProcessesMessage", "SyncFilesMessage", },
+              new java.lang.String[] { "Type", "JoinMessage", "LeaveMessage", "FailMessage", "SyncProcessesMessage", "SyncFilesMessage", "HeartBeatMessage", },
               communication.Messages.Message.class,
               communication.Messages.Message.Builder.class);
           return null;

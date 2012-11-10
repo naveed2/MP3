@@ -53,6 +53,7 @@ message Message{
     optional FailMessage failMessage = 4;
     optional SyncProcessesMessage syncProcessesMessage = 5;
     optional SyncFilesListMessage syncFilesMessage = 6;
+    optional HeartBeatMessage heartBeatMessage = 7;
 }
 
 

@@ -51,5 +51,15 @@ public class MessagesFactory {
                 .setType(MessageType.SyncProcesses).setSyncProcessesMessage(syncMessage).build();
     }
 
+    public static Message generateHearBeatMessage(Integer timeStamp, ProcessIdentifier fromMachine) {
+        HeartBeatMessage.Builder builder = HeartBeatMessage.newBuilder();
+        HeartBeatMessage heartBeatMessage = builder.setFromMachine(ProcessIdentifier.newBuilder()
+                .setId(fromMachine.getId()).setIP(fromMachine.getIP())
+                .setPort(fromMachine.getPort()).setTimestamp(timeStamp).build()).build();
+
+        return Message.newBuilder()
+                .setType(MessageType.Heartbeat).setHeartBeatMessage(heartBeatMessage).build();
+    }
+
 
 }
