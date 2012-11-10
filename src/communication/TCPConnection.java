@@ -92,8 +92,9 @@ public class TCPConnection {
             case Join:
                 JoinMessage joinMessage = m.getJoinMessage();
                 ProcessIdentifier joinedMachine = joinMessage.getJoinedMachine();
-                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
-                proc.addProcToMemberList(remoteProcessIdentifier);
+//                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
+//                proc.addProcToMemberList(remoteProcessIdentifier);
+                proc.addProcToMemberList(joinedMachine);
             default:
                 break;
         }

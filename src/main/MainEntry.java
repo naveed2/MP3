@@ -81,7 +81,8 @@ public class MainEntry {
         TCPClient tcpClient = new TCPClient(address);
         tcpClient.setProc(proc);
         if(tcpClient.connect()) {
-            Message m = MessagesFactory.generateJoinMessage(proc.getId(), address, proc.increaseAndGetTimeStamp());
+            Message m = MessagesFactory.generateJoinMessage(
+                    proc.getId(), proc.getIdentifier().getIP(), localPort, proc.increaseAndGetTimeStamp());
             tcpClient.sendData(m);
         }
     }
