@@ -15,6 +15,7 @@ public final class Messages {
     Fail(2, 2),
     SyncProcesses(3, 3),
     SyncFiles(4, 4),
+    SendTo(5, 5),
     ;
     
     public static final int Heartbeat_VALUE = 0;
@@ -22,6 +23,7 @@ public final class Messages {
     public static final int Fail_VALUE = 2;
     public static final int SyncProcesses_VALUE = 3;
     public static final int SyncFiles_VALUE = 4;
+    public static final int SendTo_VALUE = 5;
     
     
     public final int getNumber() { return value; }
@@ -33,6 +35,7 @@ public final class Messages {
         case 2: return Fail;
         case 3: return SyncProcesses;
         case 4: return SyncFiles;
+        case 5: return SendTo;
         default: return null;
       }
     }
@@ -63,7 +66,7 @@ public final class Messages {
     }
     
     private static final MessageType[] VALUES = {
-      Heartbeat, Join, Fail, SyncProcesses, SyncFiles, 
+      Heartbeat, Join, Fail, SyncProcesses, SyncFiles, SendTo, 
     };
     
     public static MessageType valueOf(
@@ -4442,6 +4445,446 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:communication.SyncFilesListMessage)
   }
   
+  public interface SendToMessageOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required .communication.ProcessIdentifier sendToMachine = 1;
+    boolean hasSendToMachine();
+    communication.Messages.ProcessIdentifier getSendToMachine();
+    communication.Messages.ProcessIdentifierOrBuilder getSendToMachineOrBuilder();
+  }
+  public static final class SendToMessage extends
+      com.google.protobuf.GeneratedMessage
+      implements SendToMessageOrBuilder {
+    // Use SendToMessage.newBuilder() to construct.
+    private SendToMessage(Builder builder) {
+      super(builder);
+    }
+    private SendToMessage(boolean noInit) {}
+    
+    private static final SendToMessage defaultInstance;
+    public static SendToMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public SendToMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return communication.Messages.internal_static_communication_SendToMessage_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return communication.Messages.internal_static_communication_SendToMessage_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required .communication.ProcessIdentifier sendToMachine = 1;
+    public static final int SENDTOMACHINE_FIELD_NUMBER = 1;
+    private communication.Messages.ProcessIdentifier sendToMachine_;
+    public boolean hasSendToMachine() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public communication.Messages.ProcessIdentifier getSendToMachine() {
+      return sendToMachine_;
+    }
+    public communication.Messages.ProcessIdentifierOrBuilder getSendToMachineOrBuilder() {
+      return sendToMachine_;
+    }
+    
+    private void initFields() {
+      sendToMachine_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasSendToMachine()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getSendToMachine().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, sendToMachine_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, sendToMachine_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static communication.Messages.SendToMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static communication.Messages.SendToMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static communication.Messages.SendToMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static communication.Messages.SendToMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(communication.Messages.SendToMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements communication.Messages.SendToMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return communication.Messages.internal_static_communication_SendToMessage_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return communication.Messages.internal_static_communication_SendToMessage_fieldAccessorTable;
+      }
+      
+      // Construct using communication.Messages.SendToMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSendToMachineFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (sendToMachineBuilder_ == null) {
+          sendToMachine_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
+        } else {
+          sendToMachineBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return communication.Messages.SendToMessage.getDescriptor();
+      }
+      
+      public communication.Messages.SendToMessage getDefaultInstanceForType() {
+        return communication.Messages.SendToMessage.getDefaultInstance();
+      }
+      
+      public communication.Messages.SendToMessage build() {
+        communication.Messages.SendToMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private communication.Messages.SendToMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        communication.Messages.SendToMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public communication.Messages.SendToMessage buildPartial() {
+        communication.Messages.SendToMessage result = new communication.Messages.SendToMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (sendToMachineBuilder_ == null) {
+          result.sendToMachine_ = sendToMachine_;
+        } else {
+          result.sendToMachine_ = sendToMachineBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof communication.Messages.SendToMessage) {
+          return mergeFrom((communication.Messages.SendToMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(communication.Messages.SendToMessage other) {
+        if (other == communication.Messages.SendToMessage.getDefaultInstance()) return this;
+        if (other.hasSendToMachine()) {
+          mergeSendToMachine(other.getSendToMachine());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasSendToMachine()) {
+          
+          return false;
+        }
+        if (!getSendToMachine().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              communication.Messages.ProcessIdentifier.Builder subBuilder = communication.Messages.ProcessIdentifier.newBuilder();
+              if (hasSendToMachine()) {
+                subBuilder.mergeFrom(getSendToMachine());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setSendToMachine(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required .communication.ProcessIdentifier sendToMachine = 1;
+      private communication.Messages.ProcessIdentifier sendToMachine_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.ProcessIdentifier, communication.Messages.ProcessIdentifier.Builder, communication.Messages.ProcessIdentifierOrBuilder> sendToMachineBuilder_;
+      public boolean hasSendToMachine() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public communication.Messages.ProcessIdentifier getSendToMachine() {
+        if (sendToMachineBuilder_ == null) {
+          return sendToMachine_;
+        } else {
+          return sendToMachineBuilder_.getMessage();
+        }
+      }
+      public Builder setSendToMachine(communication.Messages.ProcessIdentifier value) {
+        if (sendToMachineBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          sendToMachine_ = value;
+          onChanged();
+        } else {
+          sendToMachineBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder setSendToMachine(
+          communication.Messages.ProcessIdentifier.Builder builderForValue) {
+        if (sendToMachineBuilder_ == null) {
+          sendToMachine_ = builderForValue.build();
+          onChanged();
+        } else {
+          sendToMachineBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder mergeSendToMachine(communication.Messages.ProcessIdentifier value) {
+        if (sendToMachineBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              sendToMachine_ != communication.Messages.ProcessIdentifier.getDefaultInstance()) {
+            sendToMachine_ =
+              communication.Messages.ProcessIdentifier.newBuilder(sendToMachine_).mergeFrom(value).buildPartial();
+          } else {
+            sendToMachine_ = value;
+          }
+          onChanged();
+        } else {
+          sendToMachineBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder clearSendToMachine() {
+        if (sendToMachineBuilder_ == null) {
+          sendToMachine_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
+          onChanged();
+        } else {
+          sendToMachineBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      public communication.Messages.ProcessIdentifier.Builder getSendToMachineBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getSendToMachineFieldBuilder().getBuilder();
+      }
+      public communication.Messages.ProcessIdentifierOrBuilder getSendToMachineOrBuilder() {
+        if (sendToMachineBuilder_ != null) {
+          return sendToMachineBuilder_.getMessageOrBuilder();
+        } else {
+          return sendToMachine_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.ProcessIdentifier, communication.Messages.ProcessIdentifier.Builder, communication.Messages.ProcessIdentifierOrBuilder> 
+          getSendToMachineFieldBuilder() {
+        if (sendToMachineBuilder_ == null) {
+          sendToMachineBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              communication.Messages.ProcessIdentifier, communication.Messages.ProcessIdentifier.Builder, communication.Messages.ProcessIdentifierOrBuilder>(
+                  sendToMachine_,
+                  getParentForChildren(),
+                  isClean());
+          sendToMachine_ = null;
+        }
+        return sendToMachineBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:communication.SendToMessage)
+    }
+    
+    static {
+      defaultInstance = new SendToMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:communication.SendToMessage)
+  }
+  
   public interface MessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -4478,6 +4921,11 @@ public final class Messages {
     boolean hasHeartBeatMessage();
     communication.Messages.HeartBeatMessage getHeartBeatMessage();
     communication.Messages.HeartBeatMessageOrBuilder getHeartBeatMessageOrBuilder();
+    
+    // optional .communication.SendToMessage sendToMessage = 8;
+    boolean hasSendToMessage();
+    communication.Messages.SendToMessage getSendToMessage();
+    communication.Messages.SendToMessageOrBuilder getSendToMessageOrBuilder();
   }
   public static final class Message extends
       com.google.protobuf.GeneratedMessage
@@ -4596,6 +5044,19 @@ public final class Messages {
       return heartBeatMessage_;
     }
     
+    // optional .communication.SendToMessage sendToMessage = 8;
+    public static final int SENDTOMESSAGE_FIELD_NUMBER = 8;
+    private communication.Messages.SendToMessage sendToMessage_;
+    public boolean hasSendToMessage() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    public communication.Messages.SendToMessage getSendToMessage() {
+      return sendToMessage_;
+    }
+    public communication.Messages.SendToMessageOrBuilder getSendToMessageOrBuilder() {
+      return sendToMessage_;
+    }
+    
     private void initFields() {
       type_ = communication.Messages.MessageType.Heartbeat;
       joinMessage_ = communication.Messages.JoinMessage.getDefaultInstance();
@@ -4604,6 +5065,7 @@ public final class Messages {
       syncProcessesMessage_ = communication.Messages.SyncProcessesMessage.getDefaultInstance();
       syncFilesMessage_ = communication.Messages.SyncFilesListMessage.getDefaultInstance();
       heartBeatMessage_ = communication.Messages.HeartBeatMessage.getDefaultInstance();
+      sendToMessage_ = communication.Messages.SendToMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4650,6 +5112,12 @@ public final class Messages {
           return false;
         }
       }
+      if (hasSendToMessage()) {
+        if (!getSendToMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4677,6 +5145,9 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeMessage(7, heartBeatMessage_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeMessage(8, sendToMessage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4714,6 +5185,10 @@ public final class Messages {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, heartBeatMessage_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, sendToMessage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4837,6 +5312,7 @@ public final class Messages {
           getSyncProcessesMessageFieldBuilder();
           getSyncFilesMessageFieldBuilder();
           getHeartBeatMessageFieldBuilder();
+          getSendToMessageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4883,6 +5359,12 @@ public final class Messages {
           heartBeatMessageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
+        if (sendToMessageBuilder_ == null) {
+          sendToMessage_ = communication.Messages.SendToMessage.getDefaultInstance();
+        } else {
+          sendToMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
       
@@ -4973,6 +5455,14 @@ public final class Messages {
         } else {
           result.heartBeatMessage_ = heartBeatMessageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        if (sendToMessageBuilder_ == null) {
+          result.sendToMessage_ = sendToMessage_;
+        } else {
+          result.sendToMessage_ = sendToMessageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5009,6 +5499,9 @@ public final class Messages {
         }
         if (other.hasHeartBeatMessage()) {
           mergeHeartBeatMessage(other.getHeartBeatMessage());
+        }
+        if (other.hasSendToMessage()) {
+          mergeSendToMessage(other.getSendToMessage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5051,6 +5544,12 @@ public final class Messages {
         }
         if (hasHeartBeatMessage()) {
           if (!getHeartBeatMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasSendToMessage()) {
+          if (!getSendToMessage().isInitialized()) {
             
             return false;
           }
@@ -5144,6 +5643,15 @@ public final class Messages {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setHeartBeatMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 66: {
+              communication.Messages.SendToMessage.Builder subBuilder = communication.Messages.SendToMessage.newBuilder();
+              if (hasSendToMessage()) {
+                subBuilder.mergeFrom(getSendToMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setSendToMessage(subBuilder.buildPartial());
               break;
             }
           }
@@ -5716,6 +6224,96 @@ public final class Messages {
         return heartBeatMessageBuilder_;
       }
       
+      // optional .communication.SendToMessage sendToMessage = 8;
+      private communication.Messages.SendToMessage sendToMessage_ = communication.Messages.SendToMessage.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.SendToMessage, communication.Messages.SendToMessage.Builder, communication.Messages.SendToMessageOrBuilder> sendToMessageBuilder_;
+      public boolean hasSendToMessage() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      public communication.Messages.SendToMessage getSendToMessage() {
+        if (sendToMessageBuilder_ == null) {
+          return sendToMessage_;
+        } else {
+          return sendToMessageBuilder_.getMessage();
+        }
+      }
+      public Builder setSendToMessage(communication.Messages.SendToMessage value) {
+        if (sendToMessageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          sendToMessage_ = value;
+          onChanged();
+        } else {
+          sendToMessageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      public Builder setSendToMessage(
+          communication.Messages.SendToMessage.Builder builderForValue) {
+        if (sendToMessageBuilder_ == null) {
+          sendToMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          sendToMessageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      public Builder mergeSendToMessage(communication.Messages.SendToMessage value) {
+        if (sendToMessageBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080) &&
+              sendToMessage_ != communication.Messages.SendToMessage.getDefaultInstance()) {
+            sendToMessage_ =
+              communication.Messages.SendToMessage.newBuilder(sendToMessage_).mergeFrom(value).buildPartial();
+          } else {
+            sendToMessage_ = value;
+          }
+          onChanged();
+        } else {
+          sendToMessageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      public Builder clearSendToMessage() {
+        if (sendToMessageBuilder_ == null) {
+          sendToMessage_ = communication.Messages.SendToMessage.getDefaultInstance();
+          onChanged();
+        } else {
+          sendToMessageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
+        return this;
+      }
+      public communication.Messages.SendToMessage.Builder getSendToMessageBuilder() {
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return getSendToMessageFieldBuilder().getBuilder();
+      }
+      public communication.Messages.SendToMessageOrBuilder getSendToMessageOrBuilder() {
+        if (sendToMessageBuilder_ != null) {
+          return sendToMessageBuilder_.getMessageOrBuilder();
+        } else {
+          return sendToMessage_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          communication.Messages.SendToMessage, communication.Messages.SendToMessage.Builder, communication.Messages.SendToMessageOrBuilder> 
+          getSendToMessageFieldBuilder() {
+        if (sendToMessageBuilder_ == null) {
+          sendToMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              communication.Messages.SendToMessage, communication.Messages.SendToMessage.Builder, communication.Messages.SendToMessageOrBuilder>(
+                  sendToMessage_,
+                  getParentForChildren(),
+                  isClean());
+          sendToMessage_ = null;
+        }
+        return sendToMessageBuilder_;
+      }
+      
       // @@protoc_insertion_point(builder_scope:communication.Message)
     }
     
@@ -5768,6 +6366,11 @@ public final class Messages {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_communication_SyncFilesListMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_communication_SendToMessage_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_communication_SendToMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_communication_Message_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -5800,19 +6403,22 @@ public final class Messages {
       "dentifier\0228\n\016syncingMachine\030\002 \002(\0132 .comm" +
       "unication.ProcessIdentifier\"D\n\024SyncFiles" +
       "ListMessage\022,\n\005files\030\001 \003(\0132\035.communicati" +
-      "on.FileIdentifier\"\205\003\n\007Message\022(\n\004type\030\001 ",
-      "\002(\0162\032.communication.MessageType\022/\n\013joinM" +
-      "essage\030\002 \001(\0132\032.communication.JoinMessage" +
-      "\0221\n\014leaveMessage\030\003 \001(\0132\033.communication.L" +
-      "eaveMessage\022/\n\013failMessage\030\004 \001(\0132\032.commu" +
-      "nication.FailMessage\022A\n\024syncProcessesMes" +
-      "sage\030\005 \001(\0132#.communication.SyncProcesses" +
-      "Message\022=\n\020syncFilesMessage\030\006 \001(\0132#.comm" +
-      "unication.SyncFilesListMessage\0229\n\020heartB" +
-      "eatMessage\030\007 \001(\0132\037.communication.HeartBe" +
-      "atMessage*R\n\013MessageType\022\r\n\tHeartbeat\020\000\022",
-      "\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\rSyncProcesses\020\003\022\r" +
-      "\n\tSyncFiles\020\004"
+      "on.FileIdentifier\"H\n\rSendToMessage\0227\n\rse",
+      "ndToMachine\030\001 \002(\0132 .communication.Proces" +
+      "sIdentifier\"\272\003\n\007Message\022(\n\004type\030\001 \002(\0162\032." +
+      "communication.MessageType\022/\n\013joinMessage" +
+      "\030\002 \001(\0132\032.communication.JoinMessage\0221\n\014le" +
+      "aveMessage\030\003 \001(\0132\033.communication.LeaveMe" +
+      "ssage\022/\n\013failMessage\030\004 \001(\0132\032.communicati" +
+      "on.FailMessage\022A\n\024syncProcessesMessage\030\005" +
+      " \001(\0132#.communication.SyncProcessesMessag" +
+      "e\022=\n\020syncFilesMessage\030\006 \001(\0132#.communicat" +
+      "ion.SyncFilesListMessage\0229\n\020heartBeatMes",
+      "sage\030\007 \001(\0132\037.communication.HeartBeatMess" +
+      "age\0223\n\rsendToMessage\030\010 \001(\0132\034.communicati" +
+      "on.SendToMessage*^\n\013MessageType\022\r\n\tHeart" +
+      "beat\020\000\022\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\rSyncProces" +
+      "ses\020\003\022\r\n\tSyncFiles\020\004\022\n\n\006SendTo\020\005"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5883,12 +6489,20 @@ public final class Messages {
               new java.lang.String[] { "Files", },
               communication.Messages.SyncFilesListMessage.class,
               communication.Messages.SyncFilesListMessage.Builder.class);
-          internal_static_communication_Message_descriptor =
+          internal_static_communication_SendToMessage_descriptor =
             getDescriptor().getMessageTypes().get(8);
+          internal_static_communication_SendToMessage_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_communication_SendToMessage_descriptor,
+              new java.lang.String[] { "SendToMachine", },
+              communication.Messages.SendToMessage.class,
+              communication.Messages.SendToMessage.Builder.class);
+          internal_static_communication_Message_descriptor =
+            getDescriptor().getMessageTypes().get(9);
           internal_static_communication_Message_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_communication_Message_descriptor,
-              new java.lang.String[] { "Type", "JoinMessage", "LeaveMessage", "FailMessage", "SyncProcessesMessage", "SyncFilesMessage", "HeartBeatMessage", },
+              new java.lang.String[] { "Type", "JoinMessage", "LeaveMessage", "FailMessage", "SyncProcessesMessage", "SyncFilesMessage", "HeartBeatMessage", "SendToMessage", },
               communication.Messages.Message.class,
               communication.Messages.Message.Builder.class);
           return null;

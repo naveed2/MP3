@@ -1,10 +1,7 @@
 package membership;
 
 
-import communication.Gossip;
-import communication.ProcessIdentifierFactory;
-import communication.TCPServer;
-import communication.UDPServer;
+import communication.*;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
@@ -20,6 +17,7 @@ public class Proc {
     private TCPServer tcpServer;
     private UDPServer udpServer;
     private Gossip gossip;
+    private FailureDetector failureDetector;
 
     private Boolean isTCPServerStarted;
     private Boolean isUDPServerStarted;
@@ -66,6 +64,9 @@ public class Proc {
         //init gossip
         initGossip();
 
+        //init failure detector
+        initFailureDetector();
+
         //init timeMachine
         TimeMachine.init();
     }
@@ -75,6 +76,13 @@ public class Proc {
         gossip.setProc(this);
 
         gossip.start();
+    }
+
+    private void initFailureDetector() {
+        failureDetector = new FailureDetector();
+        failureDetector.setProc(this);
+
+        failureDetector.start();
     }
 
     public void initTCPServer() {

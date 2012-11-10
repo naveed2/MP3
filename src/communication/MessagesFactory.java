@@ -61,5 +61,12 @@ public class MessagesFactory {
                 .setType(MessageType.Heartbeat).setHeartBeatMessage(heartBeatMessage).build();
     }
 
+    public static Message generateSendToMessage(ProcessIdentifier sendToMachine) {
+        SendToMessage sendToMessage = SendToMessage.newBuilder()
+                .setSendToMachine(sendToMachine).build();
+        return Message.newBuilder()
+                .setType(MessageType.SendTo).setSendToMessage(sendToMessage).build();
+    }
+
 
 }

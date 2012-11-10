@@ -80,6 +80,10 @@ public class UDPServer {
                 handleSyncMessage(syncProcessesMessage);
                 break;
 
+            case Heartbeat:
+                HeartBeatMessage heartBeatMessage = m.getHeartBeatMessage();
+                System.out.println("11111");
+                break;
 
             default:
                 break;

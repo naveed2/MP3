@@ -49,6 +49,14 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         return this.list.get(i);
     }
 
+    public ProcessIdentifier getFirst() {
+        return list.getFirst();
+    }
+
+    public ProcessIdentifier getLast() {
+        return list.getLast();
+    }
+
     public ProcState getState(Integer pos) {
         return stateList.get(pos);
     }

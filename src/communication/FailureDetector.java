@@ -17,14 +17,8 @@ public class FailureDetector {
 
     public FailureDetector() {
         shouldStop = new AtomicBoolean(false);
-    }
-
-    public FailureDetector init(Proc proc) {
-        this.proc = proc;
         sendTo = listenFrom = null;
-        return this;
     }
-
 
     public void setProc(Proc proc) {
         this.proc = proc;

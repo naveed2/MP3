@@ -96,12 +96,47 @@ public class TCPConnection {
                 ProcessIdentifier joinedMachine = joinMessage.getJoinedMachine();
 //                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
 //                proc.addProcToMemberList(remoteProcessIdentifier);
+                if(!reconstructHeartBeatRing(joinedMachine)) {
+                    logger.error("Fail to reconstruct ring, drop the join message");
+                    break;
+                }
+
                 proc.addProcToMemberList(joinedMachine);
                 break;
             
             default:
                 break;
         }
+    }
+
+    private boolean reconstructHeartBeatRing(ProcessIdentifier joinedMachine) {
+        Messages.ProcessIdentifier first = proc.getMemberList().getFirst();
+        Messages.ProcessIdentifier last = proc.getMemberList().getLast();
+        Messages.Message message;
+
+        //before: last -> first -> second ...
+        //after: last -> joinMachine -> first -> second
+        TCPClient clientConnectToLast = new TCPClient(last.getIP()+":"+last.getPort());
+        clientConnectToLast.setProc(proc);
+        if(clientConnectToLast.connect()) {
+            message = MessagesFactory.generateSendToMessage(joinedMachine);
+            clientConnectToLast.sendData(message.toByteArray());
+            clientConnectToLast.close();
+        } else {
+            return false;
+        }
+
+        TCPClient clientConnectToFirst = new TCPClient(joinedMachine.getIP()+":"+joinedMachine.getPort());
+        clientConnectToFirst.setProc(proc);
+        if(clientConnectToFirst.connect()) {
+            message = MessagesFactory.generateSendToMessage(first);
+            clientConnectToFirst.sendData(message.toByteArray());
+            clientConnectToFirst.close();
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
     public void close() throws IOException {

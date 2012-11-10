@@ -18,6 +18,7 @@ enum MessageType{
     Fail = 2;
     SyncProcesses = 3;
     SyncFiles = 4;
+    SendTo = 5;
 }
 
 message HeartBeatMessage {
@@ -46,6 +47,10 @@ message SyncFilesListMessage{
     repeated FileIdentifier files = 1;
 }
 
+message SendToMessage {
+    required ProcessIdentifier sendToMachine = 1;
+}
+
 message Message{
     required MessageType type = 1;
     optional JoinMessage joinMessage = 2;
@@ -54,6 +59,7 @@ message Message{
     optional SyncProcessesMessage syncProcessesMessage = 5;
     optional SyncFilesListMessage syncFilesMessage = 6;
     optional HeartBeatMessage heartBeatMessage = 7;
+    optional SendToMessage sendToMessage = 8;
 }
 
 
