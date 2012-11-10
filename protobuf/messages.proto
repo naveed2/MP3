@@ -20,6 +20,10 @@ enum MessageType{
     SyncFiles = 4;
 }
 
+message HeartBeatMessage {
+    required ProcessIdentifier fromMachine = 1;
+}
+
 message JoinMessage{
     required ProcessIdentifier joinedMachine = 1;
 }
