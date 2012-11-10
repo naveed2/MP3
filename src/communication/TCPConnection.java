@@ -72,6 +72,8 @@ public class TCPConnection {
                 } else {
                     logger.error("Receiving message error", e);
                 }
+            } catch(NegativeArraySizeException e) {
+                //ignore it
             }
         }
     }
