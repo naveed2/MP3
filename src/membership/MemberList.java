@@ -16,6 +16,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     private LinkedList<Long> timeList;
 
     private static final Integer MAX_TIME_DIFFERENCE = 100;
+    private static final Integer MIN_TIME_DIFFERENCE = 50;
 
     private static Logger logger = Logger.getLogger(MemberList.class);
 
@@ -122,7 +123,9 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     }
 
     public Iterator<ProcessIdentifier> iterator() {
-        return list.iterator();
+        synchronized (this) {
+            return list.iterator();
+        }
     }
 
     public Integer find(ProcessIdentifier identifier) {
@@ -179,9 +182,13 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         synchronized (this) {
             for(ProcessIdentifier identifier : list) {
                 Integer pos = list.indexOf(identifier);
-                if((TimeMachine.getTime() - timeList.get(pos)) > MAX_TIME_DIFFERENCE) {
+                Long diff = TimeMachine.getTime() - timeList.get(pos);
+                if(diff > MAX_TIME_DIFFERENCE) {
                     remove(identifier);
-               }
+                    break;
+                } else if(diff > MIN_TIME_DIFFERENCE) {
+                    setAsToBeDeleted(identifier);
+                }
             }
         }
     }

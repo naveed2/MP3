@@ -4,12 +4,14 @@ import membership.MemberList;
 import communication.Messages.ProcessIdentifier;
 import membership.Proc;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Gossip {
 
-    private static final Integer NUM_OF_TARGETS = 4;
+    private static final Integer NUM_OF_TARGETS = 2;
     private AtomicBoolean shouldStop;
     private long delay;
     private Proc proc;
@@ -29,6 +31,7 @@ public class Gossip {
     public ProcessIdentifier selectRandomTarget(){
         Random rand = new Random();
         Integer randomTarget = rand.nextInt(getMemberList().size());
+        if(randomTarget<0) randomTarget = 0;
         return getMemberList().get(randomTarget);
     }
 

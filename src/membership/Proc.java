@@ -67,7 +67,7 @@ public class Proc {
         initGossip();
 
         //init failure detector
-        initFailureDetector();
+//        initFailureDetector();
         initMemberListScanningThread();
 
         //init timeMachine

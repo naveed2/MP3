@@ -6,7 +6,7 @@ public class ScanningThread {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
-    private static final Integer INTERVAL = 5000;
+    private static final Integer INTERVAL = 2000;
 
     public ScanningThread() {
         shouldStop = new AtomicBoolean(false);

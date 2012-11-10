@@ -95,24 +95,24 @@ public class TCPConnection {
                 ProcessIdentifier joinedMachine = joinMessage.getJoinedMachine();
 //                ProcessIdentifier remoteProcessIdentifier = generateRemoteProcessIdentifier(joinedMachine);
 //                proc.addProcToMemberList(remoteProcessIdentifier);
-                if(!reconstructHeartBeatRing(joinedMachine)) {
-                    logger.error("Fail to reconstruct ring, drop the join message");
-                    break;
-                }
+//                if(!reconstructHeartBeatRing(joinedMachine)) {
+//                    logger.error("Fail to reconstruct ring, drop the join message");
+//                    break;
+//                }
 
                 proc.addProcToMemberList(joinedMachine);
                 break;
 
             case SendTo:
-                SendToMessage sendToMessage = m.getSendToMessage();
-                ProcessIdentifier sendToMachine = sendToMessage.getSendToMachine();
-                proc.getFailureDetector().setSendToMachine(sendToMachine);
+//                SendToMessage sendToMessage = m.getSendToMessage();
+//                ProcessIdentifier sendToMachine = sendToMessage.getSendToMachine();
+//                proc.getFailureDetector().setSendToMachine(sendToMachine);
                 break;
 
             case ListenFrom:
-                ListenFromMessage listenFromMessage = m.getListenFrom();
-                ProcessIdentifier listenFromMachine = listenFromMessage.getListenFromMachine();
-                proc.getFailureDetector().setListenFromMachine(listenFromMachine);
+//                ListenFromMessage listenFromMessage = m.getListenFrom();
+//                ProcessIdentifier listenFromMachine = listenFromMessage.getListenFromMachine();
+//                proc.getFailureDetector().setListenFromMachine(listenFromMachine);
                 break;
 
             default:

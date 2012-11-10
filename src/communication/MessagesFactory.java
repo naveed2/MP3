@@ -42,10 +42,10 @@ public class MessagesFactory {
                         .setPort(syncMachine.getPort()).setTimestamp(timeStamp));
                 continue;
             }
-//            if(memberList.getState(i) == ProcState.available) {
-//                syncMessageBuilder.addMembers(memberList.get(i));
-//            }
-            syncMessageBuilder.addMembers(memberList.get(i));
+            if(memberList.getState(i) == ProcState.available) {
+                syncMessageBuilder.addMembers(memberList.get(i));
+            }
+//            syncMessageBuilder.addMembers(memberList.get(i));
         }
 
 

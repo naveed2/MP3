@@ -95,7 +95,7 @@ public class UDPServer {
     public void handleSyncMessage(SyncProcessesMessage spm) {
         synchronized (this) {
             List<ProcessIdentifier> list = spm.getMembersList();
-            MemberList newMemberList = new MemberList();
+//            MemberList newMemberList = new MemberList();
 
 //            for(ProcessIdentifier identifier : list) {
 //                Integer pos = proc.getMemberList().find(identifier);
@@ -116,27 +116,17 @@ public class UDPServer {
 //                }
 //            }
             for(ProcessIdentifier identifier : list) {
-                Integer pos = newMemberList.find(identifier);
+                MemberList memberlist = proc.getMemberList();
+                Integer pos = memberlist.find(identifier);
                 if(pos == -1) {
-                    
-                }
-                newMemberList.add(identifier);
-            }
-
-            for(ProcessIdentifier identifier : proc.getMemberList()) {
-                Integer pos = newMemberList.find(identifier);
-                if(pos != -1) {
-                    if(identifier.getTimestamp() >= newMemberList.get(pos).getTimestamp()) {
-                        newMemberList.set(pos, identifier);
-                        newMemberList.set(pos, proc.getMemberList().getTime(pos));
-                        newMemberList.set(pos, proc.getMemberList().getState(pos));
-                    }
+                    memberlist.add(identifier);
                 } else {
-                    newMemberList.add(identifier, proc.getMemberList().getTime(identifier));
+                    ProcessIdentifier identifierInMemberList = memberlist.get(pos);
+                    if(identifier.getTimestamp() > identifierInMemberList.getTimestamp()) {
+                        memberlist.updateProcessIdentifier(identifier);
+                    }
                 }
             }
-
-            proc.setMemberList(newMemberList);
         }
     }
 
