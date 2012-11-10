@@ -182,4 +182,8 @@ public class Proc {
         return this;
     }
 
+    public TCPFileServer getFileServer() {
+        return fileServer;
+    }
+
 }
