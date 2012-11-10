@@ -8,6 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static communication.Messages.*;
@@ -56,7 +57,8 @@ public class UDPServer {
                 byte[] bytes = new byte[len];
                 System.arraycopy(packet.getData(), 0, bytes, 0, len);
                 Message message = Message.parseFrom(bytes);
-                logger.debug("Received Message: " + message.toString());
+//                logger.debug("Received Message: " + message.toString());
+                handleMessage(message);
 
             } catch (IOException e) {
                 if(e.getMessage().equals("socket close")) {
@@ -66,6 +68,28 @@ public class UDPServer {
                 }
             }
 
+        }
+    }
+
+    public void handleMessage(Message m) {
+        proc.increaseAndGetTimeStamp();
+
+        switch (m.getType()) {
+            case SyncProcesses:
+                SyncProcessesMessage syncProcessesMessage = m.getSyncProcessesMessage();
+                handleSyncMessage(syncProcessesMessage);
+                break;
+
+
+            default:
+                break;
+        }
+    }
+
+    public void handleSyncMessage(SyncProcessesMessage spm) {
+        List<ProcessIdentifier> list = spm.getMembersList();
+        for(ProcessIdentifier identifier : list) {
+            proc.getMemberList().updateProcessIdentifier(identifier);
         }
     }
 
