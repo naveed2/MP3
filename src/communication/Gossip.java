@@ -66,7 +66,7 @@ public class Gossip {
     void sendSyncMessage(ProcessIdentifier process){
         UDPClient udpClient = new UDPClient(process);
         Messages.Message message = MessagesFactory.generateSyncProcessMessage(
-                proc.getIdentifier(), proc.getMemberList());
+                proc.getTimeStamp(), proc.getIdentifier(), proc.getMemberList());
         udpClient.sendMessage(message.toByteArray());
     }
 

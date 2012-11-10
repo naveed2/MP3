@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
+import static communication.Messages.ProcessIdentifier;
+
 public class MiscTool {
 
     public static final Integer BUFFER_SIZE = 4096;
@@ -89,7 +91,7 @@ public class MiscTool {
     }
 
     public static void main(String[] args) throws InvalidProtocolBufferException {
-        Messages.ProcessIdentifier identifier = Messages.ProcessIdentifier.newBuilder()
+        ProcessIdentifier identifier = ProcessIdentifier.newBuilder()
                 .setId("1").setIP("127.0.0.1").setPort(1234).build();
         Messages.JoinMessage joinMessage = Messages.JoinMessage.newBuilder().setJoinedMachine(identifier).build();
         Messages.Message m1 = Messages.Message.newBuilder().
@@ -99,4 +101,7 @@ public class MiscTool {
         System.out.println(m2.toString());
     }
 
+    public static boolean isTheSameIdentifier(ProcessIdentifier p1, ProcessIdentifier p2) {
+        return p1.getId().equals(p2.getId());
+    }
 }
