@@ -55,9 +55,8 @@ public class UDPServer {
                 int len = packet.getLength();
                 byte[] bytes = new byte[len];
                 System.arraycopy(packet.getData(), 0, bytes, 0, len);
-                logger.debug("Received packet: " + Arrays.toString(packet.getData()));
-//                Message message = Message.parseFrom(bytes);
-//                logger.debug("Received Message: " + message.toString());
+                Message message = Message.parseFrom(bytes);
+                logger.debug("Received Message: " + message.toString());
 
             } catch (IOException e) {
                 if(e.getMessage().equals("socket close")) {

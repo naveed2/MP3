@@ -13,6 +13,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
     public MemberList() {
         list = new LinkedList<ProcessIdentifier>();
+        stateList = new LinkedList<ProcState>();
     }
 
     void remove(ProcessIdentifier processIdentifier){

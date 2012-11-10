@@ -54,8 +54,7 @@ public class Gossip {
         for(Integer i = 0; i < NUM_OF_TARGETS; i++){
             ProcessIdentifier infectedProcess = selectRandomTarget();
             if(notSelf(infectedProcess)) {
-                System.out.println(infectedProcess);
-                sendMessage(infectedProcess);
+                sendSyncMessage(infectedProcess);
             }
         }
     }
@@ -64,9 +63,11 @@ public class Gossip {
         return !proc.getId().equals(identifier.getId());
     }
 
-    void sendMessage(ProcessIdentifier process){
+    void sendSyncMessage(ProcessIdentifier process){
         UDPClient udpClient = new UDPClient(process);
-        udpClient.sendMessage("111");   //TODO: this is just test code
+        Messages.Message message = MessagesFactory.generateSyncProcessMessage(
+                proc.getIdentifier(), proc.getMemberList());
+        udpClient.sendMessage(message.toByteArray());
     }
 
     public void stop() {

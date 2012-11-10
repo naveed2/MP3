@@ -54,7 +54,7 @@ public class Proc {
 
     public void init() {
         initIdentifier();
-        memberList.add(identifier);
+        addProcToMemberList(identifier);
 
         //TODO: before init new serve, old server should be closed.
         //init server
