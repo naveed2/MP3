@@ -75,6 +75,14 @@ public class TCPFileServer {
 
     }
 
+    public void prepareToSend(ProcessIdentifier identifier, String fileName) {
+
+    }
+
+    public void prepareToGet(ProcessIdentifier identifier, String fileName) {
+
+    }
+
     private void handleConnection(TCPConnection conn) {
 
     }
