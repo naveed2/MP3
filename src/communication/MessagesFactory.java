@@ -68,5 +68,12 @@ public class MessagesFactory {
                 .setType(MessageType.SendTo).setSendToMessage(sendToMessage).build();
     }
 
+    public static Message generateListenFromMessage(ProcessIdentifier listenFromMachine) {
+        ListenFromMessage listenFromMessage = ListenFromMessage.newBuilder()
+                .setListenFromMachine(listenFromMachine).build();
+        return Message.newBuilder()
+                .setType(MessageType.ListenFrom).setListenFrom(listenFromMessage).build();
+    }
+
 
 }
