@@ -62,7 +62,6 @@ message GetFileMessage{
 
 message PutFileMessage{
     required string filepath = 1;
-    required string filecontents = 2;
     optional ProcessIdentifier storingProcess = 3;
 }
 

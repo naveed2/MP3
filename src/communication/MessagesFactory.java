@@ -4,6 +4,8 @@ import membership.MemberList;
 import membership.ProcState;
 import misc.MiscTool;
 
+import java.io.File;
+
 import static communication.Messages.*;
 
 public class MessagesFactory {
@@ -68,11 +70,22 @@ public class MessagesFactory {
                 .setType(MessageType.SendTo).setSendToMessage(sendToMessage).build();
     }
 
-    public static Message generateListenFromMessage(ProcessIdentifier listenFromMachine) {
-        ListenFromMessage listenFromMessage = ListenFromMessage.newBuilder()
-                .setListenFromMachine(listenFromMachine).build();
+    public static Message generateGetFileMessage(String SDFSfilepath){
+        GetFileMessage getFileMessage = GetFileMessage.newBuilder()
+                .setFilepath(SDFSfilepath).build();
+        return Message.newBuilder().setType(MessageType.getFile)
+                .setGetFileMessage(getFileMessage).build();
+    }
+
+    public static Message generatePutFileMessage(String SDFSfilepath, File fileContents){
+        PutFileMessage putFileMessage = PutFileMessage.newBuilder()
+                .setFilepath(SDFSfilepath)
+                .setFilecontents(fileContents.toString()).build();
+
         return Message.newBuilder()
-                .setType(MessageType.ListenFrom).setListenFrom(listenFromMessage).build();
+                .setType(MessageType.putFile).setPutFileMessage(putFileMessage)
+
+
     }
 
 
