@@ -5,6 +5,7 @@ import communication.Messages;
 import communication.MessagesFactory;
 import communication.TCPClient;
 import membership.Proc;
+import membership.ProcState;
 import misc.MiscTool;
 import misc.TimeMachine;
 import org.apache.log4j.PropertyConfigurator;
@@ -95,16 +96,21 @@ public class MainEntry {
             Integer timeStamp;
             String address;
             Long localTime;
+            ProcState procState;
+
             if(identifier.getId().equals(proc.getId())) {
                 timeStamp = proc.getTimeStamp();
-                address = "localhost:" + proc.getTcpPort();
+                address = "127.0.0.1:" + proc.getTcpPort();
                 localTime = TimeMachine.getTime();
+                procState = ProcState.available;
             } else {
                 timeStamp = identifier.getTimestamp();
                 address = identifier.getIP() + ":" +identifier.getPort();
                 localTime =  proc.getMemberList().getTime(pos);
+                procState = proc.getMemberList().getState(pos);
             }
-            System.out.println(identifier.getId() + '\t' + address + '\t' + timeStamp + '\t' + localTime);
+            System.out.println(
+                    identifier.getId() + '\t' + address + '\t' + timeStamp + '\t' + localTime + '\t' + procState);
             ++pos;
         }
     }

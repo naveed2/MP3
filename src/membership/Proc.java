@@ -26,6 +26,7 @@ public class Proc {
     private Integer localTime;
     private String id;
     private ProcessIdentifier identifier;
+    private String hostAddress;
     private MemberList memberList;
 
     public Proc(Integer tcpPort) {
@@ -41,8 +42,8 @@ public class Proc {
     private void initIdentifier() {
         try {
             InetAddress addr = InetAddress.getLocalHost();
-            String address = addr.getHostAddress();
-            identifier = ProcessIdentifierFactory.generateProcessIdentifier(id, address, tcpPort, timeStamp);
+            hostAddress = addr.getHostAddress();
+            identifier = ProcessIdentifierFactory.generateProcessIdentifier(id, hostAddress, tcpPort, timeStamp);
             System.out.println(identifier.toString());
         } catch (UnknownHostException e) {
             logger.fatal("Unknown local host", e);
@@ -112,7 +113,7 @@ public class Proc {
     }
 
     public ProcessIdentifier getIdentifier() {
-        return identifier;
+        return ProcessIdentifierFactory.generateProcessIdentifier(id, hostAddress, tcpPort, timeStamp);
     }
 
     public String getId() {
@@ -141,6 +142,10 @@ public class Proc {
 
     public Integer getTcpPort() {
         return tcpPort;
+    }
+
+    public FailureDetector getFailureDetector() {
+        return failureDetector;
     }
 
 }

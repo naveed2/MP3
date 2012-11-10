@@ -82,7 +82,9 @@ public class UDPServer {
 
             case Heartbeat:
                 HeartBeatMessage heartBeatMessage = m.getHeartBeatMessage();
-                System.out.println("11111");
+                ProcessIdentifier fromMachine = heartBeatMessage.getFromMachine();
+//                System.out.println("Receive heart beat from " + fromMachine.getIP() + ":" + fromMachine.getPort());
+                proc.getFailureDetector().onReceivingHeartBeat();
                 break;
 
             default:

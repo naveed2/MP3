@@ -3,6 +3,7 @@ package membership;
 import communication.Messages;
 import communication.Messages.ProcessIdentifier;
 import misc.TimeMachine;
+import org.apache.log4j.Logger;
 
 import javax.rmi.CORBA.Tie;
 import java.util.Iterator;
@@ -13,6 +14,8 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     private LinkedList<ProcessIdentifier> list;
     private LinkedList<ProcState> stateList;
     private LinkedList<Long> timeList;
+
+    private static Logger logger = Logger.getLogger(MemberList.class);
 
     public MemberList() {
         list = new LinkedList<ProcessIdentifier>();
@@ -26,6 +29,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
             if(pos != -1) {
                 list.remove(pos);
                 stateList.remove(pos);
+                timeList.remove(pos);
                 return pos;
             } else {
                 return -1;
@@ -111,6 +115,30 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
             list.set(pos, identifier);
             timeList.set(pos, TimeMachine.getTime());
+        }
+    }
+
+    public void setAsToBeDeleted(ProcessIdentifier identifier) {
+        synchronized (this) {
+            Integer pos = find(identifier);
+            if(pos == -1){
+                logger.error("Wrong identifier to set as TBD: " + identifier.getId());
+                return;
+            }
+
+            stateList.set(pos, ProcState.toBeDeleted);
+        }
+    }
+
+    public void setAsAvailable(ProcessIdentifier identifier) {
+        synchronized (this) {
+            Integer pos = find(identifier);
+            if(pos == -1) {
+                logger.error("Wrong identifier to set as Available: " + identifier.getId());
+                return;
+            }
+
+            stateList.set(pos, ProcState.available);
         }
     }
 }

@@ -10,9 +10,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
 
-import static communication.Messages.JoinMessage;
-import static communication.Messages.Message;
-import static communication.Messages.ProcessIdentifier;
+import static communication.Messages.*;
 
 public class TCPConnection {
     private Logger logger = Logger.getLogger(TCPConnection.class);
@@ -80,6 +78,7 @@ public class TCPConnection {
 
     public void sendData(byte[] bytes) {
         try {
+            proc.increaseAndGetTimeStamp();
             os.write(bytes);
         } catch (IOException e) {
             logger.error("Sending TCP packets error" + e);
@@ -103,7 +102,19 @@ public class TCPConnection {
 
                 proc.addProcToMemberList(joinedMachine);
                 break;
-            
+
+            case SendTo:
+                SendToMessage sendToMessage = m.getSendToMessage();
+                ProcessIdentifier sendToMachine = sendToMessage.getSendToMachine();
+                proc.getFailureDetector().setSendToMachine(sendToMachine);
+                break;
+
+            case ListenFrom:
+                ListenFromMessage listenFromMessage = m.getListenFrom();
+                ProcessIdentifier listenFromMachine = listenFromMessage.getListenFromMachine();
+                proc.getFailureDetector().setListenFromMachine(listenFromMachine);
+                break;
+
             default:
                 break;
         }
@@ -120,17 +131,35 @@ public class TCPConnection {
         clientConnectToLast.setProc(proc);
         if(clientConnectToLast.connect()) {
             message = MessagesFactory.generateSendToMessage(joinedMachine);
-            clientConnectToLast.sendData(message.toByteArray());
+            clientConnectToLast.sendData(message);
             clientConnectToLast.close();
         } else {
             return false;
         }
 
-        TCPClient clientConnectToFirst = new TCPClient(joinedMachine.getIP()+":"+joinedMachine.getPort());
+        TCPClient clientConnectToJoinedMachine = new TCPClient(joinedMachine.getIP()+":"+joinedMachine.getPort());
+        clientConnectToJoinedMachine.setProc(proc);
+        if(clientConnectToJoinedMachine.connect()) {
+            message = MessagesFactory.generateSendToMessage(first);
+            clientConnectToJoinedMachine.sendData(message);
+            clientConnectToJoinedMachine.close();
+        } else {
+            return false;
+        }
+
+        if(clientConnectToJoinedMachine.connect()) {
+            message = MessagesFactory.generateListenFromMessage(last);
+            clientConnectToJoinedMachine.sendData(message);
+            clientConnectToJoinedMachine.close();
+        } else {
+            return false;
+        }
+
+        TCPClient clientConnectToFirst = new TCPClient(first.getIP()+":"+first.getPort());
         clientConnectToFirst.setProc(proc);
         if(clientConnectToFirst.connect()) {
-            message = MessagesFactory.generateSendToMessage(first);
-            clientConnectToFirst.sendData(message.toByteArray());
+            message = MessagesFactory.generateListenFromMessage(joinedMachine);
+            clientConnectToFirst.sendData(message);
             clientConnectToFirst.close();
         } else {
             return false;
