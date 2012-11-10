@@ -5,6 +5,7 @@ import communication.Gossip;
 import communication.ProcessIdentifierFactory;
 import communication.TCPServer;
 import communication.UDPServer;
+import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
 import java.net.InetAddress;
@@ -24,6 +25,7 @@ public class Proc {
     private Boolean isUDPServerStarted;
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
+    private Integer localTime;
     private String id;
     private ProcessIdentifier identifier;
     private MemberList memberList;
@@ -63,6 +65,9 @@ public class Proc {
 
         //init gossip
         initGossip();
+
+        //init timeMachine
+        TimeMachine.init();
     }
 
     private void initGossip() {

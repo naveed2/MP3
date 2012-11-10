@@ -6,6 +6,7 @@ import communication.MessagesFactory;
 import communication.TCPClient;
 import membership.Proc;
 import misc.MiscTool;
+import misc.TimeMachine;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.swing.text.Utilities;
@@ -88,17 +89,22 @@ public class MainEntry {
     }
 
     private static void showMemberList() {
+        int pos = 0;
         for(Messages.ProcessIdentifier identifier : proc.getMemberList()) {
             Integer timeStamp;
             String address;
+            Long localTime;
             if(identifier.getId().equals(proc.getId())) {
                 timeStamp = proc.getTimeStamp();
                 address = "localhost:" + proc.getTcpPort();
+                localTime = TimeMachine.getTime();
             } else {
                 timeStamp = identifier.getTimestamp();
                 address = identifier.getIP() + ":" +identifier.getPort();
+                localTime =  proc.getMemberList().getTime(pos);
             }
-            System.out.println(identifier.getId() + '\t' + address + '\t' + timeStamp);
+            System.out.println(identifier.getId() + '\t' + address + '\t' + timeStamp + '\t' + localTime);
+            ++pos;
         }
     }
 

@@ -2,6 +2,7 @@ package membership;
 
 import communication.Messages;
 import communication.Messages.ProcessIdentifier;
+import misc.TimeMachine;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -10,10 +11,12 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
     private LinkedList<ProcessIdentifier> list;
     private LinkedList<ProcState> stateList;
+    private LinkedList<Long> timeList;
 
     public MemberList() {
         list = new LinkedList<ProcessIdentifier>();
         stateList = new LinkedList<ProcState>();
+        timeList = new LinkedList<Long>();
     }
 
     void remove(ProcessIdentifier processIdentifier){
@@ -25,6 +28,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     void add(ProcessIdentifier processIdentifier){
         list.add(processIdentifier);
         stateList.add(ProcState.available);
+        timeList.add(TimeMachine.getTime());
     }
 
     public LinkedList<ProcessIdentifier> getList(){
@@ -37,6 +41,10 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
     public ProcState getState(Integer pos) {
         return stateList.get(pos);
+    }
+
+    public Long getTime(Integer pos) {
+        return timeList.get(pos);
     }
 
     public ProcessIdentifier getNextProcessIdentifier(Integer i){
