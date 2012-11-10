@@ -20,11 +20,16 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         timeList = new LinkedList<Long>();
     }
 
-    void remove(ProcessIdentifier processIdentifier){
+    public Integer remove(ProcessIdentifier processIdentifier){
         synchronized (this) {
             int pos = find(processIdentifier);
-            list.remove(pos);
-            stateList.remove(pos);
+            if(pos != -1) {
+                list.remove(pos);
+                stateList.remove(pos);
+                return pos;
+            } else {
+                return -1;
+            }
         }
     }
 
