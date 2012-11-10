@@ -28,8 +28,14 @@ public class FileList {
         return this;
     }
 
-    public FileIdentifier getFileEntry(Integer i){
-        return this.fileList.get(i);
+    public FileIdentifier getFileLocation(String filename){
+        for( FileIdentifier f : this.fileList)
+            if(f.getFilepath() == filename)
+                return f;
+            else
+                System.out.println("File not present in the system.");
+
+        return null;
     }
 
     public Integer length(){

@@ -19,6 +19,9 @@ enum MessageType{
     SyncProcesses = 3;
     SyncFiles = 4;
     SendTo = 5;
+    getFile = 6;
+    putFile = 7;
+    deleteFile = 8;
 }
 
 message HeartBeatMessage {
@@ -51,6 +54,22 @@ message SendToMessage {
     required ProcessIdentifier sendToMachine = 1;
 }
 
+message GetFileMessage{
+    required string filepath = 1;
+    optional ProcessIdentifier requestingProcess = 2;
+}
+
+message PutFileMessage{
+    required string filepath = 1;
+    required string filecontents = 2;
+    optional ProcessIdentifier storingProcess = 3;
+}
+
+message DeleteFileMessage{
+    required string filepath = 1;
+    optional ProcessIdentifier deletingProcess = 2;
+}
+
 message Message{
     required MessageType type = 1;
     optional JoinMessage joinMessage = 2;
@@ -60,6 +79,9 @@ message Message{
     optional SyncFilesListMessage syncFilesMessage = 6;
     optional HeartBeatMessage heartBeatMessage = 7;
     optional SendToMessage sendToMessage = 8;
+    optional GetFileMessage getFileMessage = 9;
+    optional PutFileMessage putFileMessage = 10;
+    optional DeleteFileMessage deleteFileMessage = 11;
 }
 
 
