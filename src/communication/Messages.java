@@ -5442,7 +5442,7 @@ public final class Messages {
     boolean hasFilepath();
     String getFilepath();
     
-    // optional .communication.ProcessIdentifier storingProcess = 3;
+    // optional .communication.ProcessIdentifier storingProcess = 2;
     boolean hasStoringProcess();
     communication.Messages.ProcessIdentifier getStoringProcess();
     communication.Messages.ProcessIdentifierOrBuilder getStoringProcessOrBuilder();
@@ -5508,8 +5508,8 @@ public final class Messages {
       }
     }
     
-    // optional .communication.ProcessIdentifier storingProcess = 3;
-    public static final int STORINGPROCESS_FIELD_NUMBER = 3;
+    // optional .communication.ProcessIdentifier storingProcess = 2;
+    public static final int STORINGPROCESS_FIELD_NUMBER = 2;
     private communication.Messages.ProcessIdentifier storingProcess_;
     public boolean hasStoringProcess() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
@@ -5551,7 +5551,7 @@ public final class Messages {
         output.writeBytes(1, getFilepathBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(3, storingProcess_);
+        output.writeMessage(2, storingProcess_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5568,7 +5568,7 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, storingProcess_);
+          .computeMessageSize(2, storingProcess_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5821,7 +5821,7 @@ public final class Messages {
               filepath_ = input.readBytes();
               break;
             }
-            case 26: {
+            case 18: {
               communication.Messages.ProcessIdentifier.Builder subBuilder = communication.Messages.ProcessIdentifier.newBuilder();
               if (hasStoringProcess()) {
                 subBuilder.mergeFrom(getStoringProcess());
@@ -5872,7 +5872,7 @@ public final class Messages {
         onChanged();
       }
       
-      // optional .communication.ProcessIdentifier storingProcess = 3;
+      // optional .communication.ProcessIdentifier storingProcess = 2;
       private communication.Messages.ProcessIdentifier storingProcess_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           communication.Messages.ProcessIdentifier, communication.Messages.ProcessIdentifier.Builder, communication.Messages.ProcessIdentifierOrBuilder> storingProcessBuilder_;
@@ -9115,7 +9115,7 @@ public final class Messages {
       "h\030\001 \002(\t\022;\n\021requestingProcess\030\002 \001(\0132 .com" +
       "munication.ProcessIdentifier\"\\\n\016PutFileM" +
       "essage\022\020\n\010filepath\030\001 \002(\t\0228\n\016storingProce" +
-      "ss\030\003 \001(\0132 .communication.ProcessIdentifi" +
+      "ss\030\002 \001(\0132 .communication.ProcessIdentifi" +
       "er\"`\n\021DeleteFileMessage\022\020\n\010filepath\030\001 \002(" +
       "\t\0229\n\017deletingProcess\030\002 \001(\0132 .communicati" +
       "on.ProcessIdentifier\"P\n\021ListenFromMessag" +

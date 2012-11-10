@@ -85,17 +85,19 @@ public class MessagesFactory {
                 .setGetFileMessage(getFileMessage).build();
     }
 
-    public static Message generatePutFileMessage(String SDFSfilepath, File fileContents){
+    public static Message generatePutFileMessage(String SDFSfilepath, ProcessIdentifier storingProcess){
         PutFileMessage putFileMessage = PutFileMessage.newBuilder()
-                .setFilepath(SDFSfilepath).build();
+                .setFilepath(SDFSfilepath)
+                .setStoringProcess(storingProcess).build();
 
         return Message.newBuilder()
                 .setType(MessageType.putFile).setPutFileMessage(putFileMessage).build();
     }
 
-    public static Message generateDeletedFileMessage(String SDFSfilepath){
+    public static Message generateDeletedFileMessage(String SDFSfilepath, ProcessIdentifier deletingProcess){
         DeleteFileMessage deleteFileMessage = DeleteFileMessage.newBuilder()
-                .setFilepath(SDFSfilepath).build();
+                .setFilepath(SDFSfilepath)
+                .setDeletingProcess(deletingProcess).build();
 
         return Message.newBuilder()
                 .setType(MessageType.deleteFile).setDeleteFileMessage(deleteFileMessage).build();

@@ -62,7 +62,7 @@ message GetFileMessage{
 
 message PutFileMessage{
     required string filepath = 1;
-    optional ProcessIdentifier storingProcess = 3;
+    optional ProcessIdentifier storingProcess = 2;
 }
 
 message DeleteFileMessage{

@@ -115,6 +115,9 @@ public class TCPConnection {
 //                proc.getFailureDetector().setListenFromMachine(listenFromMachine);
                 break;
 
+
+            //TODO add code for handling get, put and delete messages
+
             default:
                 break;
         }
