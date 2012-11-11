@@ -96,7 +96,7 @@ public class MainEntry {
             Long localTime;
             ProcState procState;
 
-            if(identifier.getId().equals(proc.getId())) {
+            if(isMySelf(identifier)) {
                 timeStamp = proc.getTimeStamp();
                 address = "127.0.0.1:" + proc.getTcpPort();
                 localTime = TimeMachine.getTime();
@@ -117,7 +117,7 @@ public class MainEntry {
         for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
             String address;
             ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
-            if(identifier.getId().equals(proc.getId())) {
+            if(isMySelf(identifier)) {
                 address = "127.0.0.1:" + proc.getTcpPort();
             } else {
                 address = identifier.getIP()+":"+identifier.getPort();
@@ -129,6 +129,10 @@ public class MainEntry {
     private static void putFile() {
         String fileName = MiscTool.inputFileName(in);
         proc.getSDFS().addFileLocally(fileName);
+    }
+
+    private static boolean isMySelf(ProcessIdentifier identifier) {
+        return identifier.getId().equals(proc.getId());
     }
 
     private static String inputCommand() {
