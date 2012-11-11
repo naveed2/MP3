@@ -86,6 +86,8 @@ public class Proc {
 
         initSDFS();
 
+        initReplicaManger();
+
         //init timeMachine
         TimeMachine.init();
     }

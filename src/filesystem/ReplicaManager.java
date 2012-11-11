@@ -70,11 +70,12 @@ public class ReplicaManager {
         Random rand = new Random();
         MemberList memberList = proc.getMemberList();
         ProcessIdentifier[] replicateTo = new ProcessIdentifier[requiredReplicas];
-        for(int i = 0; i < requiredReplicas; i++){
+        for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
             if(!exists(randomProcess, replicateTo)){
                 replicateTo[i] = selectRandomProcess();
                 new FileOperations().sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
+                i++;
             }
         }
     }
