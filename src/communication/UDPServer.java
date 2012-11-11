@@ -134,4 +134,8 @@ public class UDPServer {
     public void setProc(Proc proc) {
         this.proc = proc;
     }
+
+    public void stop() {
+        shouldStop.set(true);
+    }
 }

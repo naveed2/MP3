@@ -1,6 +1,7 @@
 package misc;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import communication.Messages;
 import org.apache.log4j.Logger;
 
@@ -31,6 +32,12 @@ public class MiscTool {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String inputFileName(Scanner in) {
+        System.out.print("Input the filename: ");
+        return in.next();
+
     }
 
     public static Integer inputPortNumber(Scanner in) {

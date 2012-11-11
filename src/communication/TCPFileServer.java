@@ -99,5 +99,9 @@ public class TCPFileServer {
 
     }
 
+    public void stop() {
+        shouldStop.set(true);
+    }
+
 
 }

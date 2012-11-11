@@ -115,6 +115,11 @@ public class MainEntry {
         }
     }
 
+    private static void putFile() {
+        String fileName = MiscTool.inputFileName(in);
+
+    }
+
     private static String inputCommand() {
         System.out.print(">");
         return in.nextLine();

@@ -87,6 +87,14 @@ public class Proc {
         TimeMachine.init();
     }
 
+    public void stop() {
+        tcpServer.stop();
+        udpServer.stop();
+        fileServer.stop();
+        gossip.stop();
+        scanningThread.stop();
+    }
+
     private void initGossip() {
         gossip = new Gossip();
         gossip.setProc(this);

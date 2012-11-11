@@ -20,6 +20,9 @@ public class CommandMap {
     private static final String CMD_SHOW = "show";
     private static final String FUNC_SHOW = "showMemberList";
 
+    private static final String CMD_PUT = "put";
+    private static final String FUNC_PUT = "putFile";
+
     private static final String CMD_HELP = "help";
     private static final String FUNC_HELP = "printHelp";
 
@@ -42,6 +45,7 @@ public class CommandMap {
         stringToFuncName.put(CMD_INIT, FUNC_INIT);
         stringToFuncName.put(CMD_JOIN, FUNC_JOIN);
         stringToFuncName.put(CMD_SHOW, FUNC_SHOW);
+        stringToFuncName.put(CMD_PUT, FUNC_PUT);
         stringToFuncName.put(CMD_HELP, FUNC_HELP);
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
 
