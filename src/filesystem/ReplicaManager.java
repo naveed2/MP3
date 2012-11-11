@@ -12,21 +12,15 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import membership.MemberList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: naveed
- * Date: 11/10/12
- * Time: 7:13 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ReplicaManager {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
     private Integer replicaCount;
+    private static final Integer SCAN_INTERVAL = 2000;
 
     public ReplicaManager(){
-        shouldStop.set(false);
+        shouldStop = new AtomicBoolean(false);
         setReplicaCount(2);    //TODO High level class should handle this
     }
 
@@ -35,6 +29,11 @@ public class ReplicaManager {
             @Override
             public void run() {
                 while(!shouldStop.get()){
+                    try {
+                        Thread.sleep(SCAN_INTERVAL);
+                    } catch(InterruptedException e) {
+                        //
+                    }
                     scanFileList();
                 }
             }
