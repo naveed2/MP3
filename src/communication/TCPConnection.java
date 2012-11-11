@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.Arrays;
 
 import static communication.Messages.*;
+import communication.MessagesFactory;
 
 public class TCPConnection {
     private Logger logger = Logger.getLogger(TCPConnection.class);
@@ -146,13 +147,62 @@ public class TCPConnection {
 //                proc.getFailureDetector().setListenFromMachine(listenFromMachine);
                 break;
 
+            case getFile:
+                GetFileMessage getFileMessage = m.getGetFileMessage();
+                preparetoSend(proc.getIdentifier(), getFileMessage.getFilepath());
+                break;
 
-            //TODO add code for handling get, put and delete messages
+            case putFile:
+                PutFileMessage putFileMessage = m.getPutFileMessage();
+                preparetoGet(putFileMessage.getStoringProcess(), putFileMessage.getFilepath());
+                break;
+
+
+            case deleteFile:
+                DeleteFileMessage deleteFileMessage = m.getDeleteFileMessage();
+                if (deleteFile(deleteFileMessage.getFilepath())) {
+                    System.out.println("File Successfully deleted.");
+                } else {
+                    System.out.println("File NOT deleted, please try again");
+                }
+                break;
+
+
+                //TODO add code for handling get, put and delete messages
 
             default:
                 break;
+            case Heartbeat:
+                break;
+            case Fail:
+                break;
+            case SyncProcesses:
+                break;
+            case SyncFiles:
+                break;
+            case readytoPut:
+                break;
+            case readytoGet:
+                break;
         }
     }
+
+    private void preparetoGet(ProcessIdentifier storingProcess, String SDFSfilepath){
+        this.proc.getFileServer().prepareToGet(storingProcess, SDFSfilepath);
+    }
+
+    private void preparetoSend(ProcessIdentifier storingProcess, String SDFSfilepath){
+        this.proc.getFileServer().prepareToSend(storingProcess, SDFSfilepath);
+    }
+
+
+    private boolean deleteFile(String SDFSfilepath){
+        File file = new File(SDFSfilepath);
+        //TODO delete file from the filelist, when filelist is implemented
+        return file.delete();
+    }
+
+
 
     private boolean reconstructHeartBeatRing(ProcessIdentifier joinedMachine) {
         Messages.ProcessIdentifier first = proc.getMemberList().getFirst();

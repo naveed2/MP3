@@ -103,6 +103,25 @@ public class MessagesFactory {
                 .setType(MessageType.deleteFile).setDeleteFileMessage(deleteFileMessage).build();
     }
 
+    public static Message generateReadytoPutFileMessage(String SDFSfilepath, ProcessIdentifier storingProcess){
+        ReadytoPutFileMessage readytoPutFileMessage = ReadytoPutFileMessage.newBuilder()
+                .setFilepath(SDFSfilepath)
+                .setStoringProcess(storingProcess).build();
+
+        return Message.newBuilder()
+                .setType(MessageType.readytoPut).setReadytoPutFileMessage(readytoPutFileMessage).build();
+    }
+
+    public static Message generateReadytoGetFileMessage(String SDFSfilename, ProcessIdentifier storingProcess){
+        ReadytoGetFileMessage readytoGetFileMessage = ReadytoGetFileMessage.newBuilder()
+                .setFilepath(SDFSfilename)
+                .setStoringProcess(storingProcess).build();
+
+        return Message.newBuilder()
+                .setType(MessageType.readytoGet)
+                .setReadytoGetFileMessage(readytoGetFileMessage).build();
+    }
+
 
 
 
