@@ -36,11 +36,13 @@ public class FileList implements Iterable<FileIdentifier> {
     }
 
     public FileIdentifier getFileLocation(String filename){
-        for( FileIdentifier f : this.fileList)
-            if(f.getFilepath() == filename)
+        for( FileIdentifier f : this.fileList) {
+            System.out.println(f.getFilepath());
+            if(f.getFilepath().equals(filename))
                 return f;
             else
                 System.out.println("File not present in the system.");
+        }
 
         return null;
     }

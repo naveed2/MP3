@@ -98,9 +98,9 @@ public class MessagesFactory {
                 .setType(MessageType.ListenFrom).setListenFrom(listenFromMessage).build();
     }
 
-    public static Message generateGetFileMessage(String SDFSfilepath){
+    public static Message generateGetFileMessage(String SDFSfilepath, ProcessIdentifier requestingProcess){
         GetFileMessage getFileMessage = GetFileMessage.newBuilder()
-                .setFilepath(SDFSfilepath).build();
+                .setFilepath(SDFSfilepath).setRequestingProcess(requestingProcess).build();
         return Message.newBuilder().setType(MessageType.getFile)
                 .setGetFileMessage(getFileMessage).build();
     }

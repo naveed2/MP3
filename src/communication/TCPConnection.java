@@ -141,9 +141,9 @@ public class TCPConnection {
 
         try {
             os =socket.getOutputStream();
-            int nextByte;
-            while((nextByte = fis.read()) != -1) {
-                os.write(nextByte);
+            byte[] buffer = new byte[1024];
+            while((fis.read(buffer, 0, 1024)) != -1) {
+                os.write(buffer);
             }
             fis.close();
 
@@ -308,6 +308,7 @@ public class TCPConnection {
 
     private void sendReadyToGetMessage(String SDFSFilepath, String processRequestingFile_IP, int processRequestingFile_port){
         String address = processRequestingFile_IP + ":" + Integer.toString(processRequestingFile_port);
+        System.out.println(address);
         TCPClient tcpClient = new TCPClient(address);
         tcpClient.setProc(proc);
         if(tcpClient.connect()){

@@ -73,6 +73,9 @@ public class Proc {
 
 
     public void init() {
+        //init timeMachine
+        TimeMachine.init();
+
         initIdentifier();
         addProcToMemberList(identifier);
 
@@ -94,8 +97,6 @@ public class Proc {
 
         initReplicaManger();
 
-        //init timeMachine
-        TimeMachine.init();
     }
 
     public void stop() {

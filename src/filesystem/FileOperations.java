@@ -72,7 +72,7 @@ public class FileOperations {
         TCPClient tcpClient = new TCPClient(address);
         tcpClient.setProc(proc);
         if(tcpClient.connect()){
-            Message m = MessagesFactory.generateGetFileMessage(SDFSFilename);
+            Message m = MessagesFactory.generateGetFileMessage(SDFSFilename, proc.getIdentifier());
             tcpClient.sendData(m);
             tcpClient.close();
         }
