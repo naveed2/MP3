@@ -2,6 +2,7 @@ package membership;
 
 
 import communication.*;
+import filesystem.SDFS;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
@@ -26,8 +27,10 @@ public class Proc {
 
     private Gossip gossip;
     private FailureDetector failureDetector;
-
     private ScanningThread scanningThread;
+
+    private SDFS SDFileSystem;
+
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
     private Integer localTime;
@@ -77,6 +80,8 @@ public class Proc {
         //init failure detector
 //        initFailureDetector();
         initMemberListScanningThread();
+
+        initSDFS();
 
         //init timeMachine
         TimeMachine.init();
@@ -141,6 +146,12 @@ public class Proc {
         }
     }
 
+    private void initSDFS() {
+        SDFileSystem = new SDFS();
+        SDFileSystem.init();
+        SDFileSystem.setProc(this);
+    }
+
     public ProcessIdentifier getIdentifier() {
         return ProcessIdentifierFactory.generateProcessIdentifier(id, hostAddress, tcpPort, timeStamp);
     }
@@ -186,4 +197,7 @@ public class Proc {
         return fileServer;
     }
 
+    public SDFS getSDFS() {
+        return SDFileSystem;
+    }
 }

@@ -1,12 +1,12 @@
 package communication;
 
+import filesystem.SDFS;
 import membership.Proc;
 import misc.MiscTool;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Arrays;
 
@@ -74,6 +74,37 @@ public class TCPConnection {
                 //ignore it
             }
         }
+    }
+
+    public void readAndWriteToFile(String fileName) {
+        String str;
+        File file;
+        SDFS sdfs = proc.getSDFS();
+        file = sdfs.openFile(fileName);
+        DataOutputStream dos;
+
+        try {
+            dos = new DataOutputStream(new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            logger.error("writing to file error " + e);
+            return;
+        }
+
+        try {
+            is = socket.getInputStream();
+            int nextByte;
+            while((nextByte = is.read())!= -1) {
+                dos.writeByte(nextByte);
+            }
+            dos.close();
+        } catch (IOException e) {
+            if(e.getMessage().equals("socket close")) {
+                //
+            } else {
+                logger.error("Read messages error", e);
+            }
+        }
+
     }
 
     public void sendData(byte[] bytes) {
@@ -187,4 +218,9 @@ public class TCPConnection {
                 joinedMachine.getId(), ip, joinedMachine.getPort(), joinedMachine.getTimestamp());
     }
 
+    public String getRemoteAddress() {
+        InetAddress inetAddress = socket.getInetAddress();
+        Integer port = socket.getPort();
+        return inetAddress.getHostAddress() + ":" + port;
+    }
 }

@@ -11,15 +11,17 @@ public class FileMission {
     }
 
     private MissionType missionType;
-    private FileIdentifier fileIdentifier;
+    private String fileName;
+    private ProcessIdentifier identifier;
     private File file;
 
     public FileMission(MissionType missionType) {
         this.missionType = missionType;
     }
 
-    private void init(FileIdentifier fileIdentifier) {
-        this.fileIdentifier = fileIdentifier;
+    private void init(String fileName, ProcessIdentifier identifier) {
+        this.fileName = fileName;
+        this.identifier = identifier;
         if(missionType == MissionType.send) {
             file = null;    //TODO: get file
         } else {
@@ -29,5 +31,25 @@ public class FileMission {
 
     public File getFile() {
         return file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public MissionType getMissionType() {
+        return missionType;
+    }
+
+    public boolean isSendMission() {
+        return missionType == MissionType.send;
+    }
+
+    public boolean isGetMission() {
+        return missionType == MissionType.get;
+    }
+
+    public ProcessIdentifier getIdentifier() {
+        return identifier;
     }
 }

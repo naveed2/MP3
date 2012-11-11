@@ -21,14 +21,14 @@ public class TCPFileServer {
     private ServerSocket serverSocket;
     private Proc proc;
     private AtomicBoolean shouldStop;
-    private Map<UUID, FileMission> missions;
+    private Map<String, FileMission> missions;
 
     private static Logger logger = Logger.getLogger(TCPFileServer.class);
 
     public TCPFileServer (Integer fileServerPort){
         this.fileServerPort = fileServerPort;
         shouldStop = new AtomicBoolean(false);
-        missions = new HashMap<UUID, FileMission>();
+        missions = new HashMap<String, FileMission>();
     }
 
     public void setProc(Proc proc) {
@@ -67,14 +67,6 @@ public class TCPFileServer {
         }
     }
 
-    public void prepareToSend(ProcessIdentifier identifier, FileIdentifier fileIdentifier) {
-
-    }
-
-    public void prepareToGet(ProcessIdentifier identifier, FileIdentifier fileIdentifier) {
-
-    }
-
     public void prepareToSend(ProcessIdentifier identifier, String fileName) {
 
     }
@@ -83,7 +75,27 @@ public class TCPFileServer {
 
     }
 
-    private void handleConnection(TCPConnection conn) {
+    private void handleConnection(final TCPConnection conn) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String add = conn.getRemoteAddress();
+                FileMission mission = missions.get(add);
+
+                if(mission.isGetMission()) {
+                    sendFile(mission, conn);
+                } else {    //send mission
+                    getFile(mission, conn);
+                }
+            }
+        }).start();
+    }
+
+    private void sendFile(FileMission mission, TCPConnection conn) {
+        conn.readAndWriteToFile(mission.getFileName());
+    }
+
+    private void getFile(FileMission mission, TCPConnection conn) {
 
     }
 
