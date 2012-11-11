@@ -1,29 +1,28 @@
 package membership;
 
-import communication.Messages;
 import communication.Messages.ProcessIdentifier;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
-import javax.rmi.CORBA.Tie;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class MemberList implements Iterable<ProcessIdentifier>{
 
     private LinkedList<ProcessIdentifier> list;
-    private LinkedList<ProcState> stateList;
-    private LinkedList<Long> timeList;
+    private Map<String, ProcState> stateMap;
+    private Map<String, Long> timeMap;
 
     private static final Integer MAX_TIME_DIFFERENCE = 100;
     private static final Integer MIN_TIME_DIFFERENCE = 50;
 
     private static Logger logger = Logger.getLogger(MemberList.class);
 
+    private Proc proc;
+
     public MemberList() {
         list = new LinkedList<ProcessIdentifier>();
-        stateList = new LinkedList<ProcState>();
-        timeList = new LinkedList<Long>();
+        stateMap = new HashMap<String, ProcState>();
+        timeMap = new HashMap<String, Long>();
     }
 
     public Integer remove(ProcessIdentifier processIdentifier){
@@ -31,8 +30,8 @@ public class MemberList implements Iterable<ProcessIdentifier>{
             int pos = find(processIdentifier);
             if(pos != -1) {
                 list.remove(pos);
-                stateList.remove(pos);
-                timeList.remove(pos);
+                stateMap.remove(processIdentifier.getId());
+                timeMap.remove(processIdentifier.getId());
                 return pos;
             } else {
                 return -1;
@@ -49,8 +48,8 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     public void add(ProcessIdentifier processIdentifier, Long time) {
         synchronized (this) {
             list.add(processIdentifier);
-            stateList.add(ProcState.available);
-            timeList.add(time);
+            stateMap.put(processIdentifier.getId(), ProcState.available);
+            timeMap.put(processIdentifier.getId(), time);
         }
     }
 
@@ -68,18 +67,6 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         }
     }
 
-    public void set(Integer pos, Long time) {
-        synchronized (this) {
-            timeList.set(pos ,time);
-        }
-    }
-
-    public void set(Integer pos, ProcState procState) {
-        synchronized (this) {
-            stateList.set(pos ,procState);
-        }
-    }
-
     public ProcessIdentifier getFirst() {
         return list.getFirst();
     }
@@ -88,19 +75,12 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         return list.getLast();
     }
 
-    public ProcState getState(Integer pos) {
-        return stateList.get(pos);
-    }
-
-    public Long getTime(Integer pos) {
-        return timeList.get(pos);
+    public ProcState getState(ProcessIdentifier identifier) {
+        return stateMap.get(identifier.getId());
     }
 
     public Long getTime(ProcessIdentifier identifier) {
-        Integer pos = find(identifier);
-        if(pos == -1)
-            return (long) -1;
-        return timeList.get(pos);
+        return timeMap.get(identifier.getId());
     }
 
     public ProcessIdentifier getNextProcessIdentifier(Integer i){
@@ -144,45 +124,46 @@ public class MemberList implements Iterable<ProcessIdentifier>{
     public void updateProcessIdentifier(ProcessIdentifier identifier) {
         synchronized(this) {
             Integer pos = find(identifier);
-            if(pos == -1) { //add new entry to memberList
+            if(!timeMap.containsKey(identifier.getId())) { //add new entry to memberList
                 add(identifier);
                 return;
             }
 
             list.set(pos, identifier);
-            timeList.set(pos, TimeMachine.getTime());
+            timeMap.put(identifier.getId(), TimeMachine.getTime());
         }
     }
 
     public void setAsToBeDeleted(ProcessIdentifier identifier) {
         synchronized (this) {
             Integer pos = find(identifier);
-            if(pos == -1){
+            if(!stateMap.containsKey(identifier.getId())){
                 logger.error("Wrong identifier to set as TBD: " + identifier.getId());
                 return;
             }
 
-            stateList.set(pos, ProcState.toBeDeleted);
+            stateMap.put(identifier.getId(), ProcState.toBeDeleted);
         }
     }
 
     public void setAsAvailable(ProcessIdentifier identifier) {
         synchronized (this) {
-            Integer pos = find(identifier);
-            if(pos == -1) {
+            if(!stateMap.containsKey(identifier.getId())) {
                 logger.error("Wrong identifier to set as Available: " + identifier.getId());
                 return;
             }
 
-            stateList.set(pos, ProcState.available);
+            stateMap.put(identifier.getId(), ProcState.available);
         }
     }
 
     public void updateMemberList() {
         synchronized (this) {
             for(ProcessIdentifier identifier : list) {
-                Integer pos = list.indexOf(identifier);
-                Long diff = TimeMachine.getTime() - timeList.get(pos);
+                if(identifier.getId().equals(proc.getId())) {   //don't update itself
+                    continue;
+                }
+                Long diff = TimeMachine.getTime() - timeMap.get(identifier.getId());
                 if(diff > MAX_TIME_DIFFERENCE) {
                     remove(identifier);
                     break;
@@ -191,5 +172,9 @@ public class MemberList implements Iterable<ProcessIdentifier>{
                 }
             }
         }
+    }
+
+    public void setProc(Proc proc) {
+        this.proc = proc;
     }
 }

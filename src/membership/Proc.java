@@ -51,6 +51,7 @@ public class Proc {
         this.udpPort = tcpPort + 1; // UDPPort is always set to TCPPort+1
         this.fileServerPort = tcpPort + 2;
         memberList = new MemberList();
+        memberList.setProc(this);
 
         this.isTCPServerStarted = this.isUDPServerStarted = this.isFileServerStarted = false ;
     }
