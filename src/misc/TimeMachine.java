@@ -1,5 +1,7 @@
 package misc;
 
+import java.util.UUID;
+
 public class TimeMachine {
 
     private Long baseTime;
@@ -16,6 +18,12 @@ public class TimeMachine {
 
     public static Long getTime() {
         return (System.currentTimeMillis() - instance.baseTime) / 100;
+    }
+
+    public static void main(String[] args) {
+        String id = UUID.randomUUID().toString();
+        System.out.println(id);
+        System.out.println(id.length());
     }
 
 }

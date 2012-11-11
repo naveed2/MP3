@@ -77,6 +77,26 @@ public class TCPConnection {
         }
     }
 
+    public String readID() {
+        try {
+            is = socket.getInputStream();
+            byte[] bytes = new byte[36];    // 36 is then length of uuid string representation
+            Integer numberOfBytes = is.read(bytes, 0, 36);
+            if(numberOfBytes != 36) {
+                throw new IOException("input stream format error");
+            }
+
+            return new String(bytes);
+        } catch (IOException e) {
+            if(e.getMessage().equals("socket close")){
+                //
+            } else {
+                logger.error("Read id from inputstream error ", e);
+            }
+            return "wrong id";
+        }
+    }
+
     public void readAndWriteToFile(String fileName) {
         File file;
         SDFS sdfs = proc.getSDFS();
@@ -248,6 +268,7 @@ public class TCPConnection {
             TCPClient tcpClient = new TCPClient(address);
             tcpClient.setProc(proc);
             if(tcpClient.connect()){
+                tcpClient.sendData(proc.getId());
                 tcpClient.sendData(fileBytes);
                 tcpClient.close();
             }
@@ -266,6 +287,7 @@ public class TCPConnection {
         TCPClient tcpClient = new TCPClient(address);
         tcpClient.setProc(proc);
         if(tcpClient.connect()){
+            tcpClient.sendData(proc.getId());
             tcpClient.receiveAndSaveData(readyToGetFileMessage.getFilepath());
             tcpClient.close();
         }
@@ -374,9 +396,8 @@ public class TCPConnection {
                 joinedMachine.getId(), ip, joinedMachine.getPort(), joinedMachine.getTimestamp());
     }
 
-    public String getRemoteAddress() {
+    public String getRemoteIPAddress() {
         InetAddress inetAddress = socket.getInetAddress();
-        Integer port = socket.getPort();
-        return inetAddress.getHostAddress() + ":" + port;
+        return inetAddress.getHostAddress();
     }
 }
