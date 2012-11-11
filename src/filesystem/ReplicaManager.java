@@ -15,7 +15,7 @@ public class ReplicaManager {
     private Proc proc;
     private AtomicBoolean shouldStop;
 
-    private static final Integer SCAN_INTERVAL = 2000;
+    private static final Integer SCAN_INTERVAL = 5000;
     private static final Integer REPLICA_COUNT = 2;
 
     public ReplicaManager(){
@@ -45,10 +45,17 @@ public class ReplicaManager {
 
     private void scanFileList(){
         HashMap<String, Integer> replicaCounter = new HashMap<String, Integer>();
-        for(FileIdentifier f : getFileList()){
+        List<FileIdentifier> fileShouldBeReplicated = new LinkedList<FileIdentifier>();
+
+        for(FileIdentifier f: getFileList()) {
             if(!f.getFileStoringProcess().getId().equals(proc.getId())) {   //this file doesn't stored locally
                 continue;
             }
+            fileShouldBeReplicated.add(f);
+        }
+
+        for(FileIdentifier f : getFileList()){
+
             String key = f.getFilepath();
 
             if(!replicaCounter.containsKey(key)){
@@ -60,14 +67,14 @@ public class ReplicaManager {
             }
         }
 
-        for(Map.Entry<String, Integer> e : replicaCounter.entrySet()){
-            Integer replicaCount = e.getValue();
+        for(FileIdentifier f: fileShouldBeReplicated) {
+            Integer replicaCount = replicaCounter.get(f.getFilepath());
             Integer requiredReplicas = Math.min(REPLICA_COUNT, proc.getMemberList().size());
             requiredReplicas = requiredReplicas - replicaCount;
             if(requiredReplicas <=0 ) {
                 continue;
             }
-            createReplicas(requiredReplicas, e.getKey());
+            createReplicas(requiredReplicas, f.getFilepath());
         }
     }
 
