@@ -4,11 +4,15 @@ import communication.FileIdentifierFactory;
 import communication.Messages;
 import membership.Proc;
 import misc.MiscTool;
+import misc.TimeMachine;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import static communication.Messages.*;
 
@@ -16,11 +20,19 @@ public class SDFS {
 
     private Proc proc;
     private FileList fileList;
+
+    private Map<String, Integer> timeStamp;
+    private Map<String, Long> localTime;
+    private Map<String, FileState> state;
+
     private static Logger logger = Logger.getLogger(SDFS.class);
     private String rootDirectory;
 
     public SDFS() {
         fileList = new FileList();
+        timeStamp = new HashMap<String, Integer>();
+        localTime = new HashMap<String, Long>();
+        state = new HashMap<String, FileState>();
         rootDirectory = "sdfs/";
     }
 
@@ -59,7 +71,7 @@ public class SDFS {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
 
         copyFile(file, rootDirectory + fileName);
-        fileList.addFile(fileIdentifier);
+        addToFileList(fileIdentifier);
     }
 
     public void addFileLocally(File file) {
@@ -104,10 +116,21 @@ public class SDFS {
 
     public void addToFileList(FileIdentifier fileIdentifier) {
         fileList.addFile(fileIdentifier);
+        String key = generateKey(fileIdentifier);
+        timeStamp.put(key, 0);
+        localTime.put(key, TimeMachine.getTime());
+        state.put(key, FileState.Available);
+    }
+
+    private String generateKey(FileIdentifier identifier) {
+        return identifier.getFileStoringProcess().getIP()+":"+
+                identifier.getFileStoringProcess().getPort()+"\\" +
+                identifier.getFilepath();
     }
 
     public void addToFileList(String fileName) {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
+        addToFileList(fileIdentifier);
     }
 
     public static void main(String[] args) {
@@ -125,6 +148,20 @@ public class SDFS {
             String filename = MiscTool.inputFileName(in);
             sdfs.addFileLocally(filename);
         }
+    }
 
+    public Integer getFileTimeStamp(FileIdentifier fileIdentifier) {
+        String key = generateKey(fileIdentifier);
+        return timeStamp.get(key);
+    }
+
+    public Long getFileLocalTime(FileIdentifier fileIdentifier) {
+        String key = generateKey(fileIdentifier);
+        return localTime.get(key);
+    }
+
+    public boolean isAvailable(FileIdentifier fileIdentifier) {
+        String key = generateKey(fileIdentifier);
+        return state.containsKey(key) && state.get(key) == FileState.Available;
     }
 }

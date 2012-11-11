@@ -4,6 +4,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import communication.Messages;
 import communication.MessagesFactory;
 import communication.TCPClient;
+import filesystem.FileState;
+import filesystem.SDFS;
 import membership.Proc;
 import membership.ProcState;
 import misc.MiscTool;
@@ -115,14 +117,25 @@ public class MainEntry {
 
     private static void showFileList() {
         for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
-            String address;
             ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
+            if(!proc.getSDFS().isAvailable(fileIdentifier)) {
+                continue;
+            }
+
+            String address;
+            Integer timeStamp;
+            Long localTime;
+
             if(isMySelf(identifier)) {
                 address = "127.0.0.1:" + proc.getTcpPort();
+                timeStamp = 0;
+                localTime = TimeMachine.getTime();
             } else {
                 address = identifier.getIP()+":"+identifier.getPort();
+                timeStamp = proc.getSDFS().getFileTimeStamp(fileIdentifier);
+                localTime = proc.getSDFS().getFileLocalTime(fileIdentifier);
             }
-            System.out.println(fileIdentifier.getFilepath() + '\t' + address);
+            System.out.println(fileIdentifier.getFilepath() + '\t' + address + '\t' + timeStamp + '\t' + localTime);
         }
     }
 
