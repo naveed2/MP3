@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import communication.Messages;
 import communication.MessagesFactory;
 import communication.TCPClient;
+import filesystem.FileOperations;
 import filesystem.FileState;
 import filesystem.SDFS;
 import membership.Proc;
@@ -148,6 +149,12 @@ public class MainEntry {
     private static void deleteFile() {
         String fileName = MiscTool.inputFileName(in);
         proc.getSDFS().deleteFile(fileName);
+    }
+
+    private static void getFile(){
+//        String localFileName = MiscTool.inputFileName(in);
+        String remoteFileName = MiscTool.inputFileName(in);
+        proc.getSDFS().getRemoteFile(remoteFileName, remoteFileName);
     }
 
     private static boolean isMySelf(ProcessIdentifier identifier) {

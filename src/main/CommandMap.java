@@ -26,6 +26,9 @@ public class CommandMap {
     private static final String CMD_PUT = "put";
     private static final String FUNC_PUT = "putFile";
 
+    private static final String CMD_GET = "get";
+    private static final String FUNC_GET = "getFile";
+
     private static final String CMD_HELP = "help";
     private static final String FUNC_HELP = "printHelp";
 
@@ -56,6 +59,7 @@ public class CommandMap {
         stringToFuncName.put(CMD_HELP, FUNC_HELP);
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
         stringToFuncName.put(CMD_DEL, FUNC_DEL);
+        stringToFuncName.put(CMD_GET, FUNC_GET);
 
         return this;
     }

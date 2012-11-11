@@ -68,6 +68,10 @@ public class SDFS {
         return new File(rootDirectory + fileName);
     }
 
+    public void getRemoteFile(String localFileName, String SDFSFileName){
+        new FileOperations().get(localFileName, SDFSFileName, fileList);
+    }
+
     public File openFile(String fileName) {
         return new File(rootDirectory + fileName);
     }

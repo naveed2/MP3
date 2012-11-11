@@ -15,7 +15,7 @@ public class ReplicaManager {
     private Proc proc;
     private AtomicBoolean shouldStop;
 
-    private static final Integer SCAN_INTERVAL = 5000;
+    private static final Integer SCAN_INTERVAL = 10000;
     private static final Integer REPLICA_COUNT = 2;
 
     public ReplicaManager(){
