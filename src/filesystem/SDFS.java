@@ -25,4 +25,8 @@ public class SDFS {
     public void setProc(Proc proc) {
         this.proc = proc;
     }
+
+    public FileList getFileList() {
+        return fileList;
+    }
 }
