@@ -2,10 +2,11 @@ package filesystem;
 
 import communication.Messages;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import communication.Messages.FileIdentifier;
 
-public class FileList {
+public class FileList implements Iterable<FileIdentifier> {
 
     private LinkedList<FileIdentifier> fileList;
 
@@ -58,5 +59,11 @@ public class FileList {
         return f1.getFileStoringProcess().getId().equals(f2.getFileStoringProcess().getId())
                 && f1.getFilepath().equals(f2.getFilepath());
 
+    }
+
+    public Iterator<FileIdentifier> iterator() {
+        synchronized (this){
+            return fileList.iterator();
+        }
     }
 }

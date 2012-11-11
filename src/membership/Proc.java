@@ -2,6 +2,7 @@ package membership;
 
 
 import communication.*;
+import filesystem.ReplicaManager;
 import filesystem.SDFS;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
@@ -30,6 +31,8 @@ public class Proc {
     private ScanningThread scanningThread;
 
     private SDFS SDFileSystem;
+
+    private ReplicaManager replicaManager;
 
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
@@ -113,6 +116,12 @@ public class Proc {
         scanningThread = new ScanningThread();
         scanningThread.setProc(this);
         scanningThread.startScan();
+    }
+
+    private void initReplicaManger(){
+        replicaManager = new ReplicaManager();
+        replicaManager.setProc(this);
+        replicaManager.start();
     }
 
     public void initTCPServer() {
