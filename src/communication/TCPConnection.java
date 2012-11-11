@@ -262,9 +262,9 @@ public class TCPConnection {
             tcpClient.setProc(proc);
             if(tcpClient.connect()){
                 tcpClient.sendData(proc.getId());
-                int nextByte;
+                int numberOfBytes;
                 byte buffer[] = new byte[1024];
-                while((nextByte = in.read(buffer)) != -1){
+                while((numberOfBytes = in.read(buffer)) != -1){
                     tcpClient.sendData(buffer);
                 }
 
