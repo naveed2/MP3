@@ -137,6 +137,9 @@ public class SDFS {
     }
 
     public void addToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
+        if(fileList.find(fileIdentifier)!=-1){
+            return;
+        }
         fileList.addFile(fileIdentifier);
         String key = generateKey(fileIdentifier);
         timeStampMap.put(key, timeStamp);

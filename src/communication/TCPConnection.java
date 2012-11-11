@@ -288,6 +288,11 @@ public class TCPConnection {
             tcpClient.sendData(proc.getId());
             tcpClient.receiveAndSaveData(readyToGetFileMessage.getFilepath());
             tcpClient.close();
+
+            FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
+                    proc.getIdentifier(), readyToGetFileMessage.getFilepath());
+
+            proc.getSDFS().addToFileList(fileIdentifier, proc.getTimeStamp());
         }
     }
 
