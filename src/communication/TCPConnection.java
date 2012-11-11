@@ -146,6 +146,11 @@ public class TCPConnection {
         }
     }
 
+    public void receiveAndSaveData(String filename){
+        proc.increaseAndGetTimeStamp();
+        readAndWriteToFile(filename);
+    }
+
     private void handle(Message m) {
         proc.increaseAndGetTimeStamp();
 
@@ -177,12 +182,18 @@ public class TCPConnection {
 
             case getFile:
                 GetFileMessage getFileMessage = m.getGetFileMessage();
-                preparetoSend(proc.getIdentifier(), getFileMessage.getFilepath());
+                prepareToSend(proc.getIdentifier(), getFileMessage.getFilepath());
+                sendReadyToGetMessage(getFileMessage.getFilepath(),
+                        getFileMessage.getRequestingProcess().getIP(),
+                        getFileMessage.getRequestingProcess().getPort());
                 break;
 
             case putFile:
                 PutFileMessage putFileMessage = m.getPutFileMessage();
-                preparetoGet(putFileMessage.getStoringProcess(), putFileMessage.getFilepath());
+                prepareToGet(putFileMessage.getStoringProcess(), putFileMessage.getFilepath());
+                sendReadytoPutMessage(putFileMessage.getFilepath(),
+                        putFileMessage.getStoringProcess().getIP(),
+                        putFileMessage.getStoringProcess().getPort());
                 break;
 
 
@@ -209,20 +220,87 @@ public class TCPConnection {
             case SyncFiles:
                 break;
             case readyToPut:
+                ReadyToPutFileMessage readyToPutFileMessage = m.getReadyToPutFileMessage();
+                putFile(readyToPutFileMessage);
+
+
+
+
+
                 break;
             case readyToGet:
+                ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
+                getFile(readyToGetFileMessage);
                 break;
         }
     }
 
-    private void preparetoGet(ProcessIdentifier storingProcess, String SDFSfilepath){
-        this.proc.getFileServer().prepareToGet(storingProcess, SDFSfilepath);
+    private void putFile(ReadyToPutFileMessage readyToPutFileMessage){
+        try {
+            File file = new File(readyToPutFileMessage.getFilepath());
+            FileInputStream in = new FileInputStream(file);
+            byte[] fileBytes = new byte[(int) file.length()];
+            in.read(fileBytes);
+
+            String address = readyToPutFileMessage.getStoringProcess().getIP() + ":" +
+                    Integer.toString(readyToPutFileMessage.getStoringProcess().getPort() + 2);
+
+            TCPClient tcpClient = new TCPClient(address);
+            tcpClient.setProc(proc);
+            if(tcpClient.connect()){
+                tcpClient.sendData(fileBytes);
+                tcpClient.close();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
     }
 
-    private void preparetoSend(ProcessIdentifier storingProcess, String SDFSfilepath){
+    private void getFile(ReadyToGetFileMessage readyToGetFileMessage){
+        String address = readyToGetFileMessage.getStoringProcess().getIP() + ":" +
+                Integer.toString(readyToGetFileMessage.getStoringProcess().getPort());
+        TCPClient tcpClient = new TCPClient(address);
+        tcpClient.setProc(proc);
+        if(tcpClient.connect()){
+            tcpClient.receiveAndSaveData(readyToGetFileMessage.getFilepath());
+            tcpClient.close();
+        }
+    }
+
+    private void prepareToGet(ProcessIdentifier storingProcess, String SDFSfilepath){
+        this.proc.getFileServer().prepareToGet(storingProcess, SDFSfilepath);
+
+    }
+
+    private void prepareToSend(ProcessIdentifier storingProcess, String SDFSfilepath){
         this.proc.getFileServer().prepareToSend(storingProcess, SDFSfilepath);
     }
 
+    private void sendReadyToGetMessage(String SDFSFilepath, String processRequestingFile_IP, int processRequestingFile_port){
+        String address = processRequestingFile_IP + ":" + Integer.toString(processRequestingFile_port);
+        TCPClient tcpClient = new TCPClient(address);
+        tcpClient.setProc(proc);
+        if(tcpClient.connect()){
+            Message m = MessagesFactory.generatePutFileMessage(SDFSFilepath, proc.getIdentifier());
+            tcpClient.sendData(m);
+            tcpClient.close();
+        }
+    }
+
+    private void sendReadytoPutMessage(String SDFSFilepath, String processStoringFile_IP, int processStoringFile_port){
+        String address = processStoringFile_IP + ":" + Integer.toString(processStoringFile_port);
+        TCPClient tcpClient = new TCPClient(address);
+        tcpClient.setProc(proc);
+        if(tcpClient.connect()){
+            Message m = MessagesFactory.generateReadyToPutFileMessage(SDFSFilepath, proc.getIdentifier());
+            tcpClient.sendData(m);
+            tcpClient.close();
+        }
+    }
 
     private boolean deleteFile(String SDFSfilepath){
         File file = new File(SDFSfilepath);

@@ -55,6 +55,10 @@ public class TCPClient {
         tcpConnection.sendData(bytes);
     }
 
+    public void receiveAndSaveData(String localFilepath){
+        tcpConnection.receiveAndSaveData(localFilepath);
+    }
+
     public void sendData(String str) {
         sendData(str.getBytes());
     }
