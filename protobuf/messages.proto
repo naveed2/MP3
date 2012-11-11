@@ -23,8 +23,8 @@ enum MessageType{
     getFile = 7;
     putFile = 8;
     deleteFile = 9;
-    readytoPut = 10;
-    readytoGet = 11;
+    readyToPut = 10;
+    readyToGet = 11;
 }
 
 message HeartBeatMessage {
@@ -62,7 +62,7 @@ message GetFileMessage{
     optional ProcessIdentifier requestingProcess = 2;
 }
 
-message ReadytoGetFileMessage{
+message ReadyToGetFileMessage{
     required string filepath = 1;
     optional ProcessIdentifier storingProcess = 2;
 }
@@ -72,7 +72,7 @@ message PutFileMessage{
     optional ProcessIdentifier storingProcess = 2;
 }
 
-message ReadytoPutFileMessage{
+message ReadyToPutFileMessage{
     required string filepath = 1;
     optional ProcessIdentifier storingProcess = 2;
 
@@ -100,8 +100,8 @@ message Message{
     optional GetFileMessage getFileMessage = 10;
     optional PutFileMessage putFileMessage = 11;
     optional DeleteFileMessage deleteFileMessage = 12;
-    optional ReadytoPutFileMessage readytoPutFileMessage = 13;
-    optional ReadytoGetFileMessage readytoGetFileMessage = 14;
+    optional ReadyToPutFileMessage readyToPutFileMessage = 13;
+    optional ReadyToGetFileMessage readyToGetFileMessage = 14;
 }
 
 
