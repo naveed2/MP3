@@ -5,23 +5,23 @@ import communication.Messages;
 import java.util.LinkedList;
 import communication.Messages.FileIdentifier;
 
-/**
- * Created with IntelliJ IDEA.
- * User: naveed
- * Date: 11/7/12
- * Time: 3:18 AM
- * To change this template use File | Settings | File Templates.
- */
 public class FileList {
 
     private LinkedList<FileIdentifier> fileList;
 
     void removeFile(FileIdentifier fileIdentifier){
-        this.fileList.remove(fileIdentifier);
+        synchronized (this) {
+            Integer pos = find(fileIdentifier);
+            if(pos != -1) {
+                fileList.remove(fileList.get(pos));
+            }
+        }
     }
 
     void addFile(FileIdentifier fileIdentifier){
-        this.fileList.add(fileIdentifier);
+        synchronized (this) {
+            this.fileList.add(fileIdentifier);
+        }
     }
 
     public FileList get(){
@@ -40,5 +40,23 @@ public class FileList {
 
     public Integer length(){
         return this.length();
+    }
+
+    public Integer find(FileIdentifier identifier) {
+        synchronized (this) {
+            for(int i=0; i<fileList.size(); ++i) {
+                FileIdentifier tmp = fileList.get(i);
+                if(theSameFileIdentifier(tmp, identifier)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+    private boolean theSameFileIdentifier(FileIdentifier f1, FileIdentifier f2) {
+        return f1.getFileStoringProcess().getId().equals(f2.getFileStoringProcess().getId())
+                && f1.getFilepath().equals(f2.getFilepath());
+
     }
 }
