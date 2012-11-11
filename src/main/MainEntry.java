@@ -16,9 +16,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static communication.Messages.JoinMessage;
-import static communication.Messages.Message;
-import static communication.Messages.MessageType;
+import static communication.Messages.*;
 
 public class MainEntry {
 
@@ -115,9 +113,22 @@ public class MainEntry {
         }
     }
 
+    private static void showFileList() {
+        for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
+            String address;
+            ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
+            if(identifier.getId().equals(proc.getId())) {
+                address = "127.0.0.1:" + proc.getTcpPort();
+            } else {
+                address = identifier.getIP()+":"+identifier.getPort();
+            }
+            System.out.println(fileIdentifier.getFilepath() + '\t' + address);
+        }
+    }
+
     private static void putFile() {
         String fileName = MiscTool.inputFileName(in);
-
+        proc.getSDFS().addFileLocally(fileName);
     }
 
     private static String inputCommand() {

@@ -78,14 +78,13 @@ public class TCPConnection {
     }
 
     public void readAndWriteToFile(String fileName) {
-        String str;
         File file;
         SDFS sdfs = proc.getSDFS();
         file = sdfs.openFile(fileName);
-        DataOutputStream dos;
+        FileOutputStream fos;
 
         try {
-            dos = new DataOutputStream(new FileOutputStream(file));
+            fos = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
             logger.error("writing to file error " + e);
             return;
@@ -95,9 +94,9 @@ public class TCPConnection {
             is = socket.getInputStream();
             int nextByte;
             while((nextByte = is.read())!= -1) {
-                dos.writeByte(nextByte);
+                fos.write(nextByte);
             }
-            dos.close();
+            fos.close();
         } catch (IOException e) {
             if(e.getMessage().equals("socket close")) {
                 //
@@ -105,7 +104,36 @@ public class TCPConnection {
                 logger.error("Read messages error", e);
             }
         }
+    }
 
+    public void readFileAndSend(String fileName) {
+        SDFS sdfs = proc.getSDFS();
+        File file = sdfs.openFile(fileName);
+
+        FileInputStream fis;
+
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            logger.error("read from file error " + e);
+            return;
+        }
+
+        try {
+            os =socket.getOutputStream();
+            int nextByte;
+            while((nextByte = fis.read()) != -1) {
+                os.write(nextByte);
+            }
+            fis.close();
+
+        } catch (IOException e) {
+            if(e.getMessage().equals("socket close")) {
+                //
+            } else  {
+                logger.error("Write message error", e);
+            }
+        }
     }
 
     public void sendData(byte[] bytes) {

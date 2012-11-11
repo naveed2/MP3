@@ -4,11 +4,17 @@ import communication.Messages;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+
 import communication.Messages.FileIdentifier;
 
 public class FileList implements Iterable<FileIdentifier> {
 
     private LinkedList<FileIdentifier> fileList;
+
+    public FileList() {
+        fileList = new LinkedList<FileIdentifier>();
+    }
 
     void removeFile(FileIdentifier fileIdentifier){
         synchronized (this) {
@@ -60,6 +66,7 @@ public class FileList implements Iterable<FileIdentifier> {
                 && f1.getFilepath().equals(f2.getFilepath());
 
     }
+
 
     public Iterator<FileIdentifier> iterator() {
         synchronized (this){

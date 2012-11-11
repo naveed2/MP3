@@ -1,5 +1,6 @@
 package communication;
 
+import filesystem.SDFS;
 import main.MainEntry;
 import membership.Proc;
 import org.apache.log4j.Logger;
@@ -68,11 +69,22 @@ public class TCPFileServer {
     }
 
     public void prepareToSend(ProcessIdentifier identifier, String fileName) {
+        FileMission mission = new FileMission(FileMission.MissionType.send);
+        mission.init(fileName, identifier);
 
+        addMission(mission, identifier);
     }
 
     public void prepareToGet(ProcessIdentifier identifier, String fileName) {
+        FileMission mission = new FileMission(FileMission.MissionType.get);
+        mission.init(fileName, identifier);
 
+        addMission(mission, identifier);
+    }
+
+    private void addMission(FileMission mission, ProcessIdentifier identifier) {
+        String add = identifier.getIP()+":"+identifier.getPort();
+        missions.put(add, mission);
     }
 
     private void handleConnection(final TCPConnection conn) {
@@ -83,20 +95,36 @@ public class TCPFileServer {
                 FileMission mission = missions.get(add);
 
                 if(mission.isGetMission()) {
-                    sendFile(mission, conn);
-                } else {    //send mission
                     getFile(mission, conn);
+                } else {    //send mission
+                    sendFile(mission, conn);
                 }
+
+                missions.remove(add);
             }
         }).start();
     }
 
     private void sendFile(FileMission mission, TCPConnection conn) {
-        conn.readAndWriteToFile(mission.getFileName());
+        conn.readFileAndSend(mission.getFileName());
+
+        try {
+            conn.close();
+        } catch (IOException e) {
+            logger.error("socket close error ", e);
+        }
     }
 
+    //TODO: This is inefficient, improve it later
     private void getFile(FileMission mission, TCPConnection conn) {
+        conn.readAndWriteToFile(mission.getFileName());
+        proc.getSDFS().addFileLocally(mission.getFileName());
 
+        try {
+            conn.close();
+        } catch (IOException e) {
+            logger.error("socket close error ", e);
+        }
     }
 
     public void stop() {

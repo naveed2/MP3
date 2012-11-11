@@ -19,7 +19,7 @@ public class FileMission {
         this.missionType = missionType;
     }
 
-    private void init(String fileName, ProcessIdentifier identifier) {
+    public void init(String fileName, ProcessIdentifier identifier) {
         this.fileName = fileName;
         this.identifier = identifier;
         if(missionType == MissionType.send) {

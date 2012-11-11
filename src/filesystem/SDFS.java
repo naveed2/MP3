@@ -34,6 +34,9 @@ public class SDFS {
         }
     }
 
+    public File getFile(String fileName) {
+        return new File(rootDirectory + fileName);
+    }
 
     public File openFile(String fileName) {
         return new File(fileName);
@@ -55,8 +58,17 @@ public class SDFS {
         String fileName = file.getName();
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
 
-        copyFile(file, rootDirectory+fileName);
+        copyFile(file, rootDirectory + fileName);
+        fileList.addFile(fileIdentifier);
+    }
 
+    public void addFileLocally(File file) {
+
+        String fileName = file.getName();
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
+
+        copyFile(file, rootDirectory + fileName);
+        fileList.addFile(fileIdentifier);
     }
 
     private void copyFile(File sourceFile, String destination) {
@@ -88,6 +100,14 @@ public class SDFS {
         } catch (IOException e) {
             logger.error("copy error", e);
         }
+    }
+
+    public void addToFileList(FileIdentifier fileIdentifier) {
+        fileList.addFile(fileIdentifier);
+    }
+
+    public void addToFileList(String fileName) {
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
     }
 
     public static void main(String[] args) {
