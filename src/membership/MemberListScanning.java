@@ -27,6 +27,7 @@ public class MemberListScanning {
                         //
                     }
                     if(proc.getMemberList().updateMemberList()) {
+                        System.out.println("Detecting machine failed, start replication");
                         proc.getReplicaManger().interruptSleep();
                     }
                 }

@@ -159,6 +159,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
 
     public boolean updateMemberList() {
         synchronized (this) {
+            boolean flag = false;
             for(ProcessIdentifier identifier : list) {
                 if(identifier.getId().equals(proc.getId())) {   //don't update itself
                     continue;
@@ -169,9 +170,10 @@ public class MemberList implements Iterable<ProcessIdentifier>{
                     return true;
                 } else if(diff > MIN_TIME_DIFFERENCE) {
                     setAsToBeDeleted(identifier);
+                    flag = true;
                 }
             }
-            return false;
+            return flag;
         }
     }
 

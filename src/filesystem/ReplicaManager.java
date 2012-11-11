@@ -32,7 +32,6 @@ public class ReplicaManager {
                         Thread.sleep(SCAN_INTERVAL);
                     } catch(InterruptedException e) {
                         //
-                        System.err.println("!!!!!");
                     }
                     scanFileList();
                 }
