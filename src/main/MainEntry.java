@@ -154,7 +154,10 @@ public class MainEntry {
     private static void getFile(){
         String remoteFileName = MiscTool.inputFileName(in);
         String localFileName = MiscTool.inputFileName(in);
+        long startTime = TimeMachine.getTime();
         proc.getSDFS().getRemoteFile(remoteFileName, localFileName);
+        float usingTime = (TimeMachine.getTime() - startTime) / 10;
+        System.out.println("Get command uses " + usingTime + " seconds");
     }
 
     private static boolean isMySelf(ProcessIdentifier identifier) {

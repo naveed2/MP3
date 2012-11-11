@@ -339,10 +339,13 @@ public class SDFS {
 
     private void deleteFileLocally(String fileName) {
         File f = new File(rootDirectory + fileName);
+        long startTime = TimeMachine.getTime();
         if(f.delete()) {
             logger.info("successfully delete file: " + f.getName());
         } else {
             logger.error("failed in deleting file: " + f.getName());
         }
+        float usingTime = (TimeMachine.getTime() - startTime) /10;
+        System.out.println("Del uses time " + usingTime + " seconds");
     }
 }
