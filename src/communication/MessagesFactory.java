@@ -42,7 +42,7 @@ public class MessagesFactory {
                         .setPort(syncMachine.getPort()).setTimestamp(timeStamp));
                 continue;
             }
-            if(memberList.getState(i) == ProcState.available) {
+            if(memberList.getState(memberList.get(i)) == ProcState.available) {
                 syncMessageBuilder.addMembers(memberList.get(i));
             }
 //            syncMessageBuilder.addMembers(memberList.get(i));
@@ -55,10 +55,10 @@ public class MessagesFactory {
     }
 
     public static Message generateSyncFileListMessage(Integer timeStamp, ProcessIdentifier syncMachine,
-                                                      FileList fileList, SDFS sdfs) {
+                                                      SDFS sdfs) {
         SyncFilesListMessage.Builder syncFileListMessageBuilder = SyncFilesListMessage.newBuilder();
 
-        for(FileIdentifier fileIdentifier : fileList) {
+        for(FileIdentifier fileIdentifier : sdfs.getFileList()) {
             if(!sdfs.isAvailable(fileIdentifier)) {
                 continue;
             }

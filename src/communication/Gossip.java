@@ -3,6 +3,7 @@ package communication;
 import membership.MemberList;
 import communication.Messages.ProcessIdentifier;
 import membership.Proc;
+import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -16,7 +17,7 @@ public class Gossip {
     private long delay;
     private Proc proc;
 
-
+    private static Logger logger = Logger.getLogger(Gossip.class);
 
     public Gossip(){
         shouldStop = new AtomicBoolean(false);
@@ -30,9 +31,13 @@ public class Gossip {
     //TODO: this function is wrong, processes once have been picked in one round shouldn't be re-picked in same round
     public ProcessIdentifier selectRandomTarget(){
         Random rand = new Random();
-        Integer randomTarget = rand.nextInt(getMemberList().size());
-        if(randomTarget<0) randomTarget = 0;
-        return getMemberList().get(randomTarget);
+        try {
+            Integer randomTarget = rand.nextInt(getMemberList().size());
+            return getMemberList().get(randomTarget);
+        } catch (IllegalArgumentException e) {
+            logger.error("empty member list ", e);
+            return null;
+        }
     }
 
     public void start(){
@@ -56,8 +61,12 @@ public class Gossip {
     private void startInfecting(){
         for(Integer i = 0; i < NUM_OF_TARGETS; i++){
             ProcessIdentifier infectedProcess = selectRandomTarget();
+            if(infectedProcess == null) {
+                return;
+            }
             if(notSelf(infectedProcess)) {
                 sendSyncMessage(infectedProcess);
+                sendSyncFileListMessage(infectedProcess);
             }
         }
     }
@@ -66,10 +75,17 @@ public class Gossip {
         return !proc.getId().equals(identifier.getId());
     }
 
-    void sendSyncMessage(ProcessIdentifier process){
+    private void sendSyncMessage(ProcessIdentifier process){
         UDPClient udpClient = new UDPClient(process);
         Messages.Message message = MessagesFactory.generateSyncProcessMessage(
                 proc.getTimeStamp(), proc.getIdentifier(), proc.getMemberList());
+        udpClient.sendMessage(message.toByteArray());
+    }
+
+    private void sendSyncFileListMessage(ProcessIdentifier remoteProcess) {
+        Messages.Message message = MessagesFactory.generateSyncFileListMessage(
+                proc.getTimeStamp(),proc.getIdentifier(), proc.getSDFS());
+        UDPClient udpClient = new UDPClient(remoteProcess);
         udpClient.sendMessage(message.toByteArray());
     }
 

@@ -1,5 +1,6 @@
 package communication;
 
+import filesystem.SDFS;
 import membership.MemberList;
 import membership.Proc;
 import org.apache.log4j.Logger;
@@ -87,6 +88,11 @@ public class UDPServer {
                 proc.getFailureDetector().onReceivingHeartBeat();
                 break;
 
+            case SyncFiles:
+                SyncFilesListMessage syncFilesListMessage = m.getSyncFilesMessage();
+                handleSyncFileListMessage(syncFilesListMessage);
+                break;
+
             default:
                 break;
         }
@@ -126,6 +132,25 @@ public class UDPServer {
                         memberlist.updateProcessIdentifier(identifier);
                     }
                 }
+            }
+        }
+    }
+
+    public void handleSyncFileListMessage(SyncFilesListMessage sfm) {
+        List<FileIdentifier> list = sfm.getFilesList();
+        List<Integer> timeStampList = sfm.getTimestampList();
+        SDFS sdfs = proc.getSDFS();
+
+        for(int i=0; i<list.size(); ++i) {
+            Integer timeStamp = timeStampList.get(i);
+            FileIdentifier identifier = list.get(i);
+            if(sdfs.getFileList().find(identifier) != -1) {
+                Integer oldTimeStamp = sdfs.getFileTimeStamp(identifier);
+                if(oldTimeStamp < timeStamp) {
+                    sdfs.updateFileListEntry(identifier, timeStamp);
+                }
+            } else {
+                sdfs.addToFileList(identifier, timeStamp);
             }
         }
     }

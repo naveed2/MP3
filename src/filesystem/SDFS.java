@@ -1,7 +1,6 @@
 package filesystem;
 
 import communication.FileIdentifierFactory;
-import communication.Messages;
 import membership.Proc;
 import misc.MiscTool;
 import misc.TimeMachine;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import static communication.Messages.*;
 
@@ -21,8 +19,8 @@ public class SDFS {
     private Proc proc;
     private FileList fileList;
 
-    private Map<String, Integer> timeStamp;
-    private Map<String, Long> localTime;
+    private Map<String, Integer> timeStampMap;
+    private Map<String, Long> localTimeMap;
     private Map<String, FileState> state;
 
     private static Logger logger = Logger.getLogger(SDFS.class);
@@ -30,8 +28,8 @@ public class SDFS {
 
     public SDFS(String rootDirectory) {
         fileList = new FileList();
-        timeStamp = new HashMap<String, Integer>();
-        localTime = new HashMap<String, Long>();
+        timeStampMap = new HashMap<String, Integer>();
+        localTimeMap = new HashMap<String, Long>();
         state = new HashMap<String, FileState>();
         this.rootDirectory = rootDirectory;
     }
@@ -88,7 +86,7 @@ public class SDFS {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
 
         copyFile(file, rootDirectory + fileName);
-        addToFileList(fileIdentifier);
+        addToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     public void addFileLocally(File file) {
@@ -97,7 +95,7 @@ public class SDFS {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
 
         copyFile(file, rootDirectory + fileName);
-        addToFileList(fileIdentifier);
+        addToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     private void copyFile(File sourceFile, String destination) {
@@ -138,11 +136,11 @@ public class SDFS {
         }
     }
 
-    public void addToFileList(FileIdentifier fileIdentifier) {
+    public void addToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
         fileList.addFile(fileIdentifier);
         String key = generateKey(fileIdentifier);
-        timeStamp.put(key, 0);
-        localTime.put(key, TimeMachine.getTime());
+        timeStampMap.put(key, timeStamp);
+        localTimeMap.put(key, TimeMachine.getTime());
         state.put(key, FileState.Available);
     }
 
@@ -154,7 +152,7 @@ public class SDFS {
 
     public void addToFileList(String fileName) {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
-        addToFileList(fileIdentifier);
+        addToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     public static void main(String[] args) {
@@ -176,16 +174,24 @@ public class SDFS {
 
     public Integer getFileTimeStamp(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
-        return timeStamp.get(key);
+        return timeStampMap.get(key);
     }
 
     public Long getFileLocalTime(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
-        return localTime.get(key);
+        return localTimeMap.get(key);
     }
 
     public boolean isAvailable(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
         return state.containsKey(key) && state.get(key) == FileState.Available;
+    }
+
+    public void updateFileListEntry(FileIdentifier identifier, Integer timeStamp) {
+        synchronized (this) {
+            String key = generateKey(identifier);
+            timeStampMap.put(key, timeStamp);
+            localTimeMap.put(key, TimeMachine.getTime());
+        }
     }
 }

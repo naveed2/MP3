@@ -106,8 +106,8 @@ public class MainEntry {
             } else {
                 timeStamp = identifier.getTimestamp();
                 address = identifier.getIP() + ":" +identifier.getPort();
-                localTime =  proc.getMemberList().getTime(pos);
-                procState = proc.getMemberList().getState(pos);
+                localTime = proc.getMemberList().getTime(identifier);
+                procState = proc.getMemberList().getState(identifier);
             }
             System.out.println(
                     identifier.getId() + '\t' + address + '\t' + timeStamp + '\t' + localTime + '\t' + procState);

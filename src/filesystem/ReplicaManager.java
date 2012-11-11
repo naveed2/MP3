@@ -1,5 +1,6 @@
 package filesystem;
 
+import communication.FileIdentifierFactory;
 import communication.Messages.ProcessIdentifier;
 import communication.Messages.FileIdentifier;
 import membership.MemberList;
@@ -45,6 +46,9 @@ public class ReplicaManager {
     private void scanFileList(){
         HashMap<String, Integer> replicaCounter = new HashMap<String, Integer>();
         for(FileIdentifier f : getFileList()){
+            if(!f.getFileStoringProcess().getId().equals(proc.getId())) {   //this file doesn't stored locally
+                continue;
+            }
             String key = f.getFilepath();
 
             if(!replicaCounter.containsKey(key)){
@@ -73,7 +77,8 @@ public class ReplicaManager {
 
         for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
-            if(!replicateTo.contains(randomProcess) && notMySelf(randomProcess)){
+            if(!replicateTo.contains(randomProcess)
+                    && notMySelf(randomProcess) && notStoredOnProcess(randomProcess, SDFSFilepath)){
                 replicateTo.add(randomProcess);
                 new FileOperations().setProc(proc).sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
                 i++;
@@ -83,6 +88,11 @@ public class ReplicaManager {
 
     private boolean notMySelf(ProcessIdentifier identifier) {
         return ! identifier.getId().equals(proc.getId());
+    }
+
+    private boolean notStoredOnProcess(ProcessIdentifier identifier, String filePath) {
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(identifier, filePath);
+        return proc.getSDFS().getFileList().find(fileIdentifier) == -1;
     }
 
     private boolean theSameProcessIdentifier(ProcessIdentifier p1, ProcessIdentifier p2){
