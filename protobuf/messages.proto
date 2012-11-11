@@ -25,6 +25,7 @@ enum MessageType{
     deleteFile = 9;
     readyToPut = 10;
     readyToGet = 11;
+    get = 12;
 }
 
 message HeartBeatMessage {
@@ -88,6 +89,11 @@ message ListenFromMessage {
     required ProcessIdentifier listenFromMachine = 1;
 }
 
+message GetMessage {
+    required ProcessIdentifier requestingProcess =1;
+    optional string fileName = 2;
+}
+
 message Message{
     required MessageType type = 1;
     optional JoinMessage joinMessage = 2;
@@ -103,6 +109,7 @@ message Message{
     optional DeleteFileMessage deleteFileMessage = 12;
     optional ReadyToPutFileMessage readyToPutFileMessage = 13;
     optional ReadyToGetFileMessage readyToGetFileMessage = 14;
+    optional GetMessage getMessage = 15;
 }
 
 

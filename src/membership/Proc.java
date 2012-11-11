@@ -236,4 +236,8 @@ public class Proc {
     public SDFS getSDFS() {
         return SDFileSystem;
     }
+
+    public ReplicaManager getReplicaManger() {
+        return  replicaManager;
+    }
 }

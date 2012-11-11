@@ -155,6 +155,14 @@ public class TCPConnection {
             }
         }
     }
+    public void sendData(int b) {
+        try{
+            os.write(b);
+        } catch(IOException e) {
+            logger.error("Sending TCP packets error" + e);
+            e.printStackTrace();
+        }
+    }
 
     public void sendData(byte[] bytes) {
         try {
@@ -230,6 +238,30 @@ public class TCPConnection {
 
                 //TODO add code for handling get, put and delete messages
 
+            case get:
+                GetMessage getMessage = m.getGetMessage();
+                ProcessIdentifier requestProcess = getMessage.getRequestingProcess();
+                String address = requestProcess.getIP()+":" + (requestProcess.getPort()+3);
+                String fileName = getMessage.getFileName();
+
+                TCPClient tcpClient = new TCPClient(address);
+                tcpClient.setProc(proc);
+                if(tcpClient.connect()) {
+                    try {
+                        BufferedInputStream bis =
+                                new BufferedInputStream(new FileInputStream(proc.getSDFS().getFile(fileName)));
+                        int nextByte;
+                        while((nextByte = bis.read())!=-1){
+                            tcpClient.sendData(nextByte);
+                        }
+                        tcpClient.close();
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
             default:
                 break;
             case Heartbeat:
@@ -248,6 +280,7 @@ public class TCPConnection {
                 ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
                 getFile(readyToGetFileMessage);
                 break;
+
         }
     }
 

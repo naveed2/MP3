@@ -157,7 +157,7 @@ public class MemberList implements Iterable<ProcessIdentifier>{
         }
     }
 
-    public void updateMemberList() {
+    public boolean updateMemberList() {
         synchronized (this) {
             for(ProcessIdentifier identifier : list) {
                 if(identifier.getId().equals(proc.getId())) {   //don't update itself
@@ -166,11 +166,12 @@ public class MemberList implements Iterable<ProcessIdentifier>{
                 Long diff = TimeMachine.getTime() - timeMap.get(identifier.getId());
                 if(diff > MAX_TIME_DIFFERENCE) {
                     remove(identifier);
-                    break;
+                    return true;
                 } else if(diff > MIN_TIME_DIFFERENCE) {
                     setAsToBeDeleted(identifier);
                 }
             }
+            return false;
         }
     }
 

@@ -142,6 +142,15 @@ public class MessagesFactory {
                 .setReadyToGetFileMessage(readytoGetFileMessage).build();
     }
 
+    public static Message generateGetMessage(FileIdentifier fileIdentifier, ProcessIdentifier requestingProcess) {
+        GetMessage getMessage = GetMessage.newBuilder()
+                .setRequestingProcess(requestingProcess).setFileName(fileIdentifier.getFilepath()).build();
+        return Message.newBuilder()
+                .setType(MessageType.get)
+                .setGetMessage(getMessage).build();
+    }
+
+
 
 
 

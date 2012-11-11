@@ -1,6 +1,8 @@
 package filesystem;
 
 import communication.FileIdentifierFactory;
+import communication.MessagesFactory;
+import communication.TCPClient;
 import membership.Proc;
 import misc.MiscTool;
 import misc.TimeMachine;
@@ -8,7 +10,10 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -69,8 +74,64 @@ public class SDFS {
     }
 
     public void getRemoteFile(String SDFSFileName, String localFileName){
-        new FileOperations().setProc(proc).get(localFileName, SDFSFileName, fileList);
+//        new FileOperations().setProc(proc).get(localFileName, SDFSFileName, fileList);
+        FileIdentifier remote, local;
+        remote = local = null;
+
+        for(FileIdentifier fileIdentifier : fileList) {
+            if(!isAvailable(fileIdentifier)) {
+                continue;
+            }
+
+            if(fileIdentifier.getFilepath().equals(SDFSFileName)) {
+                remote = fileIdentifier;
+                if(fileIdentifier.getFileStoringProcess().getId().equals(proc.getId())) {
+                    local = fileIdentifier;
+                }
+            }
+        }
+
+        if(local != null) {
+            copyFile(getFile(SDFSFileName), localFileName);
+            return;
+        }
+
+        sendGetMessage(remote);
+        startReceivingFile(remote, localFileName);
     }
+
+    private void sendGetMessage(FileIdentifier remote) {
+        String address = remote.getFileStoringProcess().getIP() + ":"
+                + remote.getFileStoringProcess().getPort();
+        TCPClient tcpclient = new TCPClient(address);
+        tcpclient.setProc(proc);
+        if(tcpclient.connect()) {
+            Message m = MessagesFactory.generateGetMessage(remote, proc.getIdentifier());
+            tcpclient.sendData(m);
+            tcpclient.close();
+        }
+    }
+
+    private void startReceivingFile(FileIdentifier fileIdentifier, String savedName) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(proc.getTcpPort()+3);
+            Socket socket = serverSocket.accept();
+            File file = new File(savedName);
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            InputStream is = socket.getInputStream();
+            int nextByte;
+            while((nextByte=is.read())!=-1) {
+                bos.write(nextByte);
+            }
+            bos.flush();
+            bos.close();
+            socket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public File openFile(String fileName) {
         return new File(rootDirectory + fileName);
@@ -246,6 +307,8 @@ public class SDFS {
 
     public void deleteFile(String fileName) {
         synchronized (this) {
+            boolean flag = false;
+            LinkedList<ProcessIdentifier> list = new LinkedList<ProcessIdentifier>();
             for(FileIdentifier fileIdentifier : getFileList()) {
                 if(!fileIdentifier.getFilepath().equals(fileName)) {
                     continue;
@@ -259,7 +322,14 @@ public class SDFS {
                 if(processIdentifier.getId().equals(proc.getId())) {
                     setToBeDeleted(fileIdentifier);
                     deleteFileLocally(fileName);
+                    flag = true;
                 } else {
+                    list.add(processIdentifier);
+                }
+            }
+
+            if(flag) {
+                for(ProcessIdentifier processIdentifier : list) {
                     new FileOperations().setProc(proc).sendDeleteMessage(fileName,
                             processIdentifier.getIP(), processIdentifier.getPort());
                 }

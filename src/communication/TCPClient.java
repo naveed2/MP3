@@ -55,6 +55,10 @@ public class TCPClient {
         }
     }
 
+    public void sendData(int b) {
+        tcpConnection.sendData(b);
+    }
+
     public void sendData(byte[] bytes) {
         tcpConnection.sendData(bytes);
     }

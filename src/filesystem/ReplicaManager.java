@@ -14,8 +14,9 @@ public class ReplicaManager {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
+    private Thread sleepThread;
 
-    private static final Integer SCAN_INTERVAL = 10000;
+    private static final Integer SCAN_INTERVAL = 20000;
     private static final Integer REPLICA_COUNT = 2;
 
     public ReplicaManager(){
@@ -23,7 +24,7 @@ public class ReplicaManager {
     }
 
     public void start(){
-        new Thread(new Runnable() {
+        sleepThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while(!shouldStop.get()){
@@ -31,11 +32,14 @@ public class ReplicaManager {
                         Thread.sleep(SCAN_INTERVAL);
                     } catch(InterruptedException e) {
                         //
+                        System.err.println("!!!!!");
                     }
                     scanFileList();
                 }
             }
-        }).start();
+        });
+
+        sleepThread.start();
 
     }
 
@@ -117,6 +121,10 @@ public class ReplicaManager {
 
     public void setProc(Proc proc){
         this.proc = proc;
+    }
+
+    public void interruptSleep() {
+        sleepThread.interrupt();
     }
 
     public void stop(){

@@ -26,7 +26,9 @@ public class MemberListScanning {
                     } catch (InterruptedException e) {
                         //
                     }
-                    proc.getMemberList().updateMemberList();
+                    if(proc.getMemberList().updateMemberList()) {
+                        proc.getReplicaManger().interruptSleep();
+                    }
                 }
             }
         }).start();

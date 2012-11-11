@@ -15,13 +15,6 @@ import communication.Messages.ProcessIdentifier;
 
 import javax.xml.soap.MessageFactory;
 
-/**
- * Created with IntelliJ IDEA.
- * User: naveed
- * Date: 11/8/12
- * Time: 11:55 PM
- * To change this template use File | Settings | File Templates.
- */
 public class FileOperations {
 
     private static Proc proc;
