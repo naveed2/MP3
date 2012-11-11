@@ -148,6 +148,8 @@ public class UDPServer {
                 Integer oldTimeStamp = sdfs.getFileTimeStamp(identifier);
                 if(oldTimeStamp < timeStamp) {
                     sdfs.updateFileListEntry(identifier, timeStamp);
+                } else if (identifier.getFileStoringProcess().getId().equals(proc.getId())) {
+                    sdfs.updateFileListEntry(identifier, timeStamp);
                 }
             } else {
                 sdfs.addToFileList(identifier, timeStamp);

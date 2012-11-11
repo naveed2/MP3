@@ -6,10 +6,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static communication.Messages.*;
@@ -99,7 +96,14 @@ public class TCPFileServer {
             public void run() {
                 String key = conn.readID();
                 LinkedList<FileMission> list = missions.get(key);
-                FileMission mission = list.pop();
+                FileMission mission;
+
+                try{
+                    mission = list.pop();
+                } catch(NoSuchElementException e) {
+                    logger.error("no element in mission list " + e);
+                    return;
+                }
 
                 if(mission.isGetMission()) {
                     getFile(mission, conn);

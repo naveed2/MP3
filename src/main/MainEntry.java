@@ -129,7 +129,8 @@ public class MainEntry {
             if(isMySelf(identifier)) {
                 address = "127.0.0.1:" + proc.getTcpPort();
                 timeStamp = proc.getTimeStamp();
-                localTime = TimeMachine.getTime();
+//                localTime = TimeMachine.getTime();
+                localTime = proc.getSDFS().getFileLocalTime(fileIdentifier);
             } else {
                 address = identifier.getIP()+":"+identifier.getPort();
                 timeStamp = proc.getSDFS().getFileTimeStamp(fileIdentifier);

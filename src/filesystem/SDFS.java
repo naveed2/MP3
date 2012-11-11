@@ -21,16 +21,19 @@ public class SDFS {
 
     private Map<String, Integer> timeStampMap;
     private Map<String, Long> localTimeMap;
-    private Map<String, FileState> state;
+    private Map<String, FileState> stateMap;
 
     private static Logger logger = Logger.getLogger(SDFS.class);
     private String rootDirectory;
+
+    private static final Integer MAX_TIME_DIFFERENCE = 100;
+    private static final Integer MIN_TIME_DIFFERENCE = 50;
 
     public SDFS(String rootDirectory) {
         fileList = new FileList();
         timeStampMap = new HashMap<String, Integer>();
         localTimeMap = new HashMap<String, Long>();
-        state = new HashMap<String, FileState>();
+        stateMap = new HashMap<String, FileState>();
         this.rootDirectory = rootDirectory;
     }
 
@@ -66,7 +69,7 @@ public class SDFS {
     }
 
     public File openFile(String fileName) {
-        return new File(fileName);
+        return new File(rootDirectory + fileName);
     }
 
     public void setProc(Proc proc) {
@@ -144,7 +147,7 @@ public class SDFS {
         String key = generateKey(fileIdentifier);
         timeStampMap.put(key, timeStamp);
         localTimeMap.put(key, TimeMachine.getTime());
-        state.put(key, FileState.Available);
+        stateMap.put(key, FileState.available);
     }
 
     private String generateKey(FileIdentifier identifier) {
@@ -187,8 +190,47 @@ public class SDFS {
 
     public boolean isAvailable(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
-        return state.containsKey(key) && state.get(key) == FileState.Available;
+        return stateMap.containsKey(key) && stateMap.get(key) == FileState.available;
     }
+
+    public void updateFileList() {
+        synchronized (this) {
+            for(FileIdentifier fileIdentifier : getFileList()) {
+
+                if(fileIdentifier.getFileStoringProcess().getId().equals(proc.getId())
+                        && isAvailable(fileIdentifier)) {
+                    continue;
+                }
+
+                Long diff = TimeMachine.getTime() - localTimeMap.get(generateKey(fileIdentifier));
+                if(diff > MAX_TIME_DIFFERENCE) {
+                    removeFileIdentifierFromList(fileIdentifier);
+                    break;
+                } else if(diff > MIN_TIME_DIFFERENCE){
+                    setToBeDeleted(fileIdentifier);
+                }
+            }
+        }
+    }
+
+    private void setToBeDeleted(FileIdentifier fileIdentifier) {
+        synchronized (this){
+            String key = generateKey(fileIdentifier);
+            stateMap.put(key, FileState.toBeDeleted);
+        }
+    }
+
+
+    private void removeFileIdentifierFromList(FileIdentifier fileIdentifier) {
+        synchronized (this) {
+            fileList.removeFile(fileIdentifier);
+            String key = generateKey(fileIdentifier);
+            timeStampMap.remove(key);
+            localTimeMap.remove(key);
+            stateMap.remove(key);
+        }
+    }
+
 
     public void updateFileListEntry(FileIdentifier identifier, Integer timeStamp) {
         synchronized (this) {

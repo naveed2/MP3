@@ -2,6 +2,7 @@ package membership;
 
 
 import communication.*;
+import filesystem.FileListScanning;
 import filesystem.ReplicaManager;
 import filesystem.SDFS;
 import misc.MiscTool;
@@ -31,6 +32,7 @@ public class Proc {
     private Gossip gossip;
     private FailureDetector failureDetector;
     private MemberListScanning memberListScanning;
+    private FileListScanning fileListScanning;
 
     private SDFS SDFileSystem;
 
@@ -88,6 +90,7 @@ public class Proc {
         initMemberListScanningThread();
 
         initSDFS();
+        initFileListScan();
 
         initReplicaManger();
 
@@ -121,6 +124,12 @@ public class Proc {
         memberListScanning = new MemberListScanning();
         memberListScanning.setProc(this);
         memberListScanning.startScan();
+    }
+
+    private void initFileListScan() {
+        fileListScanning = new FileListScanning();
+        fileListScanning.setProc(this);
+        fileListScanning.startScan();;
     }
 
     private void initReplicaManger(){
