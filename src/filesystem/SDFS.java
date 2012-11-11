@@ -28,12 +28,12 @@ public class SDFS {
     private static Logger logger = Logger.getLogger(SDFS.class);
     private String rootDirectory;
 
-    public SDFS() {
+    public SDFS(String rootDirectory) {
         fileList = new FileList();
         timeStamp = new HashMap<String, Integer>();
         localTime = new HashMap<String, Long>();
         state = new HashMap<String, FileState>();
-        rootDirectory = "sdfs/";
+        this.rootDirectory = rootDirectory;
     }
 
     public void init() {
@@ -43,6 +43,23 @@ public class SDFS {
                 logger.fatal("Create root directory fails");
                 System.exit(-1);
             }
+        } else {
+            if(!root.isDirectory()) {
+                logger.fatal("sdfs is not directory!!!");
+                System.exit(-1);
+            }
+            loadFilesFromRootDirectory();
+        }
+    }
+
+    private void loadFilesFromRootDirectory() {
+        File root = new File(rootDirectory);
+        File[] files = root.listFiles();
+        if(files == null) {
+            return;
+        }
+        for(File f : files) {
+            addFileLocally(f);
         }
     }
 
@@ -80,11 +97,18 @@ public class SDFS {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
 
         copyFile(file, rootDirectory + fileName);
-        fileList.addFile(fileIdentifier);
+        addToFileList(fileIdentifier);
     }
 
     private void copyFile(File sourceFile, String destination) {
-        File destFile = new File(destination);
+        copyFile(sourceFile, new File(destination));
+    }
+
+    private void copyFile(File sourceFile, File destFile) {
+        if(sourceFile.getAbsolutePath().equals(destFile.getAbsolutePath())){
+            return;
+        }
+
         FileInputStream fis;
 
         try {
@@ -124,7 +148,7 @@ public class SDFS {
 
     private String generateKey(FileIdentifier identifier) {
         return identifier.getFileStoringProcess().getIP()+":"+
-                identifier.getFileStoringProcess().getPort()+"\\" +
+                identifier.getFileStoringProcess().getPort()+"/" +
                 identifier.getFilepath();
     }
 
@@ -140,7 +164,7 @@ public class SDFS {
         Proc proc = new Proc(20000);
         proc.init();
 
-        SDFS sdfs = new SDFS();
+        SDFS sdfs = new SDFS("sdfs/");
         sdfs.setProc(proc);
         sdfs.init();
 

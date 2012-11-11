@@ -36,8 +36,12 @@ public class MiscTool {
 
     public static String inputFileName(Scanner in) {
         System.out.print("Input the filename: ");
-        return in.next();
+        return in.nextLine();
+    }
 
+    public static String inputSDFSRoot(Scanner in) {
+        System.out.print("Input the root: ");
+        return in.nextLine();
     }
 
     public static Integer inputPortNumber(Scanner in) {

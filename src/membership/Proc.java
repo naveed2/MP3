@@ -4,11 +4,13 @@ package membership;
 import communication.*;
 import filesystem.ReplicaManager;
 import filesystem.SDFS;
+import misc.MiscTool;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.UUID;
 
 import static communication.Messages.*;
@@ -166,9 +168,13 @@ public class Proc {
     }
 
     private void initSDFS() {
-        SDFileSystem = new SDFS();
-        SDFileSystem.init();
+        String rootDir = MiscTool.inputSDFSRoot(new Scanner(System.in));
+        if(!rootDir.endsWith("/")) {
+            rootDir += "/";
+        }
+        SDFileSystem = new SDFS(rootDir);
         SDFileSystem.setProc(this);
+        SDFileSystem.init();
     }
 
     public ProcessIdentifier getIdentifier() {
