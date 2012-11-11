@@ -222,11 +222,6 @@ public class TCPConnection {
             case readyToPut:
                 ReadyToPutFileMessage readyToPutFileMessage = m.getReadyToPutFileMessage();
                 putFile(readyToPutFileMessage);
-
-
-
-
-
                 break;
             case readyToGet:
                 ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
@@ -239,8 +234,6 @@ public class TCPConnection {
         try {
             File file = new File(readyToPutFileMessage.getFilepath());
             FileInputStream in = new FileInputStream(file);
-            byte[] fileBytes = new byte[(int) file.length()];
-            in.read(fileBytes);
 
             String address = readyToPutFileMessage.getStoringProcess().getIP() + ":" +
                     Integer.toString(readyToPutFileMessage.getStoringProcess().getPort() + 2);
@@ -248,7 +241,12 @@ public class TCPConnection {
             TCPClient tcpClient = new TCPClient(address);
             tcpClient.setProc(proc);
             if(tcpClient.connect()){
-                tcpClient.sendData(fileBytes);
+                int nextByte;
+                byte buffer[] = new byte[1024];
+                while((nextByte = in.read(buffer)) != -1){
+                    tcpClient.sendData(buffer);
+                }
+
                 tcpClient.close();
             }
 
