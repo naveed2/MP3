@@ -30,7 +30,7 @@ public class Proc {
 
     private Gossip gossip;
     private FailureDetector failureDetector;
-    private ScanningThread scanningThread;
+    private MemberListScanning memberListScanning;
 
     private SDFS SDFileSystem;
 
@@ -100,7 +100,7 @@ public class Proc {
         udpServer.stop();
         fileServer.stop();
         gossip.stop();
-        scanningThread.stop();
+        memberListScanning.stop();
     }
 
     private void initGossip() {
@@ -118,9 +118,9 @@ public class Proc {
     }
 
     private void initMemberListScanningThread() {
-        scanningThread = new ScanningThread();
-        scanningThread.setProc(this);
-        scanningThread.startScan();
+        memberListScanning = new MemberListScanning();
+        memberListScanning.setProc(this);
+        memberListScanning.startScan();
     }
 
     private void initReplicaManger(){

@@ -2,13 +2,13 @@ package membership;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ScanningThread {
+public class MemberListScanning {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
     private static final Integer INTERVAL = 2000;
 
-    public ScanningThread() {
+    public MemberListScanning() {
         shouldStop = new AtomicBoolean(false);
     }
 
