@@ -62,6 +62,7 @@ public class TCPFileServer {
                 socket = serverSocket.accept();
                 TCPConnection conn = new TCPConnection();
                 conn.setSocket(socket).setProc(proc);
+                handleConnection(conn);
             } catch (IOException e) {
                 logger.error("tcp server socket exception ", e);
             }
