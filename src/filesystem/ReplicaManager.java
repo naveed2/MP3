@@ -51,7 +51,9 @@ public class ReplicaManager {
             if(!f.getFileStoringProcess().getId().equals(proc.getId())) {   //this file doesn't stored locally
                 continue;
             }
-            fileShouldBeReplicated.add(f);
+            if(proc.getSDFS().isAvailable(f)) {
+                fileShouldBeReplicated.add(f);
+            }
         }
 
         for(FileIdentifier f : getFileList()){
