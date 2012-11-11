@@ -208,9 +208,9 @@ public class TCPConnection {
                 break;
             case SyncFiles:
                 break;
-            case readytoPut:
+            case readyToPut:
                 break;
-            case readytoGet:
+            case readyToGet:
                 break;
         }
     }

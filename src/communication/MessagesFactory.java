@@ -4,9 +4,8 @@ import membership.MemberList;
 import membership.ProcState;
 import misc.MiscTool;
 
-import java.io.File;
-
 import static communication.Messages.*;
+import static communication.Messages.ReadyToPutFileMessage.*;
 
 public class MessagesFactory {
 
@@ -103,23 +102,23 @@ public class MessagesFactory {
                 .setType(MessageType.deleteFile).setDeleteFileMessage(deleteFileMessage).build();
     }
 
-    public static Message generateReadytoPutFileMessage(String SDFSfilepath, ProcessIdentifier storingProcess){
-        ReadytoPutFileMessage readytoPutFileMessage = ReadytoPutFileMessage.newBuilder()
+    public static Message generateReadyToPutFileMessage(String SDFSfilepath, ProcessIdentifier storingProcess){
+        ReadyToPutFileMessage readyToPutFileMessage = ReadyToPutFileMessage.newBuilder()
                 .setFilepath(SDFSfilepath)
                 .setStoringProcess(storingProcess).build();
 
         return Message.newBuilder()
-                .setType(MessageType.readytoPut).setReadytoPutFileMessage(readytoPutFileMessage).build();
+                .setType(MessageType.readyToPut).setReadyToPutFileMessage(readyToPutFileMessage).build();
     }
 
-    public static Message generateReadytoGetFileMessage(String SDFSfilename, ProcessIdentifier storingProcess){
-        ReadytoGetFileMessage readytoGetFileMessage = ReadytoGetFileMessage.newBuilder()
+    public static Message generateReadyToGetFileMessage(String SDFSfilename, ProcessIdentifier storingProcess){
+        ReadyToGetFileMessage readytoGetFileMessage = ReadyToGetFileMessage.newBuilder()
                 .setFilepath(SDFSfilename)
                 .setStoringProcess(storingProcess).build();
 
         return Message.newBuilder()
-                .setType(MessageType.readytoGet)
-                .setReadytoGetFileMessage(readytoGetFileMessage).build();
+                .setType(MessageType.readyToGet)
+                .setReadyToGetFileMessage(readytoGetFileMessage).build();
     }
 
 
