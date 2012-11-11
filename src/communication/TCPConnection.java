@@ -99,13 +99,13 @@ public class TCPConnection {
     }
 
     public void readAndWriteToFile(String fileName) {
-        File file;
         SDFS sdfs = proc.getSDFS();
-        file = sdfs.openFile(fileName);
         FileOutputStream fos;
+        BufferedOutputStream bos;
 
         try {
             fos = new FileOutputStream(fileName);
+            bos = new BufferedOutputStream(fos);
         } catch (FileNotFoundException e) {
             logger.error("writing to file error " + e);
             return;
@@ -115,9 +115,9 @@ public class TCPConnection {
             is = socket.getInputStream();
             int nextByte;
             while((nextByte = is.read())!= -1) {
-                fos.write(nextByte);
+                bos.write(nextByte);
             }
-            fos.close();
+            bos.close();
         } catch (IOException e) {
             if(e.getMessage().equals("socket close")) {
                 //
@@ -132,9 +132,13 @@ public class TCPConnection {
         File file = sdfs.openFile(fileName);
 
         FileInputStream fis;
+        BufferedOutputStream bos;
+        BufferedInputStream bis;
 
         try {
             fis = new FileInputStream(file);
+            bis = new BufferedInputStream(fis);
+
         } catch (FileNotFoundException e) {
             logger.error("read from file error " + e);
             return;
@@ -142,9 +146,10 @@ public class TCPConnection {
 
         try {
             os =socket.getOutputStream();
-            byte[] buffer = new byte[1024];
-            while((fis.read(buffer, 0, 1024)) != -1) {
-                os.write(buffer);
+            bos = new BufferedOutputStream(os);
+            int nextByte;
+            while((nextByte = bis.read())!= -1) {
+                bos.write(nextByte);
             }
             fis.close();
 
@@ -263,25 +268,27 @@ public class TCPConnection {
                 }
                 break;
 
-            default:
-                break;
-            case Heartbeat:
-                break;
             case Fail:
                 break;
-            case SyncProcesses:
-                break;
-            case SyncFiles:
-                break;
+
             case readyToPut:
                 ReadyToPutFileMessage readyToPutFileMessage = m.getReadyToPutFileMessage();
+                long startTime = TimeMachine.getTime();
                 putFile(readyToPutFileMessage);
-                break;
-            case readyToGet:
-                ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
-                getFile(readyToGetFileMessage);
+                float usingTime = (TimeMachine.getTime() - startTime) / 10;
+                System.out.println("Put " + " uses " + usingTime + " seconds");
                 break;
 
+            case readyToGet:
+                ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
+                startTime = TimeMachine.getTime();
+                getFile(readyToGetFileMessage);
+                usingTime = (TimeMachine.getTime() - startTime) / 10;
+                System.out.println("Replica uses " + usingTime + " seconds");
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -297,10 +304,10 @@ public class TCPConnection {
             tcpClient.setProc(proc);
             if(tcpClient.connect()){
                 tcpClient.sendData(proc.getId());
-                int numberOfBytes;
-                byte buffer[] = new byte[1024];
-                while((numberOfBytes = in.read(buffer)) != -1){
-                    tcpClient.sendData(buffer);
+                BufferedInputStream bis = new BufferedInputStream(in);
+                int nextByte;
+                while((nextByte = bis.read()) != -1){
+                    tcpClient.sendData(nextByte);
                 }
 
                 tcpClient.close();

@@ -1,6 +1,7 @@
 package communication;
 
 import membership.Proc;
+import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -105,10 +106,16 @@ public class TCPFileServer {
                     return;
                 }
 
+                long startTime = TimeMachine.getTime();
+
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
+                    float usingTime = TimeMachine.getTime() - startTime;
+                    System.out.println("Get an file in server uses " + usingTime + " seconds");
                 } else {    //send mission
                     sendFile(mission, conn);
+                    float usingTime = TimeMachine.getTime() - startTime;
+                    System.out.println("Send an file in server uses " + usingTime + " seconds");
                 }
             }
         }).start();
