@@ -51,6 +51,7 @@ message SyncProcessesMessage{
 
 message SyncFilesListMessage{
     repeated FileIdentifier files = 1;
+    repeated int32 timestamp = 2;
 }
 
 message SendToMessage {

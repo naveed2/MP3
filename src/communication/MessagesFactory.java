@@ -1,11 +1,12 @@
 package communication;
 
+import filesystem.FileList;
+import filesystem.SDFS;
 import membership.MemberList;
 import membership.ProcState;
 import misc.MiscTool;
 
 import static communication.Messages.*;
-import static communication.Messages.ReadyToPutFileMessage.*;
 
 public class MessagesFactory {
 
@@ -51,6 +52,26 @@ public class MessagesFactory {
         SyncProcessesMessage syncMessage = syncMessageBuilder.build();
         return Message.newBuilder()
                 .setType(MessageType.SyncProcesses).setSyncProcessesMessage(syncMessage).build();
+    }
+
+    public static Message generateSyncFileListMessage(Integer timeStamp, ProcessIdentifier syncMachine,
+                                                      FileList fileList, SDFS sdfs) {
+        SyncFilesListMessage.Builder syncFileListMessageBuilder = SyncFilesListMessage.newBuilder();
+
+        for(FileIdentifier fileIdentifier : fileList) {
+            if(!sdfs.isAvailable(fileIdentifier)) {
+                continue;
+            }
+
+            if(fileIdentifier.getFileStoringProcess().getId().equals(syncMachine.getId())) {
+                Integer t = syncMachine.getTimestamp();
+                syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(timeStamp);
+            } else {
+                syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(sdfs.getFileTimeStamp(fileIdentifier));
+            }
+        }
+        return Message.newBuilder()
+                .setType(MessageType.SyncFiles).setSyncFilesMessage(syncFileListMessageBuilder.build()).build();
     }
 
     public static Message generateHearBeatMessage(Integer timeStamp, ProcessIdentifier fromMachine) {

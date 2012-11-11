@@ -3912,6 +3912,11 @@ public final class Messages {
         getFilesOrBuilderList();
     communication.Messages.FileIdentifierOrBuilder getFilesOrBuilder(
         int index);
+    
+    // repeated int32 timestamp = 2;
+    java.util.List<java.lang.Integer> getTimestampList();
+    int getTimestampCount();
+    int getTimestamp(int index);
   }
   public static final class SyncFilesListMessage extends
       com.google.protobuf.GeneratedMessage
@@ -3962,8 +3967,23 @@ public final class Messages {
       return files_.get(index);
     }
     
+    // repeated int32 timestamp = 2;
+    public static final int TIMESTAMP_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> timestamp_;
+    public java.util.List<java.lang.Integer>
+        getTimestampList() {
+      return timestamp_;
+    }
+    public int getTimestampCount() {
+      return timestamp_.size();
+    }
+    public int getTimestamp(int index) {
+      return timestamp_.get(index);
+    }
+    
     private void initFields() {
       files_ = java.util.Collections.emptyList();
+      timestamp_ = java.util.Collections.emptyList();;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3986,6 +4006,9 @@ public final class Messages {
       for (int i = 0; i < files_.size(); i++) {
         output.writeMessage(1, files_.get(i));
       }
+      for (int i = 0; i < timestamp_.size(); i++) {
+        output.writeInt32(2, timestamp_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -3998,6 +4021,15 @@ public final class Messages {
       for (int i = 0; i < files_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, files_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < timestamp_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(timestamp_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getTimestampList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4130,6 +4162,8 @@ public final class Messages {
         } else {
           filesBuilder_.clear();
         }
+        timestamp_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       
@@ -4176,6 +4210,11 @@ public final class Messages {
         } else {
           result.files_ = filesBuilder_.build();
         }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          timestamp_ = java.util.Collections.unmodifiableList(timestamp_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.timestamp_ = timestamp_;
         onBuilt();
         return result;
       }
@@ -4216,6 +4255,16 @@ public final class Messages {
               filesBuilder_.addAllMessages(other.files_);
             }
           }
+        }
+        if (!other.timestamp_.isEmpty()) {
+          if (timestamp_.isEmpty()) {
+            timestamp_ = other.timestamp_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureTimestampIsMutable();
+            timestamp_.addAll(other.timestamp_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4258,6 +4307,20 @@ public final class Messages {
               communication.Messages.FileIdentifier.Builder subBuilder = communication.Messages.FileIdentifier.newBuilder();
               input.readMessage(subBuilder, extensionRegistry);
               addFiles(subBuilder.buildPartial());
+              break;
+            }
+            case 16: {
+              ensureTimestampIsMutable();
+              timestamp_.add(input.readInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              while (input.getBytesUntilLimit() > 0) {
+                addTimestamp(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -4450,6 +4513,51 @@ public final class Messages {
           files_ = null;
         }
         return filesBuilder_;
+      }
+      
+      // repeated int32 timestamp = 2;
+      private java.util.List<java.lang.Integer> timestamp_ = java.util.Collections.emptyList();;
+      private void ensureTimestampIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          timestamp_ = new java.util.ArrayList<java.lang.Integer>(timestamp_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      public java.util.List<java.lang.Integer>
+          getTimestampList() {
+        return java.util.Collections.unmodifiableList(timestamp_);
+      }
+      public int getTimestampCount() {
+        return timestamp_.size();
+      }
+      public int getTimestamp(int index) {
+        return timestamp_.get(index);
+      }
+      public Builder setTimestamp(
+          int index, int value) {
+        ensureTimestampIsMutable();
+        timestamp_.set(index, value);
+        onChanged();
+        return this;
+      }
+      public Builder addTimestamp(int value) {
+        ensureTimestampIsMutable();
+        timestamp_.add(value);
+        onChanged();
+        return this;
+      }
+      public Builder addAllTimestamp(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureTimestampIsMutable();
+        super.addAll(values, timestamp_);
+        onChanged();
+        return this;
+      }
+      public Builder clearTimestamp() {
+        timestamp_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
       }
       
       // @@protoc_insertion_point(builder_scope:communication.SyncFilesListMessage)
@@ -10509,50 +10617,50 @@ public final class Messages {
       "essIdentifier\"\203\001\n\024SyncProcessesMessage\0221" +
       "\n\007members\030\001 \003(\0132 .communication.ProcessI" +
       "dentifier\0228\n\016syncingMachine\030\002 \002(\0132 .comm" +
-      "unication.ProcessIdentifier\"D\n\024SyncFiles" +
+      "unication.ProcessIdentifier\"W\n\024SyncFiles" +
       "ListMessage\022,\n\005files\030\001 \003(\0132\035.communicati" +
-      "on.FileIdentifier\"H\n\rSendToMessage\0227\n\rse",
-      "ndToMachine\030\001 \002(\0132 .communication.Proces" +
-      "sIdentifier\"_\n\016GetFileMessage\022\020\n\010filepat" +
-      "h\030\001 \002(\t\022;\n\021requestingProcess\030\002 \001(\0132 .com" +
-      "munication.ProcessIdentifier\"c\n\025ReadyToG" +
-      "etFileMessage\022\020\n\010filepath\030\001 \002(\t\0228\n\016stori" +
-      "ngProcess\030\002 \001(\0132 .communication.ProcessI" +
-      "dentifier\"\\\n\016PutFileMessage\022\020\n\010filepath\030" +
+      "on.FileIdentifier\022\021\n\ttimestamp\030\002 \003(\005\"H\n\r",
+      "SendToMessage\0227\n\rsendToMachine\030\001 \002(\0132 .c" +
+      "ommunication.ProcessIdentifier\"_\n\016GetFil" +
+      "eMessage\022\020\n\010filepath\030\001 \002(\t\022;\n\021requesting" +
+      "Process\030\002 \001(\0132 .communication.ProcessIde" +
+      "ntifier\"c\n\025ReadyToGetFileMessage\022\020\n\010file" +
+      "path\030\001 \002(\t\0228\n\016storingProcess\030\002 \001(\0132 .com" +
+      "munication.ProcessIdentifier\"\\\n\016PutFileM" +
+      "essage\022\020\n\010filepath\030\001 \002(\t\0228\n\016storingProce" +
+      "ss\030\002 \001(\0132 .communication.ProcessIdentifi" +
+      "er\"c\n\025ReadyToPutFileMessage\022\020\n\010filepath\030",
       "\001 \002(\t\0228\n\016storingProcess\030\002 \001(\0132 .communic" +
-      "ation.ProcessIdentifier\"c\n\025ReadyToPutFil" +
-      "eMessage\022\020\n\010filepath\030\001 \002(\t\0228\n\016storingPro",
-      "cess\030\002 \001(\0132 .communication.ProcessIdenti" +
-      "fier\"`\n\021DeleteFileMessage\022\020\n\010filepath\030\001 " +
-      "\002(\t\0229\n\017deletingProcess\030\002 \001(\0132 .communica" +
-      "tion.ProcessIdentifier\"P\n\021ListenFromMess" +
-      "age\022;\n\021listenFromMachine\030\001 \002(\0132 .communi" +
-      "cation.ProcessIdentifier\"\245\006\n\007Message\022(\n\004" +
-      "type\030\001 \002(\0162\032.communication.MessageType\022/" +
-      "\n\013joinMessage\030\002 \001(\0132\032.communication.Join" +
-      "Message\0221\n\014leaveMessage\030\003 \001(\0132\033.communic" +
-      "ation.LeaveMessage\022/\n\013failMessage\030\004 \001(\0132",
-      "\032.communication.FailMessage\022A\n\024syncProce" +
-      "ssesMessage\030\005 \001(\0132#.communication.SyncPr" +
-      "ocessesMessage\022=\n\020syncFilesMessage\030\006 \001(\013" +
-      "2#.communication.SyncFilesListMessage\0229\n" +
-      "\020heartBeatMessage\030\007 \001(\0132\037.communication." +
-      "HeartBeatMessage\0223\n\rsendToMessage\030\010 \001(\0132" +
-      "\034.communication.SendToMessage\0224\n\nlistenF" +
-      "rom\030\t \001(\0132 .communication.ListenFromMess" +
-      "age\0225\n\016getFileMessage\030\n \001(\0132\035.communicat" +
-      "ion.GetFileMessage\0225\n\016putFileMessage\030\013 \001",
-      "(\0132\035.communication.PutFileMessage\022;\n\021del" +
-      "eteFileMessage\030\014 \001(\0132 .communication.Del" +
-      "eteFileMessage\022C\n\025readyToPutFileMessage\030" +
-      "\r \001(\0132$.communication.ReadyToPutFileMess" +
-      "age\022C\n\025readyToGetFileMessage\030\016 \001(\0132$.com" +
-      "munication.ReadyToGetFileMessage*\270\001\n\013Mes" +
-      "sageType\022\r\n\tHeartbeat\020\000\022\010\n\004Join\020\001\022\010\n\004Fai" +
-      "l\020\002\022\021\n\rSyncProcesses\020\003\022\r\n\tSyncFiles\020\004\022\n\n" +
-      "\006SendTo\020\005\022\016\n\nListenFrom\020\006\022\013\n\007getFile\020\007\022\013" +
-      "\n\007putFile\020\010\022\016\n\ndeleteFile\020\t\022\016\n\nreadyToPu",
-      "t\020\n\022\016\n\nreadyToGet\020\013"
+      "ation.ProcessIdentifier\"`\n\021DeleteFileMes" +
+      "sage\022\020\n\010filepath\030\001 \002(\t\0229\n\017deletingProces" +
+      "s\030\002 \001(\0132 .communication.ProcessIdentifie" +
+      "r\"P\n\021ListenFromMessage\022;\n\021listenFromMach" +
+      "ine\030\001 \002(\0132 .communication.ProcessIdentif" +
+      "ier\"\245\006\n\007Message\022(\n\004type\030\001 \002(\0162\032.communic" +
+      "ation.MessageType\022/\n\013joinMessage\030\002 \001(\0132\032" +
+      ".communication.JoinMessage\0221\n\014leaveMessa" +
+      "ge\030\003 \001(\0132\033.communication.LeaveMessage\022/\n",
+      "\013failMessage\030\004 \001(\0132\032.communication.FailM" +
+      "essage\022A\n\024syncProcessesMessage\030\005 \001(\0132#.c" +
+      "ommunication.SyncProcessesMessage\022=\n\020syn" +
+      "cFilesMessage\030\006 \001(\0132#.communication.Sync" +
+      "FilesListMessage\0229\n\020heartBeatMessage\030\007 \001" +
+      "(\0132\037.communication.HeartBeatMessage\0223\n\rs" +
+      "endToMessage\030\010 \001(\0132\034.communication.SendT" +
+      "oMessage\0224\n\nlistenFrom\030\t \001(\0132 .communica" +
+      "tion.ListenFromMessage\0225\n\016getFileMessage" +
+      "\030\n \001(\0132\035.communication.GetFileMessage\0225\n",
+      "\016putFileMessage\030\013 \001(\0132\035.communication.Pu" +
+      "tFileMessage\022;\n\021deleteFileMessage\030\014 \001(\0132" +
+      " .communication.DeleteFileMessage\022C\n\025rea" +
+      "dyToPutFileMessage\030\r \001(\0132$.communication" +
+      ".ReadyToPutFileMessage\022C\n\025readyToGetFile" +
+      "Message\030\016 \001(\0132$.communication.ReadyToGet" +
+      "FileMessage*\270\001\n\013MessageType\022\r\n\tHeartbeat" +
+      "\020\000\022\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\rSyncProcesses\020" +
+      "\003\022\r\n\tSyncFiles\020\004\022\n\n\006SendTo\020\005\022\016\n\nListenFr" +
+      "om\020\006\022\013\n\007getFile\020\007\022\013\n\007putFile\020\010\022\016\n\ndelete",
+      "File\020\t\022\016\n\nreadyToPut\020\n\022\016\n\nreadyToGet\020\013"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10620,7 +10728,7 @@ public final class Messages {
           internal_static_communication_SyncFilesListMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_communication_SyncFilesListMessage_descriptor,
-              new java.lang.String[] { "Files", },
+              new java.lang.String[] { "Files", "Timestamp", },
               communication.Messages.SyncFilesListMessage.class,
               communication.Messages.SyncFilesListMessage.Builder.class);
           internal_static_communication_SendToMessage_descriptor =

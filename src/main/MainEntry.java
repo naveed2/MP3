@@ -128,7 +128,7 @@ public class MainEntry {
 
             if(isMySelf(identifier)) {
                 address = "127.0.0.1:" + proc.getTcpPort();
-                timeStamp = 0;
+                timeStamp = proc.getTimeStamp();
                 localTime = TimeMachine.getTime();
             } else {
                 address = identifier.getIP()+":"+identifier.getPort();
