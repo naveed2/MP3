@@ -73,24 +73,16 @@ public class ReplicaManager {
 
         for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
-            if(!replicateTo.contains(randomProcess)){
+            if(!replicateTo.contains(randomProcess) && notMySelf(randomProcess)){
                 replicateTo.add(randomProcess);
-                new FileOperations().sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
+                new FileOperations().setProc(proc).sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
                 i++;
             }
         }
     }
 
-    public Boolean exists(ProcessIdentifier processIdentifier, ProcessIdentifier[] replicateTo){
-        synchronized (this){
-            for(int i=0; i < replicateTo.length; i++){
-                ProcessIdentifier tmp = replicateTo[i];
-                if(theSameProcessIdentifier(tmp, processIdentifier)){
-                    return true;
-                }
-            }
-            return false;
-        }
+    private boolean notMySelf(ProcessIdentifier identifier) {
+        return ! identifier.getId().equals(proc.getId());
     }
 
     private boolean theSameProcessIdentifier(ProcessIdentifier p1, ProcessIdentifier p2){

@@ -78,8 +78,9 @@ public class FileOperations {
         }
     }
 
-    public void setProc(Proc proc) {
+    public FileOperations setProc(Proc proc) {
         FileOperations.proc = proc;
+        return this;
     }
 
 
