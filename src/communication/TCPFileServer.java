@@ -1,7 +1,5 @@
 package communication;
 
-import filesystem.SDFS;
-import main.MainEntry;
 import membership.Proc;
 import org.apache.log4j.Logger;
 
@@ -10,8 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static communication.Messages.*;
@@ -84,16 +80,16 @@ public class TCPFileServer {
     }
 
     private void addMission(FileMission mission, ProcessIdentifier identifier) {
-        String add = identifier.getIP()+":"+identifier.getPort();
-        missions.put(add, mission);
+        String id = identifier.getId();
+        missions.put(id, mission);
     }
 
     private void handleConnection(final TCPConnection conn) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String add = conn.getRemoteAddress();
-                FileMission mission = missions.get(add);
+                String key = conn.readID();
+                FileMission mission = missions.get(key);
 
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
@@ -101,7 +97,7 @@ public class TCPFileServer {
                     sendFile(mission, conn);
                 }
 
-                missions.remove(add);
+                missions.remove(key);
             }
         }).start();
     }

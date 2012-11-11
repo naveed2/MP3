@@ -37,7 +37,11 @@ public class TCPClient {
             tcpConnection = new TCPConnection();
             tcpConnection.setSocket(socket).setProc(proc);
         } catch (IOException e) {
-            logger.error("socket construction error", e);
+            if(e.getMessage().equals("Connection refused")) {
+                logger.info("connect(): socket connection refused");
+            } else {
+                logger.error("socket construction error", e);
+            }
             return false;
         }
         return true;
