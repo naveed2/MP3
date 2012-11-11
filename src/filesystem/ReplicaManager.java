@@ -16,12 +16,12 @@ public class ReplicaManager {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
-    private Integer replicaCount;
+
     private static final Integer SCAN_INTERVAL = 2000;
+    private static final Integer REPLICA_COUNT = 2;
 
     public ReplicaManager(){
         shouldStop = new AtomicBoolean(false);
-        setReplicaCount(2);    //TODO High level class should handle this
     }
 
     public void start(){
@@ -48,32 +48,36 @@ public class ReplicaManager {
     private void scanFileList(){
         HashMap<String, Integer> replicaCounter = new HashMap<String, Integer>();
         for(FileIdentifier f : getFileList()){
-            if(!replicaCounter.containsKey(f.getFilepath())){
-                replicaCounter.put(f.getFilepath(), 0);
+            String key = f.getFilepath();
+
+            if(!replicaCounter.containsKey(key)){
+                replicaCounter.put(key, 1);
             }
             else {
                 //TODO recheck if its correct
-                replicaCounter.put(f.getFilepath(), replicaCounter.get(f.getFilepath())+1);
+                replicaCounter.put(key, replicaCounter.get(key)+1);
             }
         }
 
         for(Map.Entry<String, Integer> e : replicaCounter.entrySet()){
             Integer replicaCount = e.getValue();
-            if(replicaCount < this.replicaCount){
-                Integer requiredReplicas = this.replicaCount - replicaCount;
-                createReplicas(requiredReplicas, e.getKey());
+            Integer requiredReplicas = REPLICA_COUNT - replicaCount;
+            if(requiredReplicas <=0 ) {
+                continue;
             }
+
+            requiredReplicas = Math.min(requiredReplicas, proc.getMemberList().size());
+            createReplicas(requiredReplicas, e.getKey());
         }
     }
 
     public void createReplicas(Integer requiredReplicas, String SDFSFilepath){
-        Random rand = new Random();
-        MemberList memberList = proc.getMemberList();
+
         ProcessIdentifier[] replicateTo = new ProcessIdentifier[requiredReplicas];
         for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
             if(!exists(randomProcess, replicateTo)){
-                replicateTo[i] = selectRandomProcess();
+                replicateTo[i] = randomProcess;
                 new FileOperations().sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
                 i++;
             }
@@ -111,9 +115,4 @@ public class ReplicaManager {
         shouldStop.set(true);
         Thread.interrupted();
     }
-
-    public void setReplicaCount(Integer replicaCount){
-        this.replicaCount = replicaCount;
-    }
-
 }
