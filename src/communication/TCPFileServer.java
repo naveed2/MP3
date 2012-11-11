@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,14 +20,14 @@ public class TCPFileServer {
     private ServerSocket serverSocket;
     private Proc proc;
     private AtomicBoolean shouldStop;
-    private Map<String, FileMission> missions;
+    private Map<String, LinkedList<FileMission> > missions;
 
     private static Logger logger = Logger.getLogger(TCPFileServer.class);
 
     public TCPFileServer (Integer fileServerPort){
         this.fileServerPort = fileServerPort;
         shouldStop = new AtomicBoolean(false);
-        missions = new HashMap<String, FileMission>();
+        missions = new HashMap<String, LinkedList<FileMission> >();
     }
 
     public void setProc(Proc proc) {
@@ -81,7 +83,14 @@ public class TCPFileServer {
 
     private void addMission(FileMission mission, ProcessIdentifier identifier) {
         String id = identifier.getId();
-        missions.put(id, mission);
+        if(missions.containsKey(id)) {
+            List<FileMission> list = missions.get(id);
+            list.add(mission);
+        } else {
+            LinkedList<FileMission> list = new LinkedList<FileMission>();
+            list.add(mission);
+            missions.put(id, list);
+        }
     }
 
     private void handleConnection(final TCPConnection conn) {
@@ -89,15 +98,14 @@ public class TCPFileServer {
             @Override
             public void run() {
                 String key = conn.readID();
-                FileMission mission = missions.get(key);
+                LinkedList<FileMission> list = missions.get(key);
+                FileMission mission = list.pop();
 
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
                 } else {    //send mission
                     sendFile(mission, conn);
                 }
-
-                missions.remove(key);
             }
         }).start();
     }
