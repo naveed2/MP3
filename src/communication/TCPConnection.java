@@ -219,11 +219,12 @@ public class TCPConnection {
 
             case deleteFile:
                 DeleteFileMessage deleteFileMessage = m.getDeleteFileMessage();
-                if (deleteFile(deleteFileMessage.getFilepath())) {
-                    System.out.println("File Successfully deleted.");
-                } else {
-                    System.out.println("File NOT deleted, please try again");
-                }
+                deleteFile(deleteFileMessage.getFilepath());
+//                if (deleteFile(deleteFileMessage.getFilepath())) {
+//                    System.out.println("File Successfully deleted.");
+//                } else {
+//                    System.out.println("File NOT deleted, please try again");
+//                }
                 break;
 
 
@@ -327,10 +328,8 @@ public class TCPConnection {
         }
     }
 
-    private boolean deleteFile(String SDFSfilepath){
-        File file = new File(SDFSfilepath);
-        //TODO delete file from the filelist, when filelist is implemented
-        return file.delete();
+    private void deleteFile(String SDFSfilepath){
+        proc.getSDFS().deleteFile(SDFSfilepath);
     }
 
 

@@ -239,4 +239,36 @@ public class SDFS {
             localTimeMap.put(key, TimeMachine.getTime());
         }
     }
+
+    public void deleteFile(String fileName) {
+        synchronized (this) {
+            for(FileIdentifier fileIdentifier : getFileList()) {
+                if(!fileIdentifier.getFilepath().equals(fileName)) {
+                    continue;
+                }
+
+                if(!isAvailable(fileIdentifier)) {
+                    continue;
+                }
+
+                ProcessIdentifier processIdentifier = fileIdentifier.getFileStoringProcess();
+                if(processIdentifier.getId().equals(proc.getId())) {
+                    setToBeDeleted(fileIdentifier);
+                    deleteFileLocally(fileName);
+                } else {
+                    new FileOperations().setProc(proc).sendDeleteMessage(fileName,
+                            processIdentifier.getIP(), processIdentifier.getPort());
+                }
+            }
+        }
+    }
+
+    private void deleteFileLocally(String fileName) {
+        File f = new File(rootDirectory + fileName);
+        if(f.delete()) {
+            logger.info("successfully delete file: " + f.getName());
+        } else {
+            logger.error("failed in deleting file: " + f.getName());
+        }
+    }
 }

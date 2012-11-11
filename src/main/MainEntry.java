@@ -145,6 +145,11 @@ public class MainEntry {
         proc.getSDFS().addFileLocally(fileName);
     }
 
+    private static void deleteFile() {
+        String fileName = MiscTool.inputFileName(in);
+        proc.getSDFS().deleteFile(fileName);
+    }
+
     private static boolean isMySelf(ProcessIdentifier identifier) {
         return identifier.getId().equals(proc.getId());
     }

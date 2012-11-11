@@ -32,6 +32,9 @@ public class CommandMap {
     private static final String CMD_QUIT = "quit";
     private static final String FUNC_QUIT ="quit";
 
+    private static final String CMD_DEL = "del";
+    private static final String FUNC_DEL = "deleteFile";
+
     private CommandMap() {
 
     }
@@ -52,6 +55,7 @@ public class CommandMap {
         stringToFuncName.put(CMD_PUT, FUNC_PUT);
         stringToFuncName.put(CMD_HELP, FUNC_HELP);
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
+        stringToFuncName.put(CMD_DEL, FUNC_DEL);
 
         return this;
     }
