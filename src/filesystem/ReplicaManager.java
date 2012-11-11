@@ -5,10 +5,7 @@ import communication.Messages.FileIdentifier;
 import membership.MemberList;
 import membership.Proc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import membership.MemberList;
 
@@ -61,23 +58,23 @@ public class ReplicaManager {
 
         for(Map.Entry<String, Integer> e : replicaCounter.entrySet()){
             Integer replicaCount = e.getValue();
-            Integer requiredReplicas = REPLICA_COUNT - replicaCount;
+            Integer requiredReplicas = Math.min(REPLICA_COUNT, proc.getMemberList().size());
+            requiredReplicas = requiredReplicas - replicaCount;
             if(requiredReplicas <=0 ) {
                 continue;
             }
-
-            requiredReplicas = Math.min(requiredReplicas, proc.getMemberList().size());
             createReplicas(requiredReplicas, e.getKey());
         }
     }
 
     public void createReplicas(Integer requiredReplicas, String SDFSFilepath){
 
-        ProcessIdentifier[] replicateTo = new ProcessIdentifier[requiredReplicas];
+        List<ProcessIdentifier> replicateTo = new ArrayList<ProcessIdentifier>(requiredReplicas);
+
         for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
-            if(!exists(randomProcess, replicateTo)){
-                replicateTo[i] = randomProcess;
+            if(!replicateTo.contains(randomProcess)){
+                replicateTo.add(randomProcess);
                 new FileOperations().sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
                 i++;
             }
