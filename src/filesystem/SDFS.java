@@ -214,6 +214,7 @@ public class SDFS {
 
     public void addAvailableEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
         if(fileList.find(fileIdentifier)!=-1){
+            System.out.println("add available " + fileIdentifier);
             String key = generateKey(fileIdentifier);
             if(stateMap.get(key) == FileState.syncing) {
                 timeStampMap.put(key, timeStamp);

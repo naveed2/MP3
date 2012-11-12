@@ -63,10 +63,15 @@ public class MessagesFactory {
                 continue;
             }
 
+            FileIdentifier newFileIdentifier = FileIdentifierFactory.generateFileIdentifier(
+                    fileIdentifier.getFileStoringProcess(), fileIdentifier.getFilepath(),
+                    sdfs.getFileState(fileIdentifier)
+            );
+
             if(fileIdentifier.getFileStoringProcess().getId().equals(syncMachine.getId())) {
-                syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(timeStamp);
+                syncFileListMessageBuilder.addFiles(newFileIdentifier).addTimestamp(timeStamp);
             } else {
-                syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(sdfs.getFileTimeStamp(fileIdentifier));
+                syncFileListMessageBuilder.addFiles(newFileIdentifier).addTimestamp(sdfs.getFileTimeStamp(fileIdentifier));
             }
         }
         return Message.newBuilder()

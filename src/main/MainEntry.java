@@ -11,6 +11,7 @@ import membership.Proc;
 import membership.ProcState;
 import misc.MiscTool;
 import misc.TimeMachine;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.swing.text.Utilities;
@@ -27,6 +28,8 @@ public class MainEntry {
     private static CommandMap commandMap = CommandMap.getInstance();
     private static Proc proc;
     private static Integer localPort;
+
+    private static Logger logger = Logger.getLogger(MainEntry.class);
 
     public static void main(String[] args) {
 
@@ -148,7 +151,8 @@ public class MainEntry {
         String fileName = MiscTool.inputFileName(in);
         proc.getSDFS().addFileLocally(fileName);
         long usingTime = System.currentTimeMillis() - startTime;
-        System.out.println("put command uses " + usingTime + " ms");
+
+        logger.info("put command uses " + usingTime + " ms");
     }
 
     private static void deleteFile() {
@@ -162,7 +166,8 @@ public class MainEntry {
         long startTime = System.currentTimeMillis();
         proc.getSDFS().getRemoteFile(remoteFileName, localFileName);
         long usingTime = System.currentTimeMillis() - startTime;
-        System.out.println("Get command uses " + usingTime + " ms");
+
+        logger.info("Get command uses " + usingTime + " ms");
     }
 
     private static boolean isMySelf(ProcessIdentifier identifier) {

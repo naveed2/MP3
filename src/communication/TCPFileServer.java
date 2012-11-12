@@ -112,7 +112,7 @@ public class TCPFileServer {
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
                     float usingTime = System.currentTimeMillis() - startTime;
-                    System.out.println("Replicate " + mission.getFileName() + " uses " + usingTime + " ms");
+                    logger.info("Replicate " + mission.getFileName() + " uses " + usingTime + " ms");
                 } else {    //send mission
                     sendFile(mission, conn);
                 }
