@@ -1,5 +1,6 @@
 package communication;
 
+import filesystem.FileState;
 import filesystem.SDFS;
 import membership.MemberList;
 import membership.Proc;
@@ -144,6 +145,10 @@ public class UDPServer {
         for(int i=0; i<list.size(); ++i) {
             Integer timeStamp = timeStampList.get(i);
             FileIdentifier identifier = list.get(i);
+            FileState state = sdfs.getFileState(identifier);
+            if(state == FileState.toBeDeleted) {
+                continue;
+            }
             if(sdfs.getFileList().find(identifier) != -1) {
                 Integer oldTimeStamp = sdfs.getFileTimeStamp(identifier);
                 if(oldTimeStamp < timeStamp) {
