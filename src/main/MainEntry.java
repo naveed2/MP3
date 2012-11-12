@@ -119,9 +119,9 @@ public class MainEntry {
     private static void showFileList() {
         for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
             ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
-//            if(!proc.getSDFS().isValid(fileIdentifier)) {
-//                continue;
-//            }
+            if(!proc.getSDFS().isValid(fileIdentifier)) {
+                continue;
+            }
             String address;
             Integer timeStamp;
             Long localTime;
@@ -144,8 +144,11 @@ public class MainEntry {
     }
 
     private static void putFile() {
+        long startTime = System.currentTimeMillis();
         String fileName = MiscTool.inputFileName(in);
         proc.getSDFS().addFileLocally(fileName);
+        long usingTime = System.currentTimeMillis() - startTime;
+        System.out.println("put command uses " + usingTime + " ms");
     }
 
     private static void deleteFile() {
@@ -156,10 +159,10 @@ public class MainEntry {
     private static void getFile(){
         String remoteFileName = MiscTool.inputFileName(in);
         String localFileName = MiscTool.inputFileName(in);
-        long startTime = TimeMachine.getTime();
+        long startTime = System.currentTimeMillis();
         proc.getSDFS().getRemoteFile(remoteFileName, localFileName);
-        float usingTime = (TimeMachine.getTime() - startTime) / 10;
-        System.out.println("Get command uses " + usingTime + " seconds");
+        long usingTime = System.currentTimeMillis() - startTime;
+        System.out.println("Get command uses " + usingTime + " ms");
     }
 
     private static boolean isMySelf(ProcessIdentifier identifier) {

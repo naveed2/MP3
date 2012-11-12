@@ -201,11 +201,12 @@ public class SDFS {
 
         int nextByte;
         try {
-            while((nextByte = bis.read()) != -1) {
-                bos.write(nextByte);
-            }
-            bis.close();
-            bos.close();
+//            while((nextByte = bis.read()) != -1) {
+//                bos.write(nextByte);
+//            }
+//            bis.close();
+//            bos.close();
+            MiscTool.readFromInputStreamToOutputStream(bis, bos);
         } catch (IOException e) {
             logger.error("copy error", e);
         }
@@ -340,10 +341,10 @@ public class SDFS {
             FileState oldState, newState;
             oldState = stateMap.get(key);
             newState = FileState.valueOf(identifier.getFileState());
-            if(oldState == FileState.available && newState == FileState.syncing) {
+            if(oldState == FileState.available) {
                 return;
             }
-            stateMap.put(key, FileState.valueOf(identifier.getFileState()));
+            stateMap.put(key, newState);
         }
     }
 

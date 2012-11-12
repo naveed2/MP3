@@ -107,16 +107,14 @@ public class TCPFileServer {
                     return;
                 }
 
-                long startTime = TimeMachine.getTime();
+                long startTime = System.currentTimeMillis();
 
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
-                    float usingTime = TimeMachine.getTime() - startTime;
-                    System.out.println("Get a file from server uses " + usingTime + " seconds");
+                    float usingTime = System.currentTimeMillis() - startTime;
+                    System.out.println("Replicate " + mission.getFileName() + " uses " + usingTime + " ms");
                 } else {    //send mission
                     sendFile(mission, conn);
-                    float usingTime = TimeMachine.getTime() - startTime;
-                    System.out.println("Send a file to server uses " + usingTime + " seconds");
                 }
             }
         }).start();

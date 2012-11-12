@@ -308,18 +308,12 @@ public class TCPConnection {
 
             case readyToPut:
                 ReadyToPutFileMessage readyToPutFileMessage = m.getReadyToPutFileMessage();
-                long startTime = TimeMachine.getTime();
                 putFile(readyToPutFileMessage);
-                float usingTime = (TimeMachine.getTime() - startTime) / 10;
-                System.out.println("Put " + " uses " + usingTime + " seconds");
                 break;
 
             case readyToGet:
                 ReadyToGetFileMessage readyToGetFileMessage = m.getReadyToGetFileMessage();
-                startTime = TimeMachine.getTime();
                 getFile(readyToGetFileMessage);
-                usingTime = (TimeMachine.getTime() - startTime) / 10;
-                System.out.println("Replica uses " + usingTime + " seconds");
                 break;
 
             default:
@@ -354,6 +348,9 @@ public class TCPConnection {
     }
 
     private void getFile(ReadyToGetFileMessage readyToGetFileMessage){
+
+        long startTime = System.currentTimeMillis();
+
         String address = readyToGetFileMessage.getStoringProcess().getIP() + ":" +
                 Integer.toString(readyToGetFileMessage.getStoringProcess().getPort());
         TCPClient tcpClient = new TCPClient(address);
@@ -368,6 +365,9 @@ public class TCPConnection {
 
             proc.getSDFS().addAvailableEntryToFileList(fileIdentifier, proc.getTimeStamp());
         }
+
+        long useTime = System.currentTimeMillis() - startTime;
+        logger.info("replicate " + readyToGetFileMessage.getFilepath() + " uses " + useTime + " ms");
     }
 
     private void prepareToGet(ProcessIdentifier storingProcess, String SDFSfilepath){
