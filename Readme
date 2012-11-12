@@ -1,0 +1,37 @@
+
+CS425 MP3 - SimpleDistributedFileSystem ReadMe
+by Junjie Hu(jhu14), Muhammad Naveed(naveed2)
+
+
+-> How to compile and build project
+
+1) Goto to folder code
+2) Run command "ant build"
+3) Two folders are generated, "build" and "deploy".
+
+-> How to deploy
+1) Find folder "deploy"
+2) Copy it to wherever you want
+3) "deploy" could be renamed
+
+-> How to run
+1) Goto folder "deploy"
+2) Give running permission to "./run_sdfs.sh"
+3) Run command "./run_sdfs.sh"
+
+
+Running guide:
+1) You need to run type "start" command at first!!
+2) You are asked to input a port number X. And port X,X+1,X+2,X+3 are used for system.
+3) You are asked to input the root directory for SDFS
+4) Init done. System works.
+
+
+Code reading guide:
+1) main.MainEntry. This is the entrance of whole system. This the main class.
+2) filesystem.ReplicationManager. This is the replicaion manger.
+3) filesystem.SDFS. This is the main class of SimpleDistributedFileSystem
+4) communication.Gossip. This is the main class of gossip part.
+5) TCPServer, UDPServe, TCPFileSever. Three different servers used designed for different tasks. See doc.
+6) TCPClient, UDPClient, TCPConnection. Used in communication.
+               
