@@ -147,8 +147,8 @@ public class MainEntry {
     }
 
     private static void putFile() {
-        long startTime = System.currentTimeMillis();
         String fileName = MiscTool.inputFileName(in);
+        long startTime = System.currentTimeMillis();
         proc.getSDFS().addFileLocally(fileName);
         long usingTime = System.currentTimeMillis() - startTime;
 

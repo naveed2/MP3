@@ -199,13 +199,7 @@ public class SDFS {
             return;
         }
 
-        int nextByte;
         try {
-//            while((nextByte = bis.read()) != -1) {
-//                bos.write(nextByte);
-//            }
-//            bis.close();
-//            bos.close();
             MiscTool.readFromInputStreamToOutputStream(bis, bos);
         } catch (IOException e) {
             logger.error("copy error", e);
@@ -306,6 +300,8 @@ public class SDFS {
 
                 Long diff = TimeMachine.getTime() - localTimeMap.get(generateKey(fileIdentifier));
                 if(diff > MAX_TIME_DIFFERENCE) {
+                    System.out.println("diff = " + diff);
+                    System.out.println(localTimeMap.get(generateKey(fileIdentifier)));
                     removeFileIdentifierFromList(fileIdentifier);
                     break;
                 } else if(diff > MIN_TIME_DIFFERENCE){
@@ -362,13 +358,10 @@ public class SDFS {
                     continue;
                 }
 
-
                 ProcessIdentifier processIdentifier = fileIdentifier.getFileStoringProcess();
                 if(processIdentifier.getId().equals(proc.getId())) {
                     setToBeDeleted(fileIdentifier);
-                    if(isAvailable(fileIdentifier)) {
-                        deleteFileLocally(fileName);
-                    }
+                    deleteFileLocally(fileName);
                     flag = true;
                 } else {
                     list.add(processIdentifier);
