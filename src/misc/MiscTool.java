@@ -5,6 +5,9 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import communication.Messages;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
@@ -98,6 +101,16 @@ public class MiscTool {
                     + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
                     + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$" ;
         return ip.matches(regex);
+    }
+
+    public static void readFromInputStreamToOutputStream(InputStream is, OutputStream os) throws IOException {
+        byte [] buffer = new byte[8096*4];
+        int c;
+        while((c = is.read(buffer)) != -1 ) {
+            os.write(buffer, 0, c);
+        }
+        is.close();
+        os.close();
     }
 
     public static void main(String[] args) throws InvalidProtocolBufferException {

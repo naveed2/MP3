@@ -5,6 +5,7 @@ import misc.MiscTool;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
 public class TCPClient {
@@ -59,8 +60,8 @@ public class TCPClient {
         tcpConnection.sendData(b);
     }
 
-    public void flush() {
-        tcpConnection.flush();
+    public void sendData(InputStream is) {
+        tcpConnection.sendData(is);
     }
 
     public void sendData(byte[] bytes) {

@@ -102,6 +102,7 @@ public class TCPConnection {
         SDFS sdfs = proc.getSDFS();
         FileOutputStream fos;
         BufferedOutputStream bos;
+        BufferedInputStream bis;
 
         try {
             fos = new FileOutputStream(sdfs.openFile(fileName)) ;
@@ -113,11 +114,15 @@ public class TCPConnection {
 
         try {
             is = socket.getInputStream();
-            int nextByte;
-            while((nextByte = is.read())!= -1) {
-                bos.write(nextByte);
-            }
-            bos.close();
+            bis = new BufferedInputStream(is);
+//            byte [] buffer = new byte[8096 * 4];
+//            int c;
+//            while((c = bis.read(buffer))!= -1) {
+//                bos.write(buffer, 0, c);
+//            }
+//            bos.close();
+//            bis.close();
+            MiscTool.readFromInputStreamToOutputStream(bis, bos);
         } catch (IOException e) {
             if(e.getMessage().equals("socket close")) {
                 //
@@ -147,11 +152,21 @@ public class TCPConnection {
         try {
             os =socket.getOutputStream();
             bos = new BufferedOutputStream(os);
-            int nextByte;
-            while((nextByte = bis.read())!= -1) {
-                bos.write(nextByte);
-            }
-            fis.close();
+
+//            byte buffer[] = new byte[8096 * 4];
+//            int c;
+//            while((c = bis.read(buffer))!=-1) {
+//                bos.write(buffer, 0, c);
+//            }
+//            bis.close();
+//            bos.close();
+            MiscTool.readFromInputStreamToOutputStream(bis, bos);
+
+//            int nextByte;
+//            while((nextByte = bis.read())!= -1) {
+//                bos.write(nextByte);
+//            }
+//            bis.close();
 
         } catch (IOException e) {
             if(e.getMessage().equals("socket close")) {
@@ -185,6 +200,21 @@ public class TCPConnection {
         } catch (IOException e) {
             logger.error("Sending TCP packets error" + e);
             e.printStackTrace();
+        }
+    }
+
+    public void sendData(InputStream is) {
+        try {
+            proc.increaseAndGetTimeStamp();
+
+            MiscTool.readFromInputStreamToOutputStream(is, os);
+
+//            int nextByte;
+//            while((nextByte = is.read())!=-1) {
+//                os.write(nextByte);
+//            }
+        } catch(IOException e) {
+            logger.error("Error in writing from stream", e);
         }
     }
 
@@ -264,11 +294,7 @@ public class TCPConnection {
                     try {
                         BufferedInputStream bis =
                                 new BufferedInputStream(new FileInputStream(proc.getSDFS().getFile(fileName)));
-                        int nextByte;
-                        while((nextByte = bis.read())!=-1){
-                            tcpClient.sendData(nextByte);
-                        }
-                        tcpClient.flush();
+                        tcpClient.sendData(bis);
                         bis.close();
                         tcpClient.close();
                     } catch (IOException e) {
@@ -314,10 +340,7 @@ public class TCPConnection {
             if(tcpClient.connect()){
                 tcpClient.sendData(proc.getId());
                 BufferedInputStream bis = new BufferedInputStream(in);
-                int nextByte;
-                while((nextByte = bis.read()) != -1){
-                    tcpClient.sendData(nextByte);
-                }
+                tcpClient.sendData(bis);
 
                 tcpClient.close();
             }

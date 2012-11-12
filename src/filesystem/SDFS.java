@@ -119,12 +119,13 @@ public class SDFS {
             File file = new File(savedName);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             BufferedInputStream bis  = new BufferedInputStream(socket.getInputStream());
-            int nextByte;
-            while((nextByte=bis.read())!=-1) {
-                bos.write(nextByte);
-            }
-            bos.flush();
-            bos.close();
+//            int nextByte;
+//            while((nextByte=bis.read())!=-1) {
+//                bos.write(nextByte);
+//            }
+//            bos.flush();
+//            bos.close();
+            MiscTool.readFromInputStreamToOutputStream(bis, bos);
             socket.close();
             serverSocket.close();
         } catch (IOException e) {
@@ -336,6 +337,12 @@ public class SDFS {
             String key = generateKey(identifier);
             timeStampMap.put(key, timeStamp);
             localTimeMap.put(key, TimeMachine.getTime());
+            FileState oldState, newState;
+            oldState = stateMap.get(key);
+            newState = FileState.valueOf(identifier.getFileState());
+            if(oldState == FileState.available && newState == FileState.syncing) {
+                return;
+            }
             stateMap.put(key, FileState.valueOf(identifier.getFileState()));
         }
     }
