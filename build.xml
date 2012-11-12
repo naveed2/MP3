@@ -33,7 +33,7 @@
         <copy todir="${deploy.home}">
             <fileset dir="${basedir}">
                 <include name="log4j.properties" />
-                <include name="sdfs.sh" />
+                <include name="*.sh" />
                 <include name="protobuf" />
             </fileset>
         </copy>
