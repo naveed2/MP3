@@ -299,8 +299,6 @@ public class SDFS {
 
                 Long diff = TimeMachine.getTime() - localTimeMap.get(generateKey(fileIdentifier));
                 if(diff > MAX_TIME_DIFFERENCE) {
-                    System.out.println("diff = " + diff);
-                    System.out.println(localTimeMap.get(generateKey(fileIdentifier)));
                     removeFileIdentifierFromList(fileIdentifier);
                     break;
                 } else if(diff > MIN_TIME_DIFFERENCE){
