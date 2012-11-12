@@ -81,14 +81,16 @@ public class TCPFileServer {
     }
 
     private void addMission(FileMission mission, ProcessIdentifier identifier) {
-        String id = identifier.getId();
-        if(missions.containsKey(id)) {
-            List<FileMission> list = missions.get(id);
-            list.add(mission);
-        } else {
-            LinkedList<FileMission> list = new LinkedList<FileMission>();
-            list.add(mission);
-            missions.put(id, list);
+        synchronized (this) {
+            String id = identifier.getId();
+            if(missions.containsKey(id)) {
+                List<FileMission> list = missions.get(id);
+                list.add(mission);
+            } else {
+                LinkedList<FileMission> list = new LinkedList<FileMission>();
+                list.add(mission);
+                missions.put(id, list);
+            }
         }
     }
 
