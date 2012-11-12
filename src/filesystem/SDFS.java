@@ -342,7 +342,7 @@ public class SDFS {
         }
     }
 
-    public void deleteFile(String fileName) {
+    public void deleteFile(String fileName, boolean initialDelete) {
         synchronized (this) {
             boolean flag = false;
             LinkedList<ProcessIdentifier> list = new LinkedList<ProcessIdentifier>();
@@ -365,7 +365,7 @@ public class SDFS {
                 }
             }
 
-            if(flag) {
+            if(flag || initialDelete) {
                 for(ProcessIdentifier processIdentifier : list) {
                     new FileOperations().setProc(proc).sendDeleteMessage(fileName,
                             processIdentifier.getIP(), processIdentifier.getPort());

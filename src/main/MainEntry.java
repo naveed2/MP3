@@ -157,7 +157,7 @@ public class MainEntry {
 
     private static void deleteFile() {
         String fileName = MiscTool.inputFileName(in);
-        proc.getSDFS().deleteFile(fileName);
+        proc.getSDFS().deleteFile(fileName,true);
     }
 
     private static void getFile(){

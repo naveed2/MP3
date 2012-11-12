@@ -403,7 +403,7 @@ public class TCPConnection {
     }
 
     private void deleteFile(String SDFSfilepath){
-        proc.getSDFS().deleteFile(SDFSfilepath);
+        proc.getSDFS().deleteFile(SDFSfilepath, false);
     }
 
 
