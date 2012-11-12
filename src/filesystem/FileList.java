@@ -8,6 +8,8 @@ import java.util.List;
 
 import communication.Messages.FileIdentifier;
 
+//This class is used to implement filelist
+
 public class FileList implements Iterable<FileIdentifier> {
 
     private LinkedList<FileIdentifier> fileList;

@@ -26,12 +26,13 @@ public class TCPClient {
         remotePort = Integer.parseInt(str[1]);
     }
 
+//    this method set parameters for the remote host
     public TCPClient(String remoteIP, Integer remotePort) {
         this.remoteIP = remoteIP;
         this.remotePort = remotePort;
     }
 
-
+//  this method conencts to the remote host
     public boolean connect() {
         try {
             Socket socket = new Socket(remoteIP, remotePort);
@@ -48,6 +49,7 @@ public class TCPClient {
         return true;
     }
 
+//    this method closes the socket
     public void close() {
         try {
             tcpConnection.close();
@@ -56,10 +58,11 @@ public class TCPClient {
         }
     }
 
+//    this method is used when we want to send an Integer, underlying program will change it to bytes accordingly
     public void sendData(int b) {
         tcpConnection.sendData(b);
     }
-
+//  this method is used to send data from the input stream
     public void sendData(InputStream is) {
         tcpConnection.sendData(is);
     }
