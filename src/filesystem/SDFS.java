@@ -156,18 +156,19 @@ public class SDFS {
 
     /**
      * Add a local file to SDFS.
-     * @param filePath local file name
+     * @param sourceFileName local file name
      */
-    public void addFileLocally(String filePath) {
-        File file = new File(filePath);
+    public void addFileLocally(String sourceFileName, String savedName) {
+        File file = new File(sourceFileName);
         if(!file.exists()) {
             return;
         }
-        String fileName = file.getName();
-        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
-                proc.getIdentifier(), fileName, FileState.available);
+        System.out.println(sourceFileName +", " + savedName);
 
-        copyFile(file, rootDirectory + fileName);
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
+                proc.getIdentifier(), savedName, FileState.available);
+
+        copyFile(file, rootDirectory + savedName);
         addAvailableEntryToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
@@ -219,31 +220,37 @@ public class SDFS {
     }
 
     public void addAvailableEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
-        if(fileList.find(fileIdentifier)!=-1){
-            String key = generateKey(fileIdentifier);
-            if(stateMap.get(key) == FileState.syncing) {
-                timeStampMap.put(key, timeStamp);
-                localTimeMap.put(key, TimeMachine.getTime());
-                stateMap.put(key, FileState.available);
+        synchronized (this) {
+            if(fileList.find(fileIdentifier)!=-1){
+                String key = generateKey(fileIdentifier);
+                if(stateMap.get(key) == FileState.syncing) {
+                    timeStampMap.put(key, timeStamp);
+                    localTimeMap.put(key, TimeMachine.getTime());
+                    stateMap.put(key, FileState.available);
+                }
+                return;
             }
-            return;
+            addEntryToFileList(fileIdentifier, timeStamp, FileState.available);
         }
-        addEntryToFileList(fileIdentifier, timeStamp, FileState.available);
     }
 
     public void addEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp, FileState state) {
-        fileList.addFile(fileIdentifier);
-        String key = generateKey(fileIdentifier);
-        timeStampMap.put(key, timeStamp);
-        localTimeMap.put(key, TimeMachine.getTime());
-        stateMap.put(key, state);
+        synchronized (this) {
+            fileList.addFile(fileIdentifier);
+            String key = generateKey(fileIdentifier);
+            timeStampMap.put(key, timeStamp);
+            localTimeMap.put(key, TimeMachine.getTime());
+            stateMap.put(key, state);
+        }
     }
 
     public void addSyncEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
-        if(fileList.find(fileIdentifier)!=-1){
-            return;
+        synchronized (this) {
+            if(fileList.find(fileIdentifier)!=-1){
+                return;
+            }
+            addEntryToFileList(fileIdentifier, timeStamp, FileState.syncing);
         }
-        addEntryToFileList(fileIdentifier, timeStamp, FileState.syncing);
     }
 
     private String generateKey(FileIdentifier identifier) {

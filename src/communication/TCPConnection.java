@@ -322,7 +322,7 @@ public class TCPConnection {
 
     private void putFile(ReadyToPutFileMessage readyToPutFileMessage){
         try {
-            File file = new File(readyToPutFileMessage.getFilepath());
+            File file = proc.getSDFS().openFile(readyToPutFileMessage.getFilepath());
             FileInputStream in = new FileInputStream(file);
 
             String address = readyToPutFileMessage.getStoringProcess().getIP() + ":" +

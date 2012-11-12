@@ -57,15 +57,26 @@ public class MainEntry {
         printWelcomeMessage();
     }
 
+
+    private static String arg1, arg2;
     /**
      * the main function
      */
     public static void work() {
 
         while(true) {
-            String cmd = inputCommand();
-            if(cmd.length() ==0) {
+            String inputLine = inputCommand();
+            if(inputLine.length() ==0) {
                 continue;
+            }
+
+            String[] arr = inputLine.split(" ");
+            String cmd = arr[0];
+            if(arr.length >=2) {
+                arg1 = arr[1];
+            }
+            if(arr.length >=3) {
+                arg2 = arr[2];
             }
 
             String funcName = commandMap.findCommand(cmd);
@@ -172,9 +183,9 @@ public class MainEntry {
      */
 
     private static void putFile() {
-        String fileName = MiscTool.inputFileName(in);
+//        String fileName = MiscTool.inputFileName(in);
         long startTime = System.currentTimeMillis();
-        proc.getSDFS().addFileLocally(fileName);
+        proc.getSDFS().addFileLocally(arg1, arg2);
         long usingTime = System.currentTimeMillis() - startTime;
 
         logger.info("put command uses " + usingTime + " ms");
@@ -193,8 +204,10 @@ public class MainEntry {
      */
 
     private static void getFile(){
-        String remoteFileName = MiscTool.inputFileName(in);
-        String localFileName = MiscTool.inputFileName(in);
+//        String remoteFileName = MiscTool.inputFileName(in);
+//        String localFileName = MiscTool.inputFileName(in);
+        String remoteFileName = arg1;
+        String localFileName = arg2;
         long startTime = System.currentTimeMillis();
         proc.getSDFS().getRemoteFile(remoteFileName, localFileName);
         long usingTime = System.currentTimeMillis() - startTime;

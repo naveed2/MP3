@@ -70,11 +70,11 @@ public class ReplicationManager {
 
             String key = f.getFilepath();
 
-            if(!replicaCounter.containsKey(key)){
-                replicaCounter.put(key, 1);
+            if(!replicaCounter.containsKey(key)) {
+                replicaCounter.put(key, 0);
             }
-            else {
-                //TODO recheck if its correct
+
+            if(proc.getSDFS().isAvailable(f)) {
                 replicaCounter.put(key, replicaCounter.get(key)+1);
             }
         }

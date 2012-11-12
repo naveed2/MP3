@@ -140,7 +140,7 @@ public class TCPFileServer {
                 proc.getIdentifier(), mission.getFileName(), FileState.syncing);
         proc.getSDFS().addSyncEntryToFileList(f, proc.getTimeStamp());
         conn.readAndWriteToFile(mission.getFileName());
-        proc.getSDFS().addFileLocally(mission.getFileName());
+        proc.getSDFS().addFileLocally(mission.getFileName(), mission.getFileName());
 
         try {
             conn.close();
