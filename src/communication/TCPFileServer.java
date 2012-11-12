@@ -1,5 +1,8 @@
 package communication;
 
+/**
+ * TCPFileServer is used to communicate clients with file.
+ */
 import filesystem.FileState;
 import membership.Proc;
 import misc.TimeMachine;

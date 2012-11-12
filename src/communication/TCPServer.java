@@ -9,6 +9,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * This TCPServer is used to communicate clients with message controlling packets.
+ */
 public class TCPServer {
     private Integer port;
     private ServerSocket serverSocket;

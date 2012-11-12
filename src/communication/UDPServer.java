@@ -15,6 +15,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static communication.Messages.*;
 
+/**
+ * UDP Server is used for handling gossip messages.
+ */
 public class UDPServer {
     private Integer udpPort;
     private AtomicBoolean shouldStop;

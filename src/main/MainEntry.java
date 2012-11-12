@@ -39,11 +39,17 @@ public class MainEntry {
 
     }
 
+    /**
+     * Configuration for log4j
+     */
     private static void log4jConfigure() {
         PropertyConfigurator.configure("log4j.properties");
         System.out.println("configure log4j successfully");
     }
 
+    /**
+     * System command initalzied
+     */
 
     private static void init() {
         commandMap.initialize();
@@ -51,6 +57,9 @@ public class MainEntry {
         printWelcomeMessage();
     }
 
+    /**
+     * the main function
+     */
     public static void work() {
 
         while(true) {
@@ -75,12 +84,18 @@ public class MainEntry {
         System.out.println("Program quits");
     }
 
+    /**
+     * start the server
+     */
     private static void start() {
         localPort = MiscTool.inputPortNumber(in);
         proc = new Proc(localPort);
         proc.init();
     }
 
+    /**
+     * command of join
+     */
     private static void joinGroup() {
         String address = MiscTool.inputAddress(in);
         System.out.println("Start connecting to " + address);
@@ -94,6 +109,9 @@ public class MainEntry {
         }
     }
 
+    /**
+     * command of show member list
+     */
     private static void showMemberList() {
         int pos = 0;
         for(Messages.ProcessIdentifier identifier : proc.getMemberList()) {
@@ -119,6 +137,9 @@ public class MainEntry {
         }
     }
 
+    /**
+     * command of show file list
+     */
     private static void showFileList() {
         for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
             ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
@@ -146,6 +167,10 @@ public class MainEntry {
         }
     }
 
+    /**
+     * command of put file
+     */
+
     private static void putFile() {
         String fileName = MiscTool.inputFileName(in);
         long startTime = System.currentTimeMillis();
@@ -155,10 +180,17 @@ public class MainEntry {
         logger.info("put command uses " + usingTime + " ms");
     }
 
+    /**
+     * command of delete file
+     */
     private static void deleteFile() {
         String fileName = MiscTool.inputFileName(in);
         proc.getSDFS().deleteFile(fileName,true);
     }
+
+    /**
+     * command of get file
+     */
 
     private static void getFile(){
         String remoteFileName = MiscTool.inputFileName(in);

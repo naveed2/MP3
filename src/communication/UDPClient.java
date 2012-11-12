@@ -1,5 +1,8 @@
 package communication;
 
+/**
+ *
+ */
 import communication.Messages.ProcessIdentifier;
 import org.apache.log4j.Logger;
 

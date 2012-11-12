@@ -72,6 +72,9 @@ public class Proc {
     }
 
 
+    /**
+     * initialize of whole system
+     */
     public void init() {
         //init timeMachine
         TimeMachine.init();

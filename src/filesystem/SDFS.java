@@ -19,6 +19,9 @@ import java.util.Scanner;
 
 import static communication.Messages.*;
 
+/**
+ * This is the main part of SimpleDistributedFileSystem
+ */
 public class SDFS {
 
     private Proc proc;
@@ -35,10 +38,10 @@ public class SDFS {
     private static final Integer MIN_TIME_DIFFERENCE = 50;
 
     public SDFS(String rootDirectory) {
-        fileList = new FileList();
-        timeStampMap = new HashMap<String, Integer>();
-        localTimeMap = new HashMap<String, Long>();
-        stateMap = new HashMap<String, FileState>();
+        fileList = new FileList();  //file list
+        timeStampMap = new HashMap<String, Integer>();  //heartbeat counting of file
+        localTimeMap = new HashMap<String, Long>(); //localtime of file
+        stateMap = new HashMap<String, FileState>();    // file state
         this.rootDirectory = rootDirectory;
     }
 
@@ -73,6 +76,11 @@ public class SDFS {
         return new File(rootDirectory + fileName);
     }
 
+    /**
+     * Get a file from local process.
+     * @param SDFSFileName
+     * @param localFileName
+     */
     public void getRemoteFile(String SDFSFileName, String localFileName){
 //        new FileOperations().setProc(proc).get(localFileName, SDFSFileName, fileList);
         FileIdentifier remote, local;
@@ -146,6 +154,10 @@ public class SDFS {
         return fileList;
     }
 
+    /**
+     * Add a local file to SDFS.
+     * @param filePath local file name
+     */
     public void addFileLocally(String filePath) {
         File file = new File(filePath);
         if(!file.exists()) {
@@ -240,23 +252,6 @@ public class SDFS {
                 identifier.getFilepath();
     }
 
-    public static void main(String[] args) {
-        PropertyConfigurator.configure("log4j.properties");
-        Scanner in = new Scanner(System.in);
-//        Proc proc = new Proc(MiscTool.inputPortNumber(in));
-        Proc proc = new Proc(20000);
-        proc.init();
-
-        SDFS sdfs = new SDFS("sdfs/");
-        sdfs.setProc(proc);
-        sdfs.init();
-
-        while(true) {
-            String filename = MiscTool.inputFileName(in);
-            sdfs.addFileLocally(filename);
-        }
-    }
-
     public Integer getFileTimeStamp(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
         return timeStampMap.get(key);
@@ -342,6 +337,13 @@ public class SDFS {
         }
     }
 
+    /**
+     * Delete a file from SDFS.
+     * @param fileName  file name to be deleted.
+     * @param initialDelete When is is true, its the first time running this delete command.
+     *                      It will be sent to all processes in the member list.
+     */
+
     public void deleteFile(String fileName, boolean initialDelete) {
         synchronized (this) {
             boolean flag = false;
@@ -374,6 +376,10 @@ public class SDFS {
         }
     }
 
+    /**
+     * delete the file from local disk
+     * @param fileName file name to be deleted.
+     */
     private void deleteFileLocally(String fileName) {
         File f = new File(rootDirectory + fileName);
         long startTime = TimeMachine.getTime();

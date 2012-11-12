@@ -10,6 +10,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import membership.MemberList;
 
+/**
+ *
+ */
 public class ReplicaManager {
 
     private Proc proc;
