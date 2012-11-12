@@ -59,12 +59,11 @@ public class MessagesFactory {
         SyncFilesListMessage.Builder syncFileListMessageBuilder = SyncFilesListMessage.newBuilder();
 
         for(FileIdentifier fileIdentifier : sdfs.getFileList()) {
-            if(!sdfs.isAvailable(fileIdentifier)) {
+            if(!sdfs.isValid(fileIdentifier)) {
                 continue;
             }
 
             if(fileIdentifier.getFileStoringProcess().getId().equals(syncMachine.getId())) {
-                Integer t = syncMachine.getTimestamp();
                 syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(timeStamp);
             } else {
                 syncFileListMessageBuilder.addFiles(fileIdentifier).addTimestamp(sdfs.getFileTimeStamp(fileIdentifier));

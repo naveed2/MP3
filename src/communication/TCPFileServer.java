@@ -1,5 +1,6 @@
 package communication;
 
+import filesystem.FileState;
 import membership.Proc;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
@@ -132,6 +133,9 @@ public class TCPFileServer {
     }
 
     private void getFile(FileMission mission, TCPConnection conn) {
+        FileIdentifier f = FileIdentifierFactory.generateFileIdentifier(
+                proc.getIdentifier(), mission.getFileName(), FileState.syncing);
+        proc.getSDFS().addSyncEntryToFileList(f, proc.getTimeStamp());
         conn.readAndWriteToFile(mission.getFileName());
         proc.getSDFS().addFileLocally(mission.getFileName());
 

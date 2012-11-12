@@ -151,19 +151,21 @@ public class SDFS {
             return;
         }
         String fileName = file.getName();
-        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
+                proc.getIdentifier(), fileName, FileState.available);
 
         copyFile(file, rootDirectory + fileName);
-        addToFileList(fileIdentifier, proc.getTimeStamp());
+        addAvailableEntryToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     public void addFileLocally(File file) {
 
         String fileName = file.getName();
-        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
+                proc.getIdentifier(), fileName, FileState.available);
 
         copyFile(file, rootDirectory + fileName);
-        addToFileList(fileIdentifier, proc.getTimeStamp());
+        addAvailableEntryToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     private void copyFile(File sourceFile, String destination) {
@@ -208,26 +210,38 @@ public class SDFS {
         }
     }
 
-    public void addToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
+    public void addAvailableEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
         if(fileList.find(fileIdentifier)!=-1){
+            String key = generateKey(fileIdentifier);
+            if(stateMap.get(key) == FileState.syncing) {
+                timeStampMap.put(key, timeStamp);
+                localTimeMap.put(key, TimeMachine.getTime());
+                stateMap.put(key, FileState.available);
+            }
             return;
         }
+        addEntryToFileList(fileIdentifier, timeStamp, FileState.available);
+    }
+
+    public void addEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp, FileState state) {
         fileList.addFile(fileIdentifier);
         String key = generateKey(fileIdentifier);
         timeStampMap.put(key, timeStamp);
         localTimeMap.put(key, TimeMachine.getTime());
-        stateMap.put(key, FileState.available);
+        stateMap.put(key, state);
+    }
+
+    public void addSyncEntryToFileList(FileIdentifier fileIdentifier, Integer timeStamp) {
+        if(fileList.find(fileIdentifier)!=-1){
+            return;
+        }
+        addEntryToFileList(fileIdentifier, timeStamp, FileState.syncing);
     }
 
     private String generateKey(FileIdentifier identifier) {
         return identifier.getFileStoringProcess().getIP()+":"+
                 identifier.getFileStoringProcess().getPort()+"/" +
                 identifier.getFilepath();
-    }
-
-    public void addToFileList(String fileName) {
-        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(proc.getIdentifier(), fileName);
-        addToFileList(fileIdentifier, proc.getTimeStamp());
     }
 
     public static void main(String[] args) {
@@ -252,6 +266,11 @@ public class SDFS {
         return timeStampMap.get(key);
     }
 
+    public FileState getFileState(FileIdentifier fileIdentifier) {
+        String key =generateKey(fileIdentifier);
+        return stateMap.get(key);
+    }
+
     public Long getFileLocalTime(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
         return localTimeMap.get(key);
@@ -260,6 +279,17 @@ public class SDFS {
     public boolean isAvailable(FileIdentifier fileIdentifier) {
         String key = generateKey(fileIdentifier);
         return stateMap.containsKey(key) && stateMap.get(key) == FileState.available;
+    }
+
+    public boolean isSyncing(FileIdentifier fileIdentifier) {
+        String key = generateKey(fileIdentifier);
+        return stateMap.containsKey(key);
+    }
+
+    public boolean isValid(FileIdentifier fileIdentifier) {
+        String key = generateKey(fileIdentifier);
+        return stateMap.containsKey(key) &&
+                ((stateMap.get(key) == FileState.available) || (stateMap.get(key) == FileState.syncing));
     }
 
     public void updateFileList() {
@@ -306,6 +336,7 @@ public class SDFS {
             String key = generateKey(identifier);
             timeStampMap.put(key, timeStamp);
             localTimeMap.put(key, TimeMachine.getTime());
+            stateMap.put(key, FileState.valueOf(identifier.getFileState()));
         }
     }
 
@@ -318,14 +349,17 @@ public class SDFS {
                     continue;
                 }
 
-                if(!isAvailable(fileIdentifier)) {
+                if(!isValid(fileIdentifier)) {
                     continue;
                 }
+
 
                 ProcessIdentifier processIdentifier = fileIdentifier.getFileStoringProcess();
                 if(processIdentifier.getId().equals(proc.getId())) {
                     setToBeDeleted(fileIdentifier);
-                    deleteFileLocally(fileName);
+                    if(isAvailable(fileIdentifier)) {
+                        deleteFileLocally(fileName);
+                    }
                     flag = true;
                 } else {
                     list.add(processIdentifier);

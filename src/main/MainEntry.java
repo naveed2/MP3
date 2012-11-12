@@ -119,13 +119,13 @@ public class MainEntry {
     private static void showFileList() {
         for(FileIdentifier fileIdentifier : proc.getSDFS().getFileList()) {
             ProcessIdentifier identifier = fileIdentifier.getFileStoringProcess();
-            if(!proc.getSDFS().isAvailable(fileIdentifier)) {
-                continue;
-            }
-
+//            if(!proc.getSDFS().isValid(fileIdentifier)) {
+//                continue;
+//            }
             String address;
             Integer timeStamp;
             Long localTime;
+            FileState fileState;
 
             if(isMySelf(identifier)) {
                 address = "127.0.0.1:" + proc.getTcpPort();
@@ -137,7 +137,9 @@ public class MainEntry {
                 timeStamp = proc.getSDFS().getFileTimeStamp(fileIdentifier);
                 localTime = proc.getSDFS().getFileLocalTime(fileIdentifier);
             }
-            System.out.println(fileIdentifier.getFilepath() + '\t' + address + '\t' + timeStamp + '\t' + localTime);
+            fileState = proc.getSDFS().getFileState(fileIdentifier);
+            System.out.println(
+                    fileIdentifier.getFilepath() + '\t' + address + '\t' + timeStamp + '\t' + localTime + '\t' +fileState);
         }
     }
 

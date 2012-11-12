@@ -152,7 +152,7 @@ public class UDPServer {
                     sdfs.updateFileListEntry(identifier, timeStamp);
                 }
             } else {
-                sdfs.addToFileList(identifier, timeStamp);
+                sdfs.addAvailableEntryToFileList(identifier, timeStamp);
             }
         }
     }

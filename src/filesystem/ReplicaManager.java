@@ -79,20 +79,24 @@ public class ReplicaManager {
             if(requiredReplicas <=0 ) {
                 continue;
             }
-            createReplicas(requiredReplicas, f.getFilepath());
+            createReplicas(requiredReplicas, f);
         }
     }
 
-    public void createReplicas(Integer requiredReplicas, String SDFSFilepath){
+    public void createReplicas(Integer requiredReplicas, FileIdentifier identifier){
+
+        String fileName = identifier.getFilepath();
 
         List<ProcessIdentifier> replicateTo = new ArrayList<ProcessIdentifier>(requiredReplicas);
 
         for(int i = 0; i < requiredReplicas;){
             ProcessIdentifier randomProcess = selectRandomProcess();
             if(!replicateTo.contains(randomProcess)
-                    && notMySelf(randomProcess) && notStoredOnProcess(randomProcess, SDFSFilepath)){
+                    && notMySelf(randomProcess) && notStoredOnProcess(randomProcess, fileName)){
                 replicateTo.add(randomProcess);
-                new FileOperations().setProc(proc).sendPutMessage(SDFSFilepath, randomProcess.getIP(), randomProcess.getPort());
+                new FileOperations().setProc(proc).sendPutMessage(fileName, randomProcess.getIP(), randomProcess.getPort());
+                FileIdentifier f = FileIdentifierFactory.generateFileIdentifier(randomProcess, fileName, FileState.syncing);
+                proc.getSDFS().addSyncEntryToFileList(f, proc.getTimeStamp());
                 i++;
             }
         }
@@ -103,7 +107,7 @@ public class ReplicaManager {
     }
 
     private boolean notStoredOnProcess(ProcessIdentifier identifier, String filePath) {
-        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(identifier, filePath);
+        FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(identifier, filePath, FileState.available);
         return proc.getSDFS().getFileList().find(fileIdentifier) == -1;
     }
 

@@ -1,5 +1,6 @@
 package communication;
 
+import filesystem.FileState;
 import filesystem.SDFS;
 import membership.Proc;
 import misc.MiscTool;
@@ -9,10 +10,8 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
 
 import static communication.Messages.*;
-import communication.MessagesFactory;
 
 public class TCPConnection {
     private Logger logger = Logger.getLogger(TCPConnection.class);
@@ -65,6 +64,7 @@ public class TCPConnection {
                 System.arraycopy(tmpBytes, 0, bytes, 0, num);
                 Message message = Message.parseFrom(bytes);
                 logger.debug("Received Message: " + message.toString());
+                logger.info("Received Message:" + message.getType());
                 handle(message);
             } catch(IOException e) {
                 if(e.getMessage().equals("socket close")) {
@@ -341,9 +341,9 @@ public class TCPConnection {
             tcpClient.close();
 
             FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(
-                    proc.getIdentifier(), readyToGetFileMessage.getFilepath());
+                    proc.getIdentifier(), readyToGetFileMessage.getFilepath(), FileState.available);
 
-            proc.getSDFS().addToFileList(fileIdentifier, proc.getTimeStamp());
+            proc.getSDFS().addAvailableEntryToFileList(fileIdentifier, proc.getTimeStamp());
         }
     }
 

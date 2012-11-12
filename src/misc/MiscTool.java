@@ -21,7 +21,6 @@ public class MiscTool {
         Method method = null;
         try {
             method = className.getDeclaredMethod(methodName);
-            System.out.println(methodName + " " + method.getName());
             method.setAccessible(true);
             method.invoke(null);    //static method
             method.setAccessible(false);

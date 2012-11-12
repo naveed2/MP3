@@ -75,4 +75,8 @@ public class FileList implements Iterable<FileIdentifier> {
             return fileList.iterator();
         }
     }
+
+    public Integer size() {
+        return fileList.size();
+    }
 }

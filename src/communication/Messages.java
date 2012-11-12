@@ -728,6 +728,10 @@ public final class Messages {
     // required string filepath = 2;
     boolean hasFilepath();
     String getFilepath();
+    
+    // optional string fileState = 3;
+    boolean hasFileState();
+    String getFileState();
   }
   public static final class FileIdentifier extends
       com.google.protobuf.GeneratedMessage
@@ -803,9 +807,42 @@ public final class Messages {
       }
     }
     
+    // optional string fileState = 3;
+    public static final int FILESTATE_FIELD_NUMBER = 3;
+    private java.lang.Object fileState_;
+    public boolean hasFileState() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public String getFileState() {
+      java.lang.Object ref = fileState_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          fileState_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getFileStateBytes() {
+      java.lang.Object ref = fileState_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        fileState_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       fileStoringProcess_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
       filepath_ = "";
+      fileState_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -837,6 +874,9 @@ public final class Messages {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getFilepathBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getFileStateBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -853,6 +893,10 @@ public final class Messages {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getFilepathBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getFileStateBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -987,6 +1031,8 @@ public final class Messages {
         bitField0_ = (bitField0_ & ~0x00000001);
         filepath_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        fileState_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       
@@ -1037,6 +1083,10 @@ public final class Messages {
           to_bitField0_ |= 0x00000002;
         }
         result.filepath_ = filepath_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.fileState_ = fileState_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1058,6 +1108,9 @@ public final class Messages {
         }
         if (other.hasFilepath()) {
           setFilepath(other.getFilepath());
+        }
+        if (other.hasFileState()) {
+          setFileState(other.getFileState());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1114,6 +1167,11 @@ public final class Messages {
             case 18: {
               bitField0_ |= 0x00000002;
               filepath_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              fileState_ = input.readBytes();
               break;
             }
           }
@@ -1245,6 +1303,42 @@ public final class Messages {
       void setFilepath(com.google.protobuf.ByteString value) {
         bitField0_ |= 0x00000002;
         filepath_ = value;
+        onChanged();
+      }
+      
+      // optional string fileState = 3;
+      private java.lang.Object fileState_ = "";
+      public boolean hasFileState() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getFileState() {
+        java.lang.Object ref = fileState_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          fileState_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setFileState(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        fileState_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearFileState() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        fileState_ = getDefaultInstance().getFileState();
+        onChanged();
+        return this;
+      }
+      void setFileState(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        fileState_ = value;
         onChanged();
       }
       
@@ -11299,69 +11393,70 @@ public final class Messages {
     java.lang.String[] descriptorData = {
       "\n\027protobuf/messages.proto\022\rcommunication" +
       "\"L\n\021ProcessIdentifier\022\n\n\002id\030\001 \002(\t\022\n\n\002IP\030" +
-      "\002 \002(\t\022\014\n\004port\030\003 \002(\005\022\021\n\ttimestamp\030\004 \001(\005\"`" +
+      "\002 \002(\t\022\014\n\004port\030\003 \002(\005\022\021\n\ttimestamp\030\004 \001(\005\"s" +
       "\n\016FileIdentifier\022<\n\022fileStoringProcess\030\001" +
       " \002(\0132 .communication.ProcessIdentifier\022\020" +
-      "\n\010filepath\030\002 \002(\t\"I\n\020HeartBeatMessage\0225\n\013" +
-      "fromMachine\030\001 \002(\0132 .communication.Proces" +
-      "sIdentifier\"F\n\013JoinMessage\0227\n\rjoinedMach" +
-      "ine\030\001 \002(\0132 .communication.ProcessIdentif" +
-      "ier\"E\n\014LeaveMessage\0225\n\013leftMachine\030\001 \002(\013",
-      "2 .communication.ProcessIdentifier\"\210\001\n\013F" +
-      "ailMessage\0227\n\rfailedMachine\030\001 \002(\0132 .comm" +
-      "unication.ProcessIdentifier\022@\n\026failureDe" +
-      "tectorMachine\030\002 \002(\0132 .communication.Proc" +
-      "essIdentifier\"\203\001\n\024SyncProcessesMessage\0221" +
-      "\n\007members\030\001 \003(\0132 .communication.ProcessI" +
-      "dentifier\0228\n\016syncingMachine\030\002 \002(\0132 .comm" +
-      "unication.ProcessIdentifier\"W\n\024SyncFiles" +
-      "ListMessage\022,\n\005files\030\001 \003(\0132\035.communicati" +
-      "on.FileIdentifier\022\021\n\ttimestamp\030\002 \003(\005\"H\n\r",
-      "SendToMessage\0227\n\rsendToMachine\030\001 \002(\0132 .c" +
-      "ommunication.ProcessIdentifier\"_\n\016GetFil" +
-      "eMessage\022\020\n\010filepath\030\001 \002(\t\022;\n\021requesting" +
+      "\n\010filepath\030\002 \002(\t\022\021\n\tfileState\030\003 \001(\t\"I\n\020H" +
+      "eartBeatMessage\0225\n\013fromMachine\030\001 \002(\0132 .c" +
+      "ommunication.ProcessIdentifier\"F\n\013JoinMe" +
+      "ssage\0227\n\rjoinedMachine\030\001 \002(\0132 .communica" +
+      "tion.ProcessIdentifier\"E\n\014LeaveMessage\0225",
+      "\n\013leftMachine\030\001 \002(\0132 .communication.Proc" +
+      "essIdentifier\"\210\001\n\013FailMessage\0227\n\rfailedM" +
+      "achine\030\001 \002(\0132 .communication.ProcessIden" +
+      "tifier\022@\n\026failureDetectorMachine\030\002 \002(\0132 " +
+      ".communication.ProcessIdentifier\"\203\001\n\024Syn" +
+      "cProcessesMessage\0221\n\007members\030\001 \003(\0132 .com" +
+      "munication.ProcessIdentifier\0228\n\016syncingM" +
+      "achine\030\002 \002(\0132 .communication.ProcessIden" +
+      "tifier\"W\n\024SyncFilesListMessage\022,\n\005files\030" +
+      "\001 \003(\0132\035.communication.FileIdentifier\022\021\n\t",
+      "timestamp\030\002 \003(\005\"H\n\rSendToMessage\0227\n\rsend" +
+      "ToMachine\030\001 \002(\0132 .communication.ProcessI" +
+      "dentifier\"_\n\016GetFileMessage\022\020\n\010filepath\030" +
+      "\001 \002(\t\022;\n\021requestingProcess\030\002 \001(\0132 .commu" +
+      "nication.ProcessIdentifier\"c\n\025ReadyToGet" +
+      "FileMessage\022\020\n\010filepath\030\001 \002(\t\0228\n\016storing" +
       "Process\030\002 \001(\0132 .communication.ProcessIde" +
-      "ntifier\"c\n\025ReadyToGetFileMessage\022\020\n\010file" +
-      "path\030\001 \002(\t\0228\n\016storingProcess\030\002 \001(\0132 .com" +
-      "munication.ProcessIdentifier\"\\\n\016PutFileM" +
+      "ntifier\"\\\n\016PutFileMessage\022\020\n\010filepath\030\001 " +
+      "\002(\t\0228\n\016storingProcess\030\002 \001(\0132 .communicat" +
+      "ion.ProcessIdentifier\"c\n\025ReadyToPutFileM",
       "essage\022\020\n\010filepath\030\001 \002(\t\0228\n\016storingProce" +
       "ss\030\002 \001(\0132 .communication.ProcessIdentifi" +
-      "er\"c\n\025ReadyToPutFileMessage\022\020\n\010filepath\030",
-      "\001 \002(\t\0228\n\016storingProcess\030\002 \001(\0132 .communic" +
-      "ation.ProcessIdentifier\"`\n\021DeleteFileMes" +
-      "sage\022\020\n\010filepath\030\001 \002(\t\0229\n\017deletingProces" +
-      "s\030\002 \001(\0132 .communication.ProcessIdentifie" +
-      "r\"P\n\021ListenFromMessage\022;\n\021listenFromMach" +
-      "ine\030\001 \002(\0132 .communication.ProcessIdentif" +
-      "ier\"[\n\nGetMessage\022;\n\021requestingProcess\030\001" +
-      " \002(\0132 .communication.ProcessIdentifier\022\020" +
-      "\n\010fileName\030\002 \001(\t\"\324\006\n\007Message\022(\n\004type\030\001 \002" +
-      "(\0162\032.communication.MessageType\022/\n\013joinMe",
-      "ssage\030\002 \001(\0132\032.communication.JoinMessage\022" +
-      "1\n\014leaveMessage\030\003 \001(\0132\033.communication.Le" +
-      "aveMessage\022/\n\013failMessage\030\004 \001(\0132\032.commun" +
-      "ication.FailMessage\022A\n\024syncProcessesMess" +
-      "age\030\005 \001(\0132#.communication.SyncProcessesM" +
-      "essage\022=\n\020syncFilesMessage\030\006 \001(\0132#.commu" +
-      "nication.SyncFilesListMessage\0229\n\020heartBe" +
-      "atMessage\030\007 \001(\0132\037.communication.HeartBea" +
-      "tMessage\0223\n\rsendToMessage\030\010 \001(\0132\034.commun" +
-      "ication.SendToMessage\0224\n\nlistenFrom\030\t \001(",
-      "\0132 .communication.ListenFromMessage\0225\n\016g" +
-      "etFileMessage\030\n \001(\0132\035.communication.GetF" +
-      "ileMessage\0225\n\016putFileMessage\030\013 \001(\0132\035.com" +
-      "munication.PutFileMessage\022;\n\021deleteFileM" +
-      "essage\030\014 \001(\0132 .communication.DeleteFileM" +
-      "essage\022C\n\025readyToPutFileMessage\030\r \001(\0132$." +
-      "communication.ReadyToPutFileMessage\022C\n\025r" +
-      "eadyToGetFileMessage\030\016 \001(\0132$.communicati" +
-      "on.ReadyToGetFileMessage\022-\n\ngetMessage\030\017" +
-      " \001(\0132\031.communication.GetMessage*\301\001\n\013Mess",
-      "ageType\022\r\n\tHeartbeat\020\000\022\010\n\004Join\020\001\022\010\n\004Fail" +
-      "\020\002\022\021\n\rSyncProcesses\020\003\022\r\n\tSyncFiles\020\004\022\n\n\006" +
-      "SendTo\020\005\022\016\n\nListenFrom\020\006\022\013\n\007getFile\020\007\022\013\n" +
-      "\007putFile\020\010\022\016\n\ndeleteFile\020\t\022\016\n\nreadyToPut" +
-      "\020\n\022\016\n\nreadyToGet\020\013\022\007\n\003get\020\014"
+      "er\"`\n\021DeleteFileMessage\022\020\n\010filepath\030\001 \002(" +
+      "\t\0229\n\017deletingProcess\030\002 \001(\0132 .communicati" +
+      "on.ProcessIdentifier\"P\n\021ListenFromMessag" +
+      "e\022;\n\021listenFromMachine\030\001 \002(\0132 .communica" +
+      "tion.ProcessIdentifier\"[\n\nGetMessage\022;\n\021" +
+      "requestingProcess\030\001 \002(\0132 .communication." +
+      "ProcessIdentifier\022\020\n\010fileName\030\002 \001(\t\"\324\006\n\007" +
+      "Message\022(\n\004type\030\001 \002(\0162\032.communication.Me",
+      "ssageType\022/\n\013joinMessage\030\002 \001(\0132\032.communi" +
+      "cation.JoinMessage\0221\n\014leaveMessage\030\003 \001(\013" +
+      "2\033.communication.LeaveMessage\022/\n\013failMes" +
+      "sage\030\004 \001(\0132\032.communication.FailMessage\022A" +
+      "\n\024syncProcessesMessage\030\005 \001(\0132#.communica" +
+      "tion.SyncProcessesMessage\022=\n\020syncFilesMe" +
+      "ssage\030\006 \001(\0132#.communication.SyncFilesLis" +
+      "tMessage\0229\n\020heartBeatMessage\030\007 \001(\0132\037.com" +
+      "munication.HeartBeatMessage\0223\n\rsendToMes" +
+      "sage\030\010 \001(\0132\034.communication.SendToMessage",
+      "\0224\n\nlistenFrom\030\t \001(\0132 .communication.Lis" +
+      "tenFromMessage\0225\n\016getFileMessage\030\n \001(\0132\035" +
+      ".communication.GetFileMessage\0225\n\016putFile" +
+      "Message\030\013 \001(\0132\035.communication.PutFileMes" +
+      "sage\022;\n\021deleteFileMessage\030\014 \001(\0132 .commun" +
+      "ication.DeleteFileMessage\022C\n\025readyToPutF" +
+      "ileMessage\030\r \001(\0132$.communication.ReadyTo" +
+      "PutFileMessage\022C\n\025readyToGetFileMessage\030" +
+      "\016 \001(\0132$.communication.ReadyToGetFileMess" +
+      "age\022-\n\ngetMessage\030\017 \001(\0132\031.communication.",
+      "GetMessage*\301\001\n\013MessageType\022\r\n\tHeartbeat\020" +
+      "\000\022\010\n\004Join\020\001\022\010\n\004Fail\020\002\022\021\n\rSyncProcesses\020\003" +
+      "\022\r\n\tSyncFiles\020\004\022\n\n\006SendTo\020\005\022\016\n\nListenFro" +
+      "m\020\006\022\013\n\007getFile\020\007\022\013\n\007putFile\020\010\022\016\n\ndeleteF" +
+      "ile\020\t\022\016\n\nreadyToPut\020\n\022\016\n\nreadyToGet\020\013\022\007\n" +
+      "\003get\020\014"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -11381,7 +11476,7 @@ public final class Messages {
           internal_static_communication_FileIdentifier_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_communication_FileIdentifier_descriptor,
-              new java.lang.String[] { "FileStoringProcess", "Filepath", },
+              new java.lang.String[] { "FileStoringProcess", "Filepath", "FileState", },
               communication.Messages.FileIdentifier.class,
               communication.Messages.FileIdentifier.Builder.class);
           internal_static_communication_HeartBeatMessage_descriptor =

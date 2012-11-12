@@ -1,5 +1,7 @@
 package communication;
 
+import filesystem.FileState;
+
 import static communication.Messages.*;
 
 public class FileIdentifierFactory {
@@ -7,7 +9,8 @@ public class FileIdentifierFactory {
 
     }
 
-    public static FileIdentifier generateFileIdentifier(ProcessIdentifier identifier, String fileName) {
-        return FileIdentifier.newBuilder().setFilepath(fileName).setFileStoringProcess(identifier).build();
+    public static FileIdentifier generateFileIdentifier(ProcessIdentifier identifier, String fileName, FileState fileState) {
+        return FileIdentifier.newBuilder().
+                setFilepath(fileName).setFileStoringProcess(identifier).setFileState(fileState.toString()).build();
     }
 }

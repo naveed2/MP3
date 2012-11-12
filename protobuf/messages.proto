@@ -10,6 +10,7 @@ message ProcessIdentifier{
 message FileIdentifier{
     required ProcessIdentifier fileStoringProcess = 1;
     required string filepath = 2;
+    optional string fileState = 3;
 }
 
 enum MessageType{
