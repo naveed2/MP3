@@ -1,7 +1,6 @@
 package misc;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import communication.Messages;
 import org.apache.log4j.Logger;
 
