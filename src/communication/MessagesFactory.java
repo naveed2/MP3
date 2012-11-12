@@ -14,6 +14,8 @@ public class MessagesFactory {
 
     }
 
+
+//  This
     public static Message generateJoinMessage(ProcessIdentifier identifier) {
         JoinMessage joinMessage = JoinMessage.newBuilder().setJoinedMachine(identifier).build();
         return Message.newBuilder().

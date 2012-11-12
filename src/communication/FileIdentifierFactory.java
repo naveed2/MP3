@@ -4,6 +4,8 @@ import filesystem.FileState;
 
 import static communication.Messages.*;
 
+
+//This class is used to generate FileIdentifier messages, which are used as file identifiers in SDFS systems
 public class FileIdentifierFactory {
     private FileIdentifierFactory() {
 

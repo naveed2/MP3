@@ -10,6 +10,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+//This class implements the gossip
+
 public class Gossip {
 
     private static final Integer NUM_OF_TARGETS = 2;
@@ -24,11 +27,12 @@ public class Gossip {
         delay = 500;
     }
 
+//  This method is used to get the memberlist
     private MemberList getMemberList(){
         return proc.getMemberList();
     }
 
-    //TODO: this function is wrong, processes once have been picked in one round shouldn't be re-picked in same round
+//  This method is used to select random processes to send them gossip messages
     public ProcessIdentifier selectRandomTarget(){
         Random rand = new Random();
         try {
@@ -40,6 +44,7 @@ public class Gossip {
         }
     }
 
+//  This method start gossip thread
     public void start(){
 
         new Thread(new Runnable() {
@@ -58,6 +63,7 @@ public class Gossip {
 
     }
 
+//    This method start infection the processes in the system
     private void startInfecting(){
         for(Integer i = 0; i < NUM_OF_TARGETS; i++){
             ProcessIdentifier infectedProcess = selectRandomTarget();
@@ -71,10 +77,12 @@ public class Gossip {
         }
     }
 
+//    This method checks if the argument ProcessIdentifier refers to this process or not
     private boolean notSelf(ProcessIdentifier identifier) {
         return !proc.getId().equals(identifier.getId());
     }
 
+//    This method sends syncs messages to sync memberlist
     private void sendSyncMessage(ProcessIdentifier process){
         UDPClient udpClient = new UDPClient(process);
         Messages.Message message = MessagesFactory.generateSyncProcessMessage(
@@ -82,6 +90,7 @@ public class Gossip {
         udpClient.sendMessage(message.toByteArray());
     }
 
+//    This method sends syncs message to sync filelist
     private void sendSyncFileListMessage(ProcessIdentifier remoteProcess) {
         Messages.Message message = MessagesFactory.generateSyncFileListMessage(
                 proc.getTimeStamp(),proc.getIdentifier(), proc.getSDFS());

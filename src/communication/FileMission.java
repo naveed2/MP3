@@ -1,5 +1,8 @@
 package communication;
 
+
+//This stores the type of fileMission
+
 public class FileMission {
 
     public enum MissionType{
