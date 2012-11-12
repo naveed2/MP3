@@ -111,11 +111,11 @@ public class TCPFileServer {
                 if(mission.isGetMission()) {
                     getFile(mission, conn);
                     float usingTime = TimeMachine.getTime() - startTime;
-                    System.out.println("Get an file in server uses " + usingTime + " seconds");
+                    System.out.println("Get a file from server uses " + usingTime + " seconds");
                 } else {    //send mission
                     sendFile(mission, conn);
                     float usingTime = TimeMachine.getTime() - startTime;
-                    System.out.println("Send an file in server uses " + usingTime + " seconds");
+                    System.out.println("Send a file to server uses " + usingTime + " seconds");
                 }
             }
         }).start();
@@ -131,7 +131,6 @@ public class TCPFileServer {
         }
     }
 
-    //TODO: This is inefficient, improve it later
     private void getFile(FileMission mission, TCPConnection conn) {
         conn.readAndWriteToFile(mission.getFileName());
         proc.getSDFS().addFileLocally(mission.getFileName());

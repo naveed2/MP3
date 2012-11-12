@@ -118,9 +118,9 @@ public class SDFS {
             Socket socket = serverSocket.accept();
             File file = new File(savedName);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            InputStream is = socket.getInputStream();
+            BufferedInputStream bis  = new BufferedInputStream(socket.getInputStream());
             int nextByte;
-            while((nextByte=is.read())!=-1) {
+            while((nextByte=bis.read())!=-1) {
                 bos.write(nextByte);
             }
             bos.flush();
@@ -176,9 +176,12 @@ public class SDFS {
         }
 
         FileInputStream fis;
+        BufferedInputStream bis;
+        BufferedOutputStream bos;
 
         try {
             fis = new FileInputStream(sourceFile);
+            bis = new BufferedInputStream(fis);
         } catch (FileNotFoundException e) {
             logger.error("open source file error", e);
             return;
@@ -187,6 +190,7 @@ public class SDFS {
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(destFile);
+            bos = new BufferedOutputStream(fos);
         } catch (FileNotFoundException e) {
             logger.error("open dest file error", e);
             return;
@@ -194,11 +198,11 @@ public class SDFS {
 
         int nextByte;
         try {
-            while((nextByte = fis.read()) != -1) {
-                fos.write(nextByte);
+            while((nextByte = bis.read()) != -1) {
+                bos.write(nextByte);
             }
-            fis.close();
-            fos.close();
+            bis.close();
+            bos.close();
         } catch (IOException e) {
             logger.error("copy error", e);
         }

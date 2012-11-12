@@ -104,7 +104,7 @@ public class TCPConnection {
         BufferedOutputStream bos;
 
         try {
-            fos = new FileOutputStream(fileName);
+            fos = new FileOutputStream(sdfs.openFile(fileName)) ;
             bos = new BufferedOutputStream(fos);
         } catch (FileNotFoundException e) {
             logger.error("writing to file error " + e);
@@ -167,6 +167,14 @@ public class TCPConnection {
         } catch(IOException e) {
             logger.error("Sending TCP packets error" + e);
             e.printStackTrace();
+        }
+    }
+
+    public void flush() {
+        try {
+            os.flush();
+        } catch(IOException e) {
+            logger.error("flush error", e);
         }
     }
 
@@ -260,8 +268,9 @@ public class TCPConnection {
                         while((nextByte = bis.read())!=-1){
                             tcpClient.sendData(nextByte);
                         }
-                        tcpClient.close();
+                        tcpClient.flush();
                         bis.close();
+                        tcpClient.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
