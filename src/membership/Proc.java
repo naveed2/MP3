@@ -3,7 +3,7 @@ package membership;
 
 import communication.*;
 import filesystem.FileListScanning;
-import filesystem.ReplicaManager;
+import filesystem.ReplicationManager;
 import filesystem.SDFS;
 import misc.MiscTool;
 import misc.TimeMachine;
@@ -36,7 +36,7 @@ public class Proc {
 
     private SDFS SDFileSystem;
 
-    private ReplicaManager replicaManager;
+    private ReplicationManager replicationManager;
 
     private Logger logger = Logger.getLogger(Proc.class);
     private Integer timeStamp;
@@ -107,6 +107,7 @@ public class Proc {
         udpServer.stop();
         fileServer.stop();
         gossip.stop();
+        replicationManager.stop();
         memberListScanning.stop();
     }
 
@@ -137,9 +138,9 @@ public class Proc {
     }
 
     private void initReplicaManger(){
-        replicaManager = new ReplicaManager();
-        replicaManager.setProc(this);
-        replicaManager.start();
+        replicationManager = new ReplicationManager();
+        replicationManager.setProc(this);
+        replicationManager.start();
     }
 
     public void initTCPServer() {
@@ -240,7 +241,7 @@ public class Proc {
         return SDFileSystem;
     }
 
-    public ReplicaManager getReplicaManger() {
-        return  replicaManager;
+    public ReplicationManager getReplicaManger() {
+        return replicationManager;
     }
 }

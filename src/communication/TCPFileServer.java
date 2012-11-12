@@ -71,14 +71,14 @@ public class TCPFileServer {
 
     public void prepareToSend(ProcessIdentifier identifier, String fileName) {
         FileMission mission = new FileMission(FileMission.MissionType.send);
-        mission.init(fileName, identifier);
+        mission.init(fileName);
 
         addMission(mission, identifier);
     }
 
     public void prepareToGet(ProcessIdentifier identifier, String fileName) {
         FileMission mission = new FileMission(FileMission.MissionType.get);
-        mission.init(fileName, identifier);
+        mission.init(fileName);
 
         addMission(mission, identifier);
     }

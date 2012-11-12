@@ -3,29 +3,30 @@ package filesystem;
 import communication.FileIdentifierFactory;
 import communication.Messages.ProcessIdentifier;
 import communication.Messages.FileIdentifier;
-import membership.MemberList;
 import membership.Proc;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import membership.MemberList;
 
 /**
- *
+ * ReplicationManager is responsible for distributing replicas among system.
  */
-public class ReplicaManager {
+public class ReplicationManager {
 
     private Proc proc;
     private AtomicBoolean shouldStop;
     private Thread sleepThread;
 
-    private static final Integer SCAN_INTERVAL = 20000;
-    private static final Integer REPLICA_COUNT = 2;
+    private static final Integer SCAN_INTERVAL = 20000; //scanning interval
+    private static final Integer REPLICA_COUNT = 2;     //how many replicas each file should have, this is a constant
 
-    public ReplicaManager(){
+    public ReplicationManager(){
         shouldStop = new AtomicBoolean(false);
     }
 
+    /**
+     * it scan the file list every SCAN_INTERVAL time.
+     */
     public void start(){
         sleepThread = new Thread(new Runnable() {
             @Override
@@ -49,6 +50,9 @@ public class ReplicaManager {
         return proc.getSDFS().getFileList();
     }
 
+    /**
+     * Try to count up the current replicas of each files and decide whether it is required to be replicated.
+     */
     private void scanFileList(){
         HashMap<String, Integer> replicaCounter = new HashMap<String, Integer>();
         List<FileIdentifier> fileShouldBeReplicated = new LinkedList<FileIdentifier>();
@@ -112,10 +116,6 @@ public class ReplicaManager {
     private boolean notStoredOnProcess(ProcessIdentifier identifier, String filePath) {
         FileIdentifier fileIdentifier = FileIdentifierFactory.generateFileIdentifier(identifier, filePath, FileState.available);
         return proc.getSDFS().getFileList().find(fileIdentifier) == -1;
-    }
-
-    private boolean theSameProcessIdentifier(ProcessIdentifier p1, ProcessIdentifier p2){
-        return p1.getId().equals(p2.getId());
     }
 
     public ProcessIdentifier selectRandomProcess(){
