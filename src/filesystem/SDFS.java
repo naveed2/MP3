@@ -249,7 +249,8 @@ public class SDFS {
             if(fileList.find(fileIdentifier)!=-1){
                 return;
             }
-            addEntryToFileList(fileIdentifier, timeStamp, FileState.syncing);
+            //TODO:!!
+            addEntryToFileList(fileIdentifier, timeStamp, FileState.available);
         }
     }
 

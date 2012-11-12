@@ -22,8 +22,8 @@ public class FileList implements Iterable<FileIdentifier> {
         synchronized (this) {
             Integer pos = find(fileIdentifier);
             if(pos != -1) {
-//                fileList.remove(fileList.get(pos));
-                fileList.remove(pos);
+                fileList.remove(fileList.get(pos));
+//                fileList.remove(pos);
             }
         }
     }

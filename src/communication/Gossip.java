@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Gossip {
 
-    private static final Integer NUM_OF_TARGETS = 2;
+    private static final Integer NUM_OF_TARGETS = 3;
     private AtomicBoolean shouldStop;
     private long delay;
     private Proc proc;
