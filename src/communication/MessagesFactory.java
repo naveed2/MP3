@@ -1,12 +1,12 @@
 package communication;
 
-import filesystem.FileList;
+import communication.message.Messages;
 import filesystem.SDFS;
 import membership.MemberList;
 import membership.ProcState;
 import misc.MiscTool;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 public class MessagesFactory {
 

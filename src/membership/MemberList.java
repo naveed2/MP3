@@ -1,6 +1,6 @@
 package membership;
 
-import communication.Messages.ProcessIdentifier;
+import communication.message.Messages.ProcessIdentifier;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
 

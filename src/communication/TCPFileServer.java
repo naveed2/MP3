@@ -5,7 +5,6 @@ package communication;
  */
 import filesystem.FileState;
 import membership.Proc;
-import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 public class TCPFileServer {
 

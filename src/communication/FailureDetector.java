@@ -4,8 +4,8 @@ import membership.Proc;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static communication.Messages.Message;
-import static communication.Messages.ProcessIdentifier;
+import static communication.message.Messages.Message;
+import static communication.message.Messages.ProcessIdentifier;
 
 public class FailureDetector {
 

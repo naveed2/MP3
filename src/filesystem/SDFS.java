@@ -7,7 +7,6 @@ import membership.Proc;
 import misc.MiscTool;
 import misc.TimeMachine;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -15,9 +14,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Scanner;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 /**
  * This is the main part of SimpleDistributedFileSystem

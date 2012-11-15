@@ -1,5 +1,6 @@
 package communication;
 
+import communication.message.Messages;
 import membership.Proc;
 import misc.MiscTool;
 import org.apache.log4j.Logger;

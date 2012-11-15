@@ -1,8 +1,8 @@
 package filesystem;
 
 import communication.FileIdentifierFactory;
-import communication.Messages.ProcessIdentifier;
-import communication.Messages.FileIdentifier;
+import communication.message.Messages.ProcessIdentifier;
+import communication.message.Messages.FileIdentifier;
 import membership.Proc;
 
 import java.util.*;

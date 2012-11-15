@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.UUID;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 public class Proc {
     private Integer tcpPort;

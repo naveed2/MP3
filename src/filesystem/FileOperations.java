@@ -1,19 +1,11 @@
 package filesystem;
 
-import communication.Messages;
-
-import java.io.File;
-import java.security.PrivateKey;
-
-import communication.Messages.FileIdentifier;
+import communication.message.Messages.FileIdentifier;
 import communication.MessagesFactory;
 import communication.TCPClient;
-import main.MainEntry;
 import membership.Proc;
-import communication.Messages.Message;
-import communication.Messages.ProcessIdentifier;
-
-import javax.xml.soap.MessageFactory;
+import communication.message.Messages.Message;
+import communication.message.Messages.ProcessIdentifier;
 
 public class FileOperations {
 

@@ -1,12 +1,9 @@
 package main;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import communication.Messages;
+import communication.message.Messages;
 import communication.MessagesFactory;
 import communication.TCPClient;
-import filesystem.FileOperations;
 import filesystem.FileState;
-import filesystem.SDFS;
 import membership.Proc;
 import membership.ProcState;
 import misc.MiscTool;
@@ -14,13 +11,9 @@ import misc.TimeMachine;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import javax.swing.text.Utilities;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Scanner;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 public class MainEntry {
 

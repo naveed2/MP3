@@ -1,17 +1,17 @@
 package communication;
 
+import communication.message.Messages;
 import filesystem.FileState;
 import filesystem.SDFS;
 import membership.Proc;
 import misc.MiscTool;
-import misc.TimeMachine;
 import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 public class TCPConnection {
     private Logger logger = Logger.getLogger(TCPConnection.class);

@@ -13,7 +13,7 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static communication.Messages.*;
+import static communication.message.Messages.*;
 
 /**
  * UDP Server is used for handling gossip messages.

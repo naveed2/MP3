@@ -1,13 +1,12 @@
 package communication;
 
+import communication.message.Messages;
 import membership.MemberList;
-import communication.Messages.ProcessIdentifier;
+import communication.message.Messages.ProcessIdentifier;
 import membership.Proc;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 

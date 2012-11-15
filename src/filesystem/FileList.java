@@ -1,12 +1,9 @@
 package filesystem;
 
-import communication.Messages;
-
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
-import communication.Messages.FileIdentifier;
+import communication.message.Messages.FileIdentifier;
 
 //This class is used to implement filelist
 

@@ -1,7 +1,7 @@
 package misc;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import communication.Messages;
+import communication.message.Messages;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
-import static communication.Messages.ProcessIdentifier;
+import static communication.message.Messages.ProcessIdentifier;
 
 public class MiscTool {
 

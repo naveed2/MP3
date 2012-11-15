@@ -3,7 +3,7 @@ package communication;
 /**
  *
  */
-import communication.Messages.ProcessIdentifier;
+import communication.message.Messages.ProcessIdentifier;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

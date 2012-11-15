@@ -1,6 +1,6 @@
 package communication;
 
-import static communication.Messages.ProcessIdentifier;
+import static communication.message.Messages.ProcessIdentifier;
 
 public class ProcessIdentifierFactory {
     private ProcessIdentifierFactory() {
