@@ -91,7 +91,7 @@ public class SDFS {
                 continue;
             }
 
-            if(fileIdentifier.getFilepath().equals(SDFSFileName)) {
+            if(fileIdentifier.getFileName().equals(SDFSFileName)) {
                 remote = fileIdentifier;
                 if(fileIdentifier.getFileStoringProcess().getId().equals(proc.getId())) {
                     local = fileIdentifier;
@@ -257,7 +257,7 @@ public class SDFS {
     private String generateKey(FileIdentifier identifier) {
         return identifier.getFileStoringProcess().getIP()+":"+
                 identifier.getFileStoringProcess().getPort()+"/" +
-                identifier.getFilepath();
+                identifier.getFileName();
     }
 
     public Integer getFileTimeStamp(FileIdentifier fileIdentifier) {
@@ -357,7 +357,7 @@ public class SDFS {
             boolean flag = false;
             LinkedList<ProcessIdentifier> list = new LinkedList<ProcessIdentifier>();
             for(FileIdentifier fileIdentifier : getFileList()) {
-                if(!fileIdentifier.getFilepath().equals(fileName)) {
+                if(!fileIdentifier.getFileName().equals(fileName)) {
                     continue;
                 }
 

@@ -725,9 +725,9 @@ public final class Messages {
     communication.Messages.ProcessIdentifier getFileStoringProcess();
     communication.Messages.ProcessIdentifierOrBuilder getFileStoringProcessOrBuilder();
     
-    // required string filepath = 2;
-    boolean hasFilepath();
-    String getFilepath();
+    // required string fileName = 2;
+    boolean hasFileName();
+    String getFileName();
     
     // optional string fileState = 3;
     boolean hasFileState();
@@ -775,14 +775,14 @@ public final class Messages {
       return fileStoringProcess_;
     }
     
-    // required string filepath = 2;
-    public static final int FILEPATH_FIELD_NUMBER = 2;
-    private java.lang.Object filepath_;
-    public boolean hasFilepath() {
+    // required string fileName = 2;
+    public static final int FILENAME_FIELD_NUMBER = 2;
+    private java.lang.Object fileName_;
+    public boolean hasFileName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-    public String getFilepath() {
-      java.lang.Object ref = filepath_;
+    public String getFileName() {
+      java.lang.Object ref = fileName_;
       if (ref instanceof String) {
         return (String) ref;
       } else {
@@ -790,17 +790,17 @@ public final class Messages {
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         if (com.google.protobuf.Internal.isValidUtf8(bs)) {
-          filepath_ = s;
+          fileName_ = s;
         }
         return s;
       }
     }
-    private com.google.protobuf.ByteString getFilepathBytes() {
-      java.lang.Object ref = filepath_;
+    private com.google.protobuf.ByteString getFileNameBytes() {
+      java.lang.Object ref = fileName_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8((String) ref);
-        filepath_ = b;
+        fileName_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -841,7 +841,7 @@ public final class Messages {
     
     private void initFields() {
       fileStoringProcess_ = communication.Messages.ProcessIdentifier.getDefaultInstance();
-      filepath_ = "";
+      fileName_ = "";
       fileState_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -853,7 +853,7 @@ public final class Messages {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasFilepath()) {
+      if (!hasFileName()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -872,7 +872,7 @@ public final class Messages {
         output.writeMessage(1, fileStoringProcess_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getFilepathBytes());
+        output.writeBytes(2, getFileNameBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getFileStateBytes());
@@ -892,7 +892,7 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getFilepathBytes());
+          .computeBytesSize(2, getFileNameBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1029,7 +1029,7 @@ public final class Messages {
           fileStoringProcessBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
-        filepath_ = "";
+        fileName_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         fileState_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1082,7 +1082,7 @@ public final class Messages {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.filepath_ = filepath_;
+        result.fileName_ = fileName_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -1106,8 +1106,8 @@ public final class Messages {
         if (other.hasFileStoringProcess()) {
           mergeFileStoringProcess(other.getFileStoringProcess());
         }
-        if (other.hasFilepath()) {
-          setFilepath(other.getFilepath());
+        if (other.hasFileName()) {
+          setFileName(other.getFileName());
         }
         if (other.hasFileState()) {
           setFileState(other.getFileState());
@@ -1121,7 +1121,7 @@ public final class Messages {
           
           return false;
         }
-        if (!hasFilepath()) {
+        if (!hasFileName()) {
           
           return false;
         }
@@ -1166,7 +1166,7 @@ public final class Messages {
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              filepath_ = input.readBytes();
+              fileName_ = input.readBytes();
               break;
             }
             case 26: {
@@ -1270,39 +1270,39 @@ public final class Messages {
         return fileStoringProcessBuilder_;
       }
       
-      // required string filepath = 2;
-      private java.lang.Object filepath_ = "";
-      public boolean hasFilepath() {
+      // required string fileName = 2;
+      private java.lang.Object fileName_ = "";
+      public boolean hasFileName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-      public String getFilepath() {
-        java.lang.Object ref = filepath_;
+      public String getFileName() {
+        java.lang.Object ref = fileName_;
         if (!(ref instanceof String)) {
           String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
-          filepath_ = s;
+          fileName_ = s;
           return s;
         } else {
           return (String) ref;
         }
       }
-      public Builder setFilepath(String value) {
+      public Builder setFileName(String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        filepath_ = value;
+        fileName_ = value;
         onChanged();
         return this;
       }
-      public Builder clearFilepath() {
+      public Builder clearFileName() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        filepath_ = getDefaultInstance().getFilepath();
+        fileName_ = getDefaultInstance().getFileName();
         onChanged();
         return this;
       }
-      void setFilepath(com.google.protobuf.ByteString value) {
+      void setFileName(com.google.protobuf.ByteString value) {
         bitField0_ |= 0x00000002;
-        filepath_ = value;
+        fileName_ = value;
         onChanged();
       }
       
@@ -11396,7 +11396,7 @@ public final class Messages {
       "\002 \002(\t\022\014\n\004port\030\003 \002(\005\022\021\n\ttimestamp\030\004 \001(\005\"s" +
       "\n\016FileIdentifier\022<\n\022fileStoringProcess\030\001" +
       " \002(\0132 .communication.ProcessIdentifier\022\020" +
-      "\n\010filepath\030\002 \002(\t\022\021\n\tfileState\030\003 \001(\t\"I\n\020H" +
+      "\n\010fileName\030\002 \002(\t\022\021\n\tfileState\030\003 \001(\t\"I\n\020H" +
       "eartBeatMessage\0225\n\013fromMachine\030\001 \002(\0132 .c" +
       "ommunication.ProcessIdentifier\"F\n\013JoinMe" +
       "ssage\0227\n\rjoinedMachine\030\001 \002(\0132 .communica" +
@@ -11476,7 +11476,7 @@ public final class Messages {
           internal_static_communication_FileIdentifier_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_communication_FileIdentifier_descriptor,
-              new java.lang.String[] { "FileStoringProcess", "Filepath", "FileState", },
+              new java.lang.String[] { "FileStoringProcess", "FileName", "FileState", },
               communication.Messages.FileIdentifier.class,
               communication.Messages.FileIdentifier.Builder.class);
           internal_static_communication_HeartBeatMessage_descriptor =

@@ -175,7 +175,7 @@ public class MainEntry {
             }
             fileState = proc.getSDFS().getFileState(fileIdentifier);
             System.out.println(
-                    fileIdentifier.getFilepath() + '\t' + address + '\t' + timeStamp + '\t' + localTime + '\t' +fileState);
+                    fileIdentifier.getFileName() + '\t' + address + '\t' + timeStamp + '\t' + localTime + '\t' +fileState);
         }
     }
 

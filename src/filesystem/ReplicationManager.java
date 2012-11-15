@@ -68,7 +68,7 @@ public class ReplicationManager {
 
         for(FileIdentifier f : getFileList()){
 
-            String key = f.getFilepath();
+            String key = f.getFileName();
 
             if(!replicaCounter.containsKey(key)) {
                 replicaCounter.put(key, 0);
@@ -80,7 +80,7 @@ public class ReplicationManager {
         }
 
         for(FileIdentifier f: fileShouldBeReplicated) {
-            Integer replicaCount = replicaCounter.get(f.getFilepath());
+            Integer replicaCount = replicaCounter.get(f.getFileName());
             Integer requiredReplicas = Math.min(REPLICA_COUNT, proc.getMemberList().size());
             requiredReplicas = requiredReplicas - replicaCount;
             if(requiredReplicas <=0 ) {
@@ -92,7 +92,7 @@ public class ReplicationManager {
 
     public void createReplicas(Integer requiredReplicas, FileIdentifier identifier){
 
-        String fileName = identifier.getFilepath();
+        String fileName = identifier.getFileName();
 
         List<ProcessIdentifier> replicateTo = new ArrayList<ProcessIdentifier>(requiredReplicas);
 

@@ -69,7 +69,7 @@ public class MessagesFactory {
             }
 
             FileIdentifier newFileIdentifier = FileIdentifierFactory.generateFileIdentifier(
-                    fileIdentifier.getFileStoringProcess(), fileIdentifier.getFilepath(),
+                    fileIdentifier.getFileStoringProcess(), fileIdentifier.getFileName(),
                     sdfs.getFileState(fileIdentifier)
             );
 
@@ -161,7 +161,7 @@ public class MessagesFactory {
 
     public static Message generateGetMessage(FileIdentifier fileIdentifier, ProcessIdentifier requestingProcess) {
         GetMessage getMessage = GetMessage.newBuilder()
-                .setRequestingProcess(requestingProcess).setFileName(fileIdentifier.getFilepath()).build();
+                .setRequestingProcess(requestingProcess).setFileName(fileIdentifier.getFileName()).build();
         return Message.newBuilder()
                 .setType(MessageType.get)
                 .setGetMessage(getMessage).build();

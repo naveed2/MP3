@@ -40,8 +40,7 @@ public class FileList implements Iterable<FileIdentifier> {
 
     public FileIdentifier getFileLocation(String filename){
         for( FileIdentifier f : this.fileList) {
-            System.out.println(f.getFilepath());
-            if(f.getFilepath().equals(filename))
+            if(f.getFileName().equals(filename))
                 return f;
             else
                 System.out.println("File not present in the system.");
@@ -68,7 +67,7 @@ public class FileList implements Iterable<FileIdentifier> {
 
     private boolean theSameFileIdentifier(FileIdentifier f1, FileIdentifier f2) {
         return f1.getFileStoringProcess().getId().equals(f2.getFileStoringProcess().getId())
-                && f1.getFilepath().equals(f2.getFilepath());
+                && f1.getFileName().equals(f2.getFileName());
 
     }
 
