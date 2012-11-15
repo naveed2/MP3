@@ -1,4 +1,4 @@
-package communication;
+package communication.message;
 
 message ProcessIdentifier{
     required string id = 1;
