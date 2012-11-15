@@ -1,6 +1,7 @@
 package communication;
 
 import communication.message.Messages;
+import communication.message.MessagesFactory;
 import membership.MemberList;
 import communication.message.Messages.ProcessIdentifier;
 import membership.Proc;

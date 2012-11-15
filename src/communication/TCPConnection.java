@@ -1,6 +1,7 @@
 package communication;
 
 import communication.message.Messages;
+import communication.message.MessagesFactory;
 import filesystem.FileState;
 import filesystem.SDFS;
 import membership.Proc;

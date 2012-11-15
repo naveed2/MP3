@@ -1,7 +1,7 @@
 package main;
 
 import communication.message.Messages;
-import communication.MessagesFactory;
+import communication.message.MessagesFactory;
 import communication.TCPClient;
 import filesystem.FileState;
 import membership.Proc;

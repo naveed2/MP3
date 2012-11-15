@@ -1,5 +1,6 @@
-package communication;
+package communication.message;
 
+import communication.FileIdentifierFactory;
 import communication.message.Messages;
 import filesystem.SDFS;
 import membership.MemberList;

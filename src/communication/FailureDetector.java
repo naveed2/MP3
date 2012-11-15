@@ -1,5 +1,6 @@
 package communication;
 
+import communication.message.MessagesFactory;
 import membership.Proc;
 
 import java.util.concurrent.atomic.AtomicBoolean;
