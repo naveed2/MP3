@@ -105,11 +105,13 @@ public class TCPFileServer {
                 LinkedList<FileMission> list = missions.get(key);
                 FileMission mission;
 
-                try{
-                    mission = list.pop();
-                } catch(NoSuchElementException e) {
-                    logger.error("no element in mission list " + e);
-                    return;
+                synchronized (this) {
+                    try{
+                        mission = list.pop();
+                    } catch(NoSuchElementException e) {
+                        logger.error("no element in mission list " + e);
+                        return;
+                    }
                 }
 
                 long startTime = System.currentTimeMillis();
