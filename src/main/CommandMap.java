@@ -60,6 +60,7 @@ public class CommandMap {
         stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
         stringToFuncName.put(CMD_DEL, FUNC_DEL);
         stringToFuncName.put(CMD_GET, FUNC_GET);
+        stringToFuncName.put(CMD_QUIT, FUNC_QUIT);
 
         return this;
     }

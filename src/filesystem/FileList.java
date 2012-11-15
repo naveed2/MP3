@@ -20,10 +20,10 @@ public class FileList implements Iterable<FileIdentifier> {
 
     void removeFile(FileIdentifier fileIdentifier){
         synchronized (this) {
-            Integer pos = find(fileIdentifier);
+            int pos = find(fileIdentifier);
             if(pos != -1) {
-                fileList.remove(fileList.get(pos));
-//                fileList.remove(pos);
+//                fileList.remove(fileList.get(pos));
+                fileList.remove(pos);
             }
         }
     }

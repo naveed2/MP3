@@ -109,6 +109,7 @@ public class Proc {
         gossip.stop();
         replicationManager.stop();
         memberListScanning.stop();
+        fileListScanning.stop();
     }
 
     private void initGossip() {

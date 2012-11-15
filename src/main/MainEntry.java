@@ -84,6 +84,7 @@ public class MainEntry {
             if(funcName == null) {
                 //TODO: wrong command
             } else if(funcName.equals("quit")) {
+                proc.stop();
                 break;
             } else if(funcName.equals("printHelp")) {
                 CommandMap.printHelp();
