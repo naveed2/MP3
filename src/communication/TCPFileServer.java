@@ -83,7 +83,7 @@ public class TCPFileServer {
     }
 
     private void addMission(FileMission mission, ProcessIdentifier identifier) {
-        synchronized (this) {
+        synchronized (this){
             String id = identifier.getId();
             if(missions.containsKey(id)) {
                 List<FileMission> list = missions.get(id);
@@ -101,17 +101,7 @@ public class TCPFileServer {
             @Override
             public void run() {
                 String key = conn.readID();
-                LinkedList<FileMission> list = missions.get(key);
-                FileMission mission;
-
-                synchronized (this) {
-                    try{
-                        mission = list.pop();
-                    } catch(NoSuchElementException e) {
-                        logger.error("no element in mission list " + e);
-                        return;
-                    }
-                }
+                FileMission mission = getMissionByKey(key);
 
                 long startTime = System.currentTimeMillis();
 
@@ -124,6 +114,18 @@ public class TCPFileServer {
                 }
             }
         }).start();
+    }
+
+    private FileMission getMissionByKey(String key) {
+        synchronized (this) {
+            try {
+                LinkedList<FileMission> list = missions.get(key);
+                return list.pop();
+            } catch(NoSuchElementException e) {
+                logger.error("no such element in mission list " + e);
+                return null;
+            }
+        }
     }
 
     private void sendFile(FileMission mission, TCPConnection conn) {
